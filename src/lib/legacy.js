@@ -1,0 +1,22 @@
+/** Keep in sync with Backend/src/legacy.js (server sends real 301s in production). */
+export const LEGACY_REDIRECTS = {
+  '/about-us': '/about',
+  '/contact-us': '/contact',
+  '/green-audits': '/services/green-audits',
+  '/inspection-body': '/services/green-audits',
+  '/hygiene-rating-audits': '/services/hygiene-rating-audits',
+  '/safety-audits': '/services/safety-audits',
+  '/workplace-safety-audits': '/services/workplace-safety-audits',
+  '/construction-safety-audits': '/services/construction-safety-audits',
+  '/fire-safety-audits': '/services/fire-safety-audits',
+  '/electrical-safety-audits': '/services/electrical-safety-audits',
+  '/warehouse-safety-audits': '/services/warehouse-safety-audits',
+  '/energy-audits': '/services/energy-audits',
+  '/water-audits': '/services/water-audits',
+  '/green-building-assessments': '/services/green-building-assessments',
+  '/accreditations-nabcb': '/accreditations',
+  '/accreditations-wso': '/accreditations',
+  '/client-testimonials': '/',
+  '/blogs': '/blog',
+  '/policies': '/complaints-and-appeals',
+};

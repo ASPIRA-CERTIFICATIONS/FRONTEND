@@ -1,0 +1,278 @@
+import { useMemo, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, CalendarDays, Download, FileText, MapPin, User, Building, Check, ExternalLink } from 'lucide-react';
+import { useFetch, useSite } from '../context/SiteContext';
+import { fileUrl } from '../lib/api';
+import { Markdown } from '../lib/markdown';
+import { FALLBACK_POSTS, FALLBACK_RESOURCES } from '../lib/fallback';
+import Seo, { breadcrumbSchema } from '../components/Seo';
+import { PageHero, Reveal, Loader, SectionHead } from '../components/ui';
+import { imgSize, CtaBand, ServiceAccreditation } from '../components/Sections';
+import EnquiryForm from '../components/EnquiryForm';
+import NotFound from './NotFound';
+
+const fmt = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : '');
+const apiDown = (e) => e && (!e.status || e.status >= 500);
+const readMins = (t = '') => Math.max(1, Math.round(String(t).split(/\s+/).length / 200));
+const SITE = (import.meta.env.VITE_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '')).replace(/\/$/, '');
+
+/* ---------------- cards ---------------- */
+export function PostCard({ p }) {
+  return (
+    <Reveal as="article" className="post-card">
+      <Link to={`/blog/${p.slug}`} className="post-card__img">
+        {p.coverImage ? <img src={imgSize(p.coverImage, 700)} alt="" loading="lazy" width="700" height="400" /> : <span className="post-card__ph"><FileText size={28} /></span>}
+      </Link>
+      <div className="post-card__body">
+        <span className="post-card__cat">{p.category}</span>
+        <h3><Link to={`/blog/${p.slug}`}>{p.title}</Link></h3>
+        <p>{p.excerpt}</p>
+        <span className="post-card__meta"><CalendarDays size={13} /> {fmt(p.publishedAt)} · {p.author}</span>
+      </div>
+    </Reveal>
+  );
+}
+
+export function CaseCard({ c }) {
+  return (
+    <Reveal as="article" className="post-card">
+      <Link to={`/case-studies/${c.slug}`} className="post-card__img">
+        {c.coverImage ? <img src={imgSize(c.coverImage, 700)} alt="" loading="lazy" width="700" height="400" /> : <span className="post-card__ph"><Building size={28} /></span>}
+      </Link>
+      <div className="post-card__body">
+        <span className="post-card__cat">{c.clientType || 'Case study'}</span>
+        <h3><Link to={`/case-studies/${c.slug}`}>{c.title}</Link></h3>
+        <p>{c.summary}</p>
+        <span className="post-card__meta">{c.location && <><MapPin size={13} /> {c.location}</>}{c.completedOn && <> · {fmt(c.completedOn)}</>}</span>
+      </div>
+    </Reveal>
+  );
+}
+
+/* ---------------- Blog list ---------------- */
+export function Blog() {
+  const { data, loading, error } = useFetch('/posts');
+  const posts = data || (apiDown(error) ? FALLBACK_POSTS : []);
+  const [cat, setCat] = useState('All');
+  const cats = useMemo(() => ['All', ...new Set(posts.map((p) => p.category).filter(Boolean))], [posts]);
+  const list = posts.filter((p) => cat === 'All' || p.category === cat);
+  return (
+    <>
+      <Seo title="Blog – Green Audits, Hygiene Rating & Safety Guides" description="Practical guides on green audits for educational institutions, FSSAI hygiene rating for restaurants, accreditation and workplace safety." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])} />
+      <PageHero crumbs={[{ label: 'Blog' }]} pageKey="blog" image="https://images.unsplash.com/photo-1583373834259-46cc92173cb7?auto=format&fit=crop&w=1600&q=70" eyebrow="Insights" title={<>Guides for institutions & <em className="accent">food businesses</em></>} intro="Practical articles on green audits, hygiene rating, accreditation and safety — written by the Aspira team." />
+      <section className="section">
+        <div className="container">
+          {cats.length > 2 && (
+            <div className="filter-tabs" role="group" aria-label="Filter by category">
+              {cats.map((c) => <button key={c} aria-pressed={cat === c} onClick={() => setCat(c)}>{c}</button>)}
+            </div>
+          )}
+          {loading && !posts.length ? <Loader /> : list.length ? (
+            <div className="post-grid">{list.map((p) => <PostCard key={p.slug} p={p} />)}</div>
+          ) : (
+            <div className="empty">No articles published yet.</div>
+          )}
+        </div>
+      </section>
+      <CtaBand />
+    </>
+  );
+}
+
+/* ---------------- Blog article ---------------- */
+export function BlogPost() {
+  const { slug } = useParams();
+  const { data, loading, error } = useFetch(`/posts/${slug}`, [slug]);
+  const { services } = useSite();
+  const p = data || (apiDown(error) ? FALLBACK_POSTS.find((x) => x.slug === slug) : null);
+  if (loading && !p) return <Loader />;
+  if (!p) return <NotFound />;
+  const svc = services.find((s) => s.slug === p.serviceSlug);
+  const ld = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: p.title,
+      description: p.seo?.description || p.excerpt,
+      image: p.coverImage ? [fileUrl(p.coverImage)] : undefined,
+      datePublished: p.publishedAt,
+      dateModified: p.updatedAt || p.publishedAt,
+      author: { '@type': 'Organization', name: p.author || 'Aspira Certifications' },
+      publisher: { '@id': `${SITE}/#organization` },
+      mainEntityOfPage: `${SITE}/blog/${p.slug}`,
+    },
+    breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }, { name: p.title, path: `/blog/${p.slug}` }]),
+  ];
+  return (
+    <>
+      <Seo title={p.seo?.title || p.title} description={p.seo?.description || p.excerpt} image={p.coverImage} type="article" jsonLd={ld} />
+      <PageHero crumbs={[{ label: 'Blog', to: '/blog' }, { label: p.category }]} eyebrow={p.category} title={p.title} intro={p.excerpt} image={p.coverImage} />
+      <section className="section">
+        <div className="container detail">
+          <article className="article">
+            <div className="article__meta">
+              <span><User size={14} /> {p.author}</span>
+              <span><CalendarDays size={14} /> {fmt(p.publishedAt)}</span>
+              <span>{readMins(p.content)} min read</span>
+            </div>
+            <Markdown text={p.content} />
+            {svc && (
+              <div className="article__cta">
+                <div><b>{svc.ctaLabel || `Enquire about ${svc.title}`}</b><span>{svc.audience || svc.shortDescription}</span></div>
+                <Link to={`/services/${svc.slug}#enquire`} className="btn btn--green btn--sm">{svc.ctaLabel || 'Enquire now'} <ArrowRight size={15} /></Link>
+              </div>
+            )}
+          </article>
+          <aside className="detail__aside">
+            {svc && <ServiceAccreditation slug={svc.slug} />}
+            <EnquiryForm compact title="Talk to our experts" intent="expert" service={svc?.title || ''} serviceSlug={svc?.slug || ''} variant={svc?.formType || 'default'} submitLabel="Request a call back" />
+            {p.related?.length > 0 && (
+              <div className="detail__toc">
+                <h6>Related articles</h6>
+                {p.related.map((r) => <Link key={r.slug} to={`/blog/${r.slug}`}>{r.title}</Link>)}
+              </div>
+            )}
+          </aside>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ---------------- Case studies ---------------- */
+export function CaseStudies() {
+  const { data, loading, error } = useFetch('/case-studies');
+  const items = data || [];
+  return (
+    <>
+      <Seo title="Case Studies" description="Verified audit projects completed by Aspira Certifications for educational institutions, restaurants and businesses." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Case studies', path: '/case-studies' }])} />
+      <PageHero crumbs={[{ label: 'Case studies' }]} pageKey="caseStudies" image="https://images.unsplash.com/photo-1774599730788-a74cd9253b56?auto=format&fit=crop&w=1600&q=70" eyebrow="Case studies" title={<>Real audits, <em className="accent">real improvements</em></>} intro="Projects published here are genuine Aspira engagements, shared with our clients’ permission." />
+      <section className="section">
+        <div className="container">
+          {loading ? <Loader /> : items.length ? (
+            <div className="post-grid">{items.map((c) => <CaseCard key={c._id} c={c} />)}</div>
+          ) : (
+            <div className="empty empty--lg">
+              <Building size={30} />
+              <h3>Case studies coming soon</h3>
+              <p>We publish case studies only with our clients’ permission. {apiDown(error) ? '' : 'Check back soon, or talk to us about our experience in your sector.'}</p>
+              <div style={{ display: 'flex', gap: '.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link to="/services/green-audits" className="btn btn--sm">Green Audits for institutions</Link>
+                <Link to="/services/hygiene-rating-audits" className="btn btn--ghost btn--sm">Hygiene Rating for restaurants</Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+      <CtaBand />
+    </>
+  );
+}
+
+export function CaseStudy() {
+  const { slug } = useParams();
+  const { data: c, loading } = useFetch(`/case-studies/${slug}`, [slug]);
+  const { services } = useSite();
+  if (loading) return <Loader />;
+  if (!c) return <NotFound />;
+  const svc = services.find((s) => s.slug === c.serviceSlug);
+  const block = (id, title, text) =>
+    text ? (
+      <section className="block" id={id}>
+        <h2>{title}</h2>
+        <Markdown text={text} />
+      </section>
+    ) : null;
+  return (
+    <>
+      <Seo title={c.title} description={c.summary} image={c.coverImage} type="article" jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Case studies', path: '/case-studies' }, { name: c.title, path: `/case-studies/${c.slug}` }])} />
+      <PageHero crumbs={[{ label: 'Case studies', to: '/case-studies' }, { label: c.title }]} eyebrow={c.clientType || 'Case study'} title={c.title} intro={c.summary} image={c.coverImage} />
+      <section className="section">
+        <div className="container detail">
+          <article className="article">
+            <div className="case-facts">
+              {c.client && <div><small>Client</small><b>{c.client}</b></div>}
+              {c.clientType && <div><small>Sector</small><b>{c.clientType}</b></div>}
+              {c.location && <div><small>Location</small><b>{c.location}</b></div>}
+              {svc && <div><small>Service</small><b><Link to={`/services/${svc.slug}`}>{svc.title}</Link></b></div>}
+              {c.completedOn && <div><small>Completed</small><b>{fmt(c.completedOn)}</b></div>}
+            </div>
+            {block('requirement', 'The requirement', c.requirement)}
+            {block('approach', 'Our audit approach', c.approach)}
+            {block('findings', 'Key findings', c.findings)}
+            {c.outcomes?.length > 0 && (
+              <section className="block">
+                <h2>Outcomes & improvements</h2>
+                <ul className="check-list check-list--one">{c.outcomes.map((o) => <li key={o}><Check size={17} strokeWidth={2.4} /> <span>{o}</span></li>)}</ul>
+              </section>
+            )}
+            {c.gallery?.length > 0 && (
+              <section className="block">
+                <h2>Project images</h2>
+                <div className="gallery">{c.gallery.map((g) => <a key={g} href={fileUrl(g)} target="_blank" rel="noopener noreferrer"><img src={imgSize(g, 600)} alt="" loading="lazy" /></a>)}</div>
+              </section>
+            )}
+          </article>
+          <aside className="detail__aside">
+            <EnquiryForm compact title={svc?.ctaLabel || 'Enquire about a similar audit'} intent="booking" service={svc?.title || ''} serviceSlug={svc?.slug || ''} variant={svc?.formType || 'default'} lockService={!!svc} />
+          </aside>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ---------------- Downloads ---------------- */
+export function Resources() {
+  const { data, loading, error } = useFetch('/resources');
+  const items = data || (apiDown(error) ? FALLBACK_RESOURCES : []);
+  const [cat, setCat] = useState('All');
+  const cats = useMemo(() => ['All', ...new Set(items.map((r) => r.category).filter(Boolean))], [items]);
+  const list = items.filter((r) => cat === 'All' || r.category === cat);
+  const href = (r) => (r._id && !String(r._id).startsWith('local-') ? `${import.meta.env.VITE_API_URL || ''}/api/resources/${r._id}/download` : fileUrl(r.file));
+  return (
+    <>
+      <Seo title="Downloads & Resources" description="Download Aspira Certifications’ NABCB accreditation certificate and other approved documents." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Downloads', path: '/resources' }])} />
+      <PageHero crumbs={[{ label: 'Downloads' }]} doc="cert" primary={{ href: '#downloads', label: 'View downloads' }} eyebrow="Resources" title={<>Documents & <em className="accent">downloads</em></>} intro="Approved Aspira documents — including our NABCB accreditation certificate — available to download." />
+      <section className="section">
+        <div className="container">
+          {cats.length > 2 && (
+            <div className="filter-tabs" role="group" aria-label="Filter by category">
+              {cats.map((c) => <button key={c} aria-pressed={cat === c} onClick={() => setCat(c)}>{c}</button>)}
+            </div>
+          )}
+          {loading && !items.length ? <Loader /> : list.length ? (
+            <div className="res-list" id="downloads">
+              {list.map((r) => (
+                <Reveal key={r._id || r.title} className="res">
+                  <span className="res__ic"><FileText size={22} /></span>
+                  <div className="res__body">
+                    <span className="post-card__cat">{r.category}</span>
+                    <h3>{r.title}</h3>
+                    {r.description && <p>{r.description}</p>}
+                    <small>{[r.fileType, r.fileSize].filter(Boolean).join(' · ')}</small>
+                  </div>
+                  <a className="btn btn--green btn--sm" href={href(r)} target="_blank" rel="noopener noreferrer" download><Download size={15} /> Download</a>
+                </Reveal>
+              ))}
+            </div>
+          ) : (
+            <div className="empty">No documents published yet.</div>
+          )}
+          <p className="form__note" style={{ marginTop: '1.25rem' }}>
+            Looking for something else — a brochure, checklist or audit guidelines? <Link to="/contact?intent=expert#enquiry" style={{ textDecoration: 'underline' }}>Ask our team</Link>. You can also <a href="https://nabcb.qci.org.in/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>verify our accreditation on NABCB <ExternalLink size={12} style={{ display: 'inline' }} /></a>.
+          </p>
+        </div>
+      </section>
+      <section className="section section--white">
+        <div className="container">
+          <SectionHead center eyebrow="Popular" title="Explore our main services" />
+          <div className="audience-mini">
+            <Link to="/services/green-audits" className="link-arrow">Green Audits for educational institutions <ArrowUpRight size={14} /></Link>
+            <Link to="/services/hygiene-rating-audits" className="link-arrow">Hygiene Rating Audits for restaurants <ArrowUpRight size={14} /></Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
