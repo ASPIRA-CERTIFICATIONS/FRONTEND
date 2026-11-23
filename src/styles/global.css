@@ -1542,3 +1542,9 @@ main > .section:not(.section--white):not(.section--brand):not(.section--ink):not
   .audience__body h3 { font-size: 1.2rem; }
   .audience__tag { letter-spacing: 0.06em; }
 }
+
+/* v11: mobile swipe rows keep the page's left margin when snapping */
+@media (max-width: 640px) {
+  .services-grid--4, .post-grid, .why-accr, .disciplines, .svc-benefits { scroll-padding-inline: 1.25rem; }
+  .services-grid--4 > :last-child, .post-grid > :last-child, .why-accr > :last-child, .disciplines > :last-child, .svc-benefits > :last-child { scroll-snap-align: end; }
+}
