@@ -6,7 +6,7 @@ import {
   ClipboardList, BookOpenCheck, Building, Sparkles, Target, TrendingUp, ShieldCheck, Award, Leaf, Users,
 } from 'lucide-react';
 import { useFetch, useSite, localService } from '../context/SiteContext';
-import { fileUrl } from '../lib/api';
+import { fileUrl, isApiDown } from '../lib/api';
 import { Icon } from '../lib/icons';
 import { waLink } from '../lib/whatsapp';
 import Seo, { breadcrumbSchema, faqSchema, serviceSchema } from '../components/Seo';
@@ -46,7 +46,7 @@ function useScrollSpy(ids) {
 export default function ServiceDetail() {
   const { slug } = useParams();
   const remote = useFetch(`/services/${slug}`, [slug]);
-  const apiDown = remote.error && (!remote.error.status || remote.error.status >= 500);
+  const apiDown = isApiDown(remote.error);
   const s = remote.data || (apiDown ? localService(slug) : null);
   const { settings, services, accreditations } = useSite();
   const c = settings.contact || {};

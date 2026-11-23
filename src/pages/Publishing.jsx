@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, CalendarDays, Download, FileText, MapPin, User, Building, Check, ExternalLink } from 'lucide-react';
 import { useFetch, useSite } from '../context/SiteContext';
-import { fileUrl } from '../lib/api';
+import { fileUrl, isApiDown } from '../lib/api';
 import { Markdown } from '../lib/markdown';
 import { FALLBACK_POSTS, FALLBACK_RESOURCES } from '../lib/fallback';
 import Seo, { breadcrumbSchema } from '../components/Seo';
@@ -12,7 +12,7 @@ import EnquiryForm from '../components/EnquiryForm';
 import NotFound from './NotFound';
 
 const fmt = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : '');
-const apiDown = (e) => e && (!e.status || e.status >= 500);
+const apiDown = isApiDown;
 const readMins = (t = '') => Math.max(1, Math.round(String(t).split(/\s+/).length / 200));
 const SITE = (import.meta.env.VITE_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '')).replace(/\/$/, '');
 

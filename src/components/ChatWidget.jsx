@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MessageSquareText, X, Send, MessageCircle, ArrowRight } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
-import { api } from '../lib/api';
+import { api, isApiDown } from '../lib/api';
 import { waLink } from '../lib/whatsapp';
 import { isEmail, isMobile } from './EnquiryForm';
 
@@ -102,7 +102,7 @@ export default function ChatWidget({ open, setOpen }) {
       bot(`Thank you, ${final.name.split(' ')[0]}! Your enquiry is saved (ref. ${res.reference}). Our team will contact you shortly.`, { wa: true });
       setStep('done');
     } catch (e) {
-      bot(e.status && e.status < 500 ? e.message : `Sorry, I couldn't save that right now. Please call ${settings.contact?.phones?.[0] || 'us'} or continue on WhatsApp.`, { wa: true });
+      bot(!isApiDown(e) ? e.message : `Sorry, I couldn't save that right now. Please call ${settings.contact?.phones?.[0] || 'us'} or continue on WhatsApp.`, { wa: true });
       setStep('done');
     } finally {
       setBusy(false);

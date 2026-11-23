@@ -1529,3 +1529,16 @@ main > .section:not(.section--white):not(.section--brand):not(.section--ink):not
 .drawer__head .blogo { align-items: flex-start; }
 @media (max-width: 560px) { .brand .blogo img { height: 30px; } .brand .blogo .blogo__word { font-size: 8.5px; } }
 .footer__brand .blogo img { margin: 0; padding: 0; background: none; border-radius: 0; }
+
+/* =================== v10: mobile overflow guard (large phone text sizes) =================== */
+.audience__body, .audience__body > *, .svc-card__body, .post-card__body, .phero__text, .vstrip__text { min-width: 0; }
+.audience__body h3, .audience__body li, .audience__tag { overflow-wrap: anywhere; }
+.audience__tag { white-space: normal; max-width: 100%; line-height: 1.35; }
+.audience__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; min-width: 0; }
+@media (max-width: 600px) {
+  .btn { white-space: normal; text-align: center; line-height: 1.3; max-width: 100%; }
+  .audience__actions .btn { flex: 1 1 100%; }
+  .audience__body { padding: 1.2rem 1.15rem 1.35rem; }
+  .audience__body h3 { font-size: 1.2rem; }
+  .audience__tag { letter-spacing: 0.06em; }
+}

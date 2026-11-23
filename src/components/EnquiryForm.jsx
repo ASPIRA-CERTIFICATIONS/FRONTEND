@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Send, Check, AlertCircle, MessageCircle } from 'lucide-react';
-import { api } from '../lib/api';
+import { api, isApiDown } from '../lib/api';
 import { waLink } from '../lib/whatsapp';
 import { useSite } from '../context/SiteContext';
 
@@ -115,7 +115,7 @@ export default function EnquiryForm({
         setErrors(map);
       }
       const c = settings.contact || {};
-      const down = !err.status || err.status >= 500;
+      const down = isApiDown(err);
       setStatus({
         state: 'error',
         message: down

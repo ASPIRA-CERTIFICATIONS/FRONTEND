@@ -6,6 +6,8 @@ import Seo, { orgSchema } from '../components/Seo';
 import { Reveal, SectionHead, ArrowLink, BADGE_SRC } from '../components/ui';
 import { VerifyStrip, TrustBar, ServiceCard, imgSize, AudienceSplit, CustomerTable, AccreditationSection, ProcessSteps, Testimonials, ClientLogos, CtaBand } from '../components/Sections';
 import { PostCard, CaseCard } from './Publishing';
+import { isApiDown } from '../lib/api';
+import { FALLBACK_POSTS } from '../lib/fallback';
 import EnquiryForm from '../components/EnquiryForm';
 
 const FORM_TABS = [
@@ -22,7 +24,8 @@ export default function Home() {
   const words = heroTitle.split(' ');
   const accentFrom = Math.max(1, words.length - 2);
   const [tab, setTab] = useState(FORM_TABS[0]);
-  const posts = useFetch('/posts?limit=3').data || [];
+  const postsRes = useFetch('/posts?limit=3');
+  const posts = postsRes.data || (isApiDown(postsRes.error) ? FALLBACK_POSTS.slice(0, 3) : []);
   const cases = useFetch('/case-studies').data || [];
 
   return (

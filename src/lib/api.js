@@ -41,7 +41,15 @@ export async function api(path, { method = 'GET', body, auth = false, raw = fals
   try {
     data = await res.json();
   } catch {
-    /* empty body */
+    /* empty or non-JSON body */
+  }
+  // A reply that isn't JSON from our API means the backend isn't deployed/reachable
+  // (e.g. a static host's own 404 page, or an HTML fallback). Treat it as "API down".
+  if (res.ok && data === null && method === 'GET') {
+    const err = new Error('API not available');
+    err.status = 0;
+    err.apiDown = true;
+    throw err;
   }
   if (!res.ok) {
     if (res.status === 401 && auth) {
@@ -54,9 +62,13 @@ export async function api(path, { method = 'GET', body, auth = false, raw = fals
     const err = new Error(data?.error || fallbackMsg);
     err.status = res.status;
     err.details = data?.details;
+    err.apiDown = !data || res.status >= 500;
     throw err;
   }
   return data;
 }
 
 export const SITE_URL = (import.meta.env.VITE_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '')).replace(/\/$/, '');
+
+/** True when an error means "the backend can't be reached" (so built-in content should be shown). */
+export const isApiDown = (e) => !!e && (e.apiDown || !e.status || e.status >= 500 || e.name === 'TypeError');
