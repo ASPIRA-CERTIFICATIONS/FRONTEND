@@ -4,17 +4,16 @@
  * Testimonials / case studies / client logos appear automatically once genuine ones are published.
  */
 import { Link } from 'react-router-dom';
-import { ArrowRight, Phone } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
 import Seo, { orgSchema } from '../components/Seo';
 import { Reveal, BADGE_SRC, useCertificateImage } from '../components/ui';
-import { imgSize, Testimonials, ClientLogos } from '../components/Sections';
+import { imgSize, Testimonials, ClientLogos, CtaBand } from '../components/Sections';
 import { Icon } from '../lib/icons';
 import { isApiDown, fileUrl } from '../lib/api';
 import { FALLBACK_POSTS } from '../lib/fallback';
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
-const tel = (p) => `tel:${String(p).replace(/[^+\d]/g, '')}`;
 
 // Short, factual one-liners for the two audiences (from the services Aspira described)
 const AUDIENCES = [
@@ -58,7 +57,6 @@ export default function Home() {
   const steps = (settings.process || []).slice(0, 6);
   const postsRes = useFetch('/posts?limit=3');
   const posts = postsRes.data || (isApiDown(postsRes.error) ? FALLBACK_POSTS.slice(0, 3) : []);
-  const phone = settings.contact?.phones?.[0];
 
   return (
     <div className="hm">
@@ -196,17 +194,8 @@ export default function Home() {
         </section>
       )}
 
-      {/* 7 · Closing call to action */}
-      <section className="hm-cta">
-        <div className="hm-wrap hm-cta__in">
-          <h2>Planning an audit or inspection?</h2>
-          <p>Tell us about your organisation and we'll confirm the scope, standards and timeline.</p>
-          <div className="hm-cta__actions">
-            <Link to="/contact?intent=booking#enquiry" className="btn btn--light">Book an audit <ArrowRight size={16} /></Link>
-            {phone && <a href={tel(phone)} className="hm-cta__phone"><Phone size={16} /> {phone}</a>}
-          </div>
-        </div>
-      </section>
+      {/* 7 · Closing call to action – same band as the rest of the site */}
+      <CtaBand title="Planning an audit or inspection?" text="Tell us about your organisation and we'll confirm the scope, standards and timeline." />
     </div>
   );
 }
