@@ -57,11 +57,11 @@ export default function SettingsPage() {
             <Text full label="Hero headline" value={s.heroTitle} onChange={set('heroTitle')} />
             <Area label="Hero sub-text" rows={3} value={s.heroSubtitle} onChange={set('heroSubtitle')} />
             <ImageField label="Hero image (optional)" hint="Background photo behind the homepage hero (landscape, at least 1600 px wide)." value={s.heroImage} onChange={set('heroImage')} />
+            <Text full label="Hero background video (optional)" hint="MP4 link, e.g. /media/hero.mp4 (place the file in Frontend/public/media) or a full https:// URL. Leave empty for the built-in clip. The hero image is shown while it loads." value={s.heroVideo} onChange={set('heroVideo')} />
             <ImageField label="About image" hint="Used in the homepage 'Our approach' section and About page header" value={s.aboutImage} onChange={set('aboutImage')} />
             {[['services', 'Services page'], ['industries', 'Industries page'], ['contact', 'Contact page'], ['blog', 'Blog page'], ['caseStudies', 'Case studies page'], ['complaints', 'Complaints & appeals page']].map(([k, label]) => (
               <ImageField key={k} label={`${label} header photo`} hint="Optional – leave empty to keep the built-in photo." value={s.pageImages?.[k] || ''} onChange={(v) => setS((o) => ({ ...o, pageImages: { ...(o.pageImages || {}), [k]: v } }))} />
             ))}
-            <ImageField label="Logo" hint="Leave as /brand/aspira-logo.png to use the bundled logo" value={s.logo} onChange={set('logo')} />
             <Text full label="Footer text" value={s.footerText} onChange={set('footerText')} />
           </div>
         )}

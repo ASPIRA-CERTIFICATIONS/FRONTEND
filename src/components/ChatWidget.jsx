@@ -25,7 +25,7 @@ function answerFor(text, settings, nabcb) {
   if (/hygiene|fssai|restaurant|hotel|canteen|cafe|kitchen|food|smiley|rating/.test(t))
     return { topic: 'hygiene', text: 'Our Hygiene Rating Audits are for restaurants, hotels, canteens and food businesses. We check kitchen cleanliness, food storage and handling, pest control, sanitation and drinking-water hygiene under the FSSAI Hygiene Rating Scheme (rated 1–5 smileys).' };
   if (/nabcb|accredit|ib ?159|17020|certificate of accreditation/.test(t))
-    return { text: nabcb ? `Aspira is accredited by NABCB as a Type ‘A’ Inspection Body, Reg. No. ${nabcb.registrationNo}${nabcb.validUntil ? `, valid until ${new Date(nabcb.validUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}. Scope: green audits of educational institutions. You can download the certificate on our Accreditations page.` : 'Please see our Accreditations page for details.' };
+    return { text: nabcb ? `Aspira is accredited by NABCB as a Type ‘A’ Inspection Body, Reg. No. ${nabcb.registrationNo}, for green audits for educational institutions (IAF Scope 28). You can verify this on the NABCB website: https://nabcb.qci.org.in/ib-159/` : 'Please see our Accreditations page for details.' };
   if (/price|cost|fee|charge|quote|rate/.test(t))
     return { text: 'Fees depend on the service and the size of your site. Share your details below and our team will send you a quote.' };
   if (/verify|certificate status|check certificate/.test(t)) return { text: 'You can verify an Aspira certificate on our Certificate Status page using the number printed on it.' };

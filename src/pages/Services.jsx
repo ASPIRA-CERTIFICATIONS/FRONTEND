@@ -23,7 +23,7 @@ export default function Services() {
         pageKey="services"
         image="https://images.unsplash.com/photo-1742112125567-3e8967bad60f?auto=format&fit=crop&w=1600&q=70"
         eyebrow="Services"
-        title={<>Audit, inspection & <em className="accent">certification</em> services</>}
+        title={<>Audit & <em className="accent">inspection</em> services</>}
         intro="We check whether institutions, restaurants and businesses follow the required environmental, hygiene and safety standards — with a clear report and practical recommendations."
         side={nabcb && <Seal reg={nabcb.registrationNo} top={`${nabcb.shortName} ACCREDITED INSPECTION BODY`} size={150} />}
       />

@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight, BadgeCheck, Check, Phone, FileCheck2, Scale, 
 import { Icon } from '../lib/icons';
 import { fileUrl } from '../lib/api';
 import { useSite, useFetch } from '../context/SiteContext';
-import { Reveal, SectionHead, BADGE_SRC } from './ui';
+import { Reveal, SectionHead, BADGE_SRC, NABCB_VERIFY_URL } from './ui';
 import { waLink } from '../lib/whatsapp';
 
 export const imgSize = (url, w) => (/images\.unsplash\.com/.test(url || '') ? url.replace(/([?&])w=\d+/, `$1w=${w}`) : fileUrl(url));
@@ -155,7 +155,6 @@ export function AccreditationSection({ showWhy = true, compactHead = false }) {
   const { accreditations } = useSite();
   const a = accreditations.find((x) => x.shortName === 'NABCB') || accreditations[0];
   if (!a) return null;
-  const files = a.certificateFiles || [];
   return (
     <div className="accr2">
       <Reveal className="accr2__card">
@@ -168,24 +167,13 @@ export function AccreditationSection({ showWhy = true, compactHead = false }) {
             <div><dt>Registration no.</dt><dd className="mono">{a.registrationNo}</dd></div>
             {a.standard && <div><dt>Accredited against</dt><dd>{a.standard}</dd></div>}
             {a.scope && <div className="wide"><dt>Scope of accreditation</dt><dd>{a.scope}</dd></div>}
-            {(a.validFrom || a.validUntil) && <div><dt>Validity</dt><dd>{fmtDate(a.validFrom)} – {fmtDate(a.validUntil)}</dd></div>}
             {a.body && <div><dt>Accreditation body</dt><dd>{a.body}</dd></div>}
           </dl>
           <div className="accr2__actions">
-            <Link to="/resources" className="btn btn--sm"><Download size={15} /> Download certificate</Link>
-            {a.verifyUrl && <a href={a.verifyUrl} target="_blank" rel="noopener noreferrer" className="btn btn--ghost btn--sm"><ExternalLink size={15} /> Verify on NABCB</a>}
+            <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="btn btn--sm"><ExternalLink size={15} /> Verify on NABCB</a>
             <Link to="/accreditations" className="btn btn--ghost btn--sm">Accreditation details</Link>
           </div>
         </div>
-        {files.length > 0 && (
-          <div className="accr2__certs">
-            {files.slice(0, 3).map((f, i) => (
-              <a key={f} href={fileUrl(f)} target="_blank" rel="noopener noreferrer" aria-label={`Open certificate page ${i + 1}`}>
-                <img src={fileUrl(f)} alt={`NABCB accreditation certificate page ${i + 1}`} loading="lazy" width="120" height="170" />
-              </a>
-            ))}
-          </div>
-        )}
       </Reveal>
       {showWhy && (
         <div className="why-accr">
@@ -193,7 +181,7 @@ export function AccreditationSection({ showWhy = true, compactHead = false }) {
             [ShieldCheck, 'Independently assessed competence', 'NABCB, under the Quality Council of India, has assessed our people, methods and reporting against ISO/IEC 17020.'],
             [Scale, 'Impartial, third-party findings', 'As a Type ‘A’ Inspection Body we are independent of the sites we inspect — our findings have no conflict of interest.'],
             [Award, 'Reports that carry weight', 'Accredited audit reports give institutions credible evidence for NAAC and other external assessments.'],
-            [Globe2, 'Verifiable credentials', 'Our accreditation, scope and validity can be checked directly with NABCB at any time.'],
+            [Globe2, 'Verifiable credentials', 'Our accreditation and scope can be checked directly on the NABCB website at any time.'],
           ].map(([I, t, d], i) => (
             <Reveal key={t} className="why-accr__item" delay={i * 0.05}>
               <span className="ic"><I size={20} /></span>
@@ -221,10 +209,10 @@ export function ServiceAccreditation({ slug }) {
         <b>{inScope ? 'This service is within our NABCB scope of accreditation' : `Delivered by a ${a.shortName}-accredited Inspection Body`}</b>
         <p>
           {inScope
-            ? `Aspira is accredited by ${a.shortName} as a Type ‘A’ Inspection Body (Reg. No. ${a.registrationNo}) for green audits of educational institutions${a.validUntil ? `, valid until ${fmtDate(a.validUntil)}` : ''}.`
+            ? `Aspira is accredited by ${a.shortName} as a Type ‘A’ Inspection Body (Reg. No. ${a.registrationNo}) for green audits of educational institutions.`
             : `Aspira is a ${a.shortName}-accredited Type ‘A’ Inspection Body (Reg. No. ${a.registrationNo}); the accreditation scope covers green audits of educational institutions. This service is delivered as an independent third-party assessment with the same impartial approach.`}
         </p>
-        <Link to="/accreditations" className="link-arrow">View certificate <ArrowRight size={14} /></Link>
+        <Link to="/accreditations" className="link-arrow">Accreditation details <ArrowRight size={14} /></Link>
       </div>
     </div>
   );
@@ -360,7 +348,6 @@ export function ClientLogos() {
 export function CtaBand({ title = 'Ready to get audit-ready?', text = 'Speak to our team about scope, timelines and fees. We respond to every enquiry.', service }) {
   const { settings } = useSite();
   const phone = settings.contact?.phones?.[0];
-  const wa = settings.contact?.whatsapp;
   return (
     <section className="section section--tight">
       <div className="container">
@@ -372,8 +359,6 @@ export function CtaBand({ title = 'Ready to get audit-ready?', text = 'Speak to 
           <div className="cta__actions">
             <Link to="/contact?intent=booking#enquiry" className="btn btn--light"><CalendarCheck size={16} /> Book an audit</Link>
             <Link to="/contact?intent=quote#enquiry" className="btn btn--outline-light">Request a quote</Link>
-            <Link to="/contact?intent=consultation#enquiry" className="btn btn--outline-light"><Headset size={16} /> Get a consultation</Link>
-            {wa && <a href={waLink(wa, service ? `Hello Aspira, I would like to enquire about ${service}.` : undefined)} className="btn btn--outline-light" target="_blank" rel="noopener noreferrer"><MessageCircle size={16} /> WhatsApp us</a>}
             {phone && <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} className="btn btn--outline-light"><Phone size={16} /> {phone}</a>}
           </div>
         </Reveal>
@@ -408,9 +393,9 @@ export function VerifyStrip({ compact = false }) {
   );
 }
 
-/* Why Aspira – every point comes from Aspira's accreditation certificate or its published policies */
+/* Why Aspira – every point comes from Aspira's published policies and company profile */
 const WHY_ASPIRA = [
-  { I: BadgeCheck, t: 'NABCB accredited', d: 'Type ‘A’ inspection body under ISO/IEC 17020, Reg. No. IB 159.' },
+  { I: ShieldCheck, t: 'Standards-based inspections', d: 'Every audit and inspection is aligned with national and international standards and regulations.' },
   { I: Scale, t: 'Independent & impartial', d: 'We do not provide consultancy, training or internal audits to the clients we inspect.' },
   { I: FileSearch, t: 'Evidence-based decisions', d: 'Findings rest on objective evidence – free from commercial, financial or external influence.' },
   { I: Lock, t: 'Strict confidentiality', d: 'Client information is protected in line with ISO/IEC 17020 and the DPDP Act 2023.' },
@@ -420,27 +405,16 @@ const WHY_ASPIRA = [
 
 /** "Why Aspira" – clean two-column layout, used on Home and About */
 export function WhyAspira() {
-  const { accreditations } = useSite();
-  const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
   return (
       <section className="mg-sec wy">
         <div className="mg-wrap wy__grid">
           <div className="wy__aside">
             <p className="mg-kicker">Why Aspira</p>
             <h2>Why organisations choose Aspira</h2>
-            <p className="wy__intro">Our commitments are set out in our Quality, Impartiality and Confidentiality policies – and assessed by NABCB as part of our accreditation.</p>
-            {nabcb && (
-              <div className="wy__cred">
-                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="58" height="63" />
-                <div>
-                  <b>NABCB Accredited Inspection Body</b>
-                  <span>Reg. No. {nabcb.registrationNo} · ISO/IEC 17020:2012 · Type ‘A’</span>
-                </div>
-              </div>
-            )}
+            <p className="wy__intro">Our commitments are set out in our Quality, Impartiality and Confidentiality policies, signed by our top management.</p>
             <div className="wy__actions">
               <Link to="/policies" className="btn">Read our policies <ArrowRight size={16} /></Link>
-              <Link to="/accreditations" className="mg-link">View accreditation <ArrowRight size={16} /></Link>
+              <Link to="/about" className="mg-link">About Aspira <ArrowRight size={16} /></Link>
             </div>
           </div>
           <ol className="wy__list">

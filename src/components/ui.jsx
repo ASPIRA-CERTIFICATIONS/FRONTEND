@@ -32,6 +32,8 @@ export function Reveal({ as: Tag = 'div', delay = 0, className = '', children, .
 }
 
 export const BADGE_SRC = '/accreditation/aspira-nabcb-badge.webp';
+/** NABCB's public listing for Aspira (IB 159) – used for every "Verify on NABCB" link */
+export const NABCB_VERIFY_URL = 'https://nabcb.qci.org.in/ib-159/';
 
 /**
  * Aspira's genuine "NABCB Accredited Inspection Body – Reg. No. IB 159" badge
@@ -169,12 +171,12 @@ export function ArrowLink({ to, children }) {
   return <Link to={to} className="link-arrow">{children} <ArrowRight size={16} /></Link>;
 }
 
-/** Aspira logo mark with the brand wordmark underneath (navy "ASPIRA", green "CERTIFICATIONS"). */
-export function BrandLogo({ src, size = 'md', className = '' }) {
+/** Aspira's official logo (mark + "ASPIRA CERTIFICATIONS" wordmark) – public/brand/Aspiralogo.png */
+export const LOGO_SRC = '/brand/Aspiralogo.png';
+export function BrandLogo({ size = 'md', className = '' }) {
   return (
-    <span className={`blogo blogo--${size} ${className}`}>
-      <img src={src || '/brand/aspira-logo.png'} alt="" width="85" height="46" />
-      <span className="blogo__word"><span className="blogo__a">ASPIRA</span> <span className="blogo__c">CERTIFICATIONS</span></span>
+    <span className={`blogo blogo--img blogo--${size} ${className}`}>
+      <img src={LOGO_SRC} alt="Aspira Certifications" width="914" height="547" />
     </span>
   );
 }

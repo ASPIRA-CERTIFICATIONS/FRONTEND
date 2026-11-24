@@ -6,7 +6,7 @@ import { fileUrl, isApiDown } from '../lib/api';
 import { Markdown } from '../lib/markdown';
 import { FALLBACK_POSTS, FALLBACK_RESOURCES } from '../lib/fallback';
 import Seo, { breadcrumbSchema } from '../components/Seo';
-import { PageHero, Reveal, Loader, SectionHead } from '../components/ui';
+import { PageHero, Reveal, Loader, SectionHead, NABCB_VERIFY_URL } from '../components/ui';
 import { imgSize, CtaBand, ServiceAccreditation } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
 import NotFound from './NotFound';
@@ -232,8 +232,8 @@ export function Resources() {
   const href = (r) => (r._id && !String(r._id).startsWith('local-') ? `${import.meta.env.VITE_API_URL || ''}/api/resources/${r._id}/download` : fileUrl(r.file));
   return (
     <>
-      <Seo title="Downloads & Resources" description="Download Aspira Certifications’ NABCB accreditation certificate and other approved documents." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Downloads', path: '/resources' }])} />
-      <PageHero crumbs={[{ label: 'Downloads' }]} doc="cert" primary={{ href: '#downloads', label: 'View downloads' }} eyebrow="Resources" title={<>Documents & <em className="accent">downloads</em></>} intro="Approved Aspira documents — including our NABCB accreditation certificate — available to download." />
+      <Seo title="Downloads & Resources" description="Approved Aspira Certifications documents available to download." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Downloads', path: '/resources' }])} />
+      <PageHero crumbs={[{ label: 'Downloads' }]} pageKey="resources" primary={{ href: '#downloads', label: 'View downloads' }} eyebrow="Resources" title={<>Documents & <em className="accent">downloads</em></>} intro="Approved Aspira documents available to download." />
       <section className="section">
         <div className="container">
           {cats.length > 2 && (
@@ -260,7 +260,7 @@ export function Resources() {
             <div className="empty">No documents published yet.</div>
           )}
           <p className="form__note" style={{ marginTop: '1.25rem' }}>
-            Looking for something else — a brochure, checklist or audit guidelines? <Link to="/contact?intent=expert#enquiry" style={{ textDecoration: 'underline' }}>Ask our team</Link>. You can also <a href="https://nabcb.qci.org.in/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>verify our accreditation on NABCB <ExternalLink size={12} style={{ display: 'inline' }} /></a>.
+            Looking for something else — a brochure, checklist or audit guidelines? <Link to="/contact?intent=expert#enquiry" style={{ textDecoration: 'underline' }}>Ask our team</Link>. You can also <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>verify our accreditation on NABCB <ExternalLink size={12} style={{ display: 'inline' }} /></a>.
           </p>
         </div>
       </section>

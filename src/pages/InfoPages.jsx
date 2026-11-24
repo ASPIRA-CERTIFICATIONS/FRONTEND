@@ -75,12 +75,12 @@ export function Accreditations() {
   const others = accreditations.filter((a) => a !== nabcb);
   return (
     <>
-      <Seo title="NABCB Accreditation – Reg. No. IB 159" description="Aspira Certifications Private Limited is accredited by NABCB as a Type ‘A’ Inspection Body (ISO/IEC 17020:2012), Reg. No. IB 159, for green audits of educational institutions. Download the certificate." jsonLd={[orgSchema(settings, accreditations), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Accreditation', path: '/accreditations' }])]} />
+      <Seo title="NABCB Accreditation – Reg. No. IB 159" description="Aspira Certifications Private Limited is accredited by NABCB as a Type ‘A’ Inspection Body (ISO/IEC 17020:2012), Reg. No. IB 159, for green audits for educational institutions (IAF Scope 28)." jsonLd={[orgSchema(settings, accreditations), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Accreditation', path: '/accreditations' }])]} />
       <PageHero
         crumbs={[{ label: 'Accreditation' }]}
         eyebrow="Accreditation"
         title={<>NABCB-accredited <em className="accent">Inspection Body</em></>}
-        intro="We publish our accreditation in full — registration number, standard, scope and validity — with the certificate available to download and verify."
+        intro="We are a NABCB-accredited Inspection Body (Reg. No. IB 159) for green audits for educational institutions (IAF Scope 28). You can verify our accreditation directly on the NABCB website."
         doc="cert"
         primary={{ to: '/services/green-audits#enquire', label: 'Book an accredited Green Audit', wa: 'Hello Aspira, I would like to book a NABCB-accredited Green Audit for our institution.' }}
         accrText="NABCB accredited for green audits · IB 159"

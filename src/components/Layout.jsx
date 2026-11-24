@@ -5,7 +5,7 @@ import { useSite } from '../context/SiteContext';
 import { Icon } from '../lib/icons';
 import { fileUrl } from '../lib/api';
 import { waLink, waMessageFor } from '../lib/whatsapp';
-import { BADGE_SRC, BrandLogo } from './ui';
+import { BADGE_SRC, BrandLogo, NABCB_VERIFY_URL } from './ui';
 import ChatWidget, { ChatLauncher } from './ChatWidget';
 
 const tel = (p) => `tel:${String(p).replace(/[^+\d]/g, '')}`;
@@ -67,7 +67,7 @@ function Header() {
       <header className={`header ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="container">
           <Link to="/" className="brand" aria-label={`${settings.companyName || 'Aspira Certifications'} – home`}>
-            <BrandLogo src={fileUrl(settings.logo)} />
+            <BrandLogo/>
           </Link>
 
           <nav className="nav" aria-label="Main">
@@ -109,20 +109,15 @@ function Header() {
               <div className="mega mega--sm" role="menu">
                 <Link className="mega__link" to="/blog"><span className="ic"><BookOpen size={17} /></span><span><strong>Blog</strong><span>Guides on green audits, hygiene rating & safety</span></span></Link>
                 <Link className="mega__link" to="/case-studies"><span className="ic"><Briefcase size={17} /></span><span><strong>Case studies</strong><span>Verified projects completed by Aspira</span></span></Link>
-                <Link className="mega__link" to="/resources"><span className="ic"><FileText size={17} /></span><span><strong>Downloads</strong><span>Accreditation certificate & documents</span></span></Link>
+                <Link className="mega__link" to="/resources"><span className="ic"><FileText size={17} /></span><span><strong>Downloads</strong><span>Approved Aspira documents</span></span></Link>
                 <Link className="mega__link" to="/industries"><span className="ic"><Icon name="Factory" size={17} /></span><span><strong>Industries</strong><span>Who we serve</span></span></Link>
               </div>
             </div>
-            <NavLink to="/certificate-status">Verify Certificate</NavLink>
+            <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="nav__ext">Verify Certificate</a>
             <NavLink to="/contact">Contact</NavLink>
           </nav>
 
           <div className="header__cta">
-            {nabcb && (
-              <Link to="/accreditations" className="hdr-cert" title={`NABCB Accredited Inspection Body – Reg. No. ${nabcb.registrationNo}`}>
-                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="NABCB Accredited Inspection Body, Reg. No. IB 159" width="46" height="50" />
-              </Link>
-            )}
             <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--sm hdr-book">Book an audit <ArrowRight size={15} /></Link>
             <button className="burger" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu size={22} /></button>
           </div>
@@ -133,10 +128,10 @@ function Header() {
         <div className="drawer__backdrop" onClick={() => setOpen(false)} />
         <div className="drawer__panel" role="dialog" aria-label="Menu">
           <div className="drawer__head">
-            <BrandLogo size="sm" src={fileUrl(settings.logo)} />
+            <BrandLogo size="sm"/>
             <button className="burger" style={{ display: 'grid' }} aria-label="Close menu" onClick={() => setOpen(false)}><X size={22} /></button>
           </div>
-          <Link to="/certificate-status" className="drawer__verify"><ShieldCheck size={18} /> Verify a certificate <ArrowRight size={16} /></Link>
+          <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="drawer__verify"><ShieldCheck size={18} /> Verify certificate on NABCB <ExternalLink size={16} /></a>
           <Link to="/">Home</Link>
           <details className="drawer__group">
             <summary>About <ChevronDown size={18} /></summary>
@@ -183,7 +178,6 @@ function Footer() {
   const social = settings.social || {};
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
   const year = new Date().getFullYear();
-  const fmt = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
   return (
     <footer className="footer">
       <div className="container">
@@ -192,18 +186,17 @@ function Footer() {
             <img src={BADGE_SRC} alt="NABCB Accredited Inspection Body – Reg. No. IB 159" width="72" height="78" loading="lazy" />
             <div>
               <b>{nabcb.shortName} Accredited Type ‘A’ Inspection Body · Reg. No. {nabcb.registrationNo}</b>
-              <span>Scope: green audits of educational institutions{nabcb.validUntil ? ` · Valid until ${fmt(nabcb.validUntil)}` : ''}</span>
+              <span>Scope: green audits for educational institutions (IAF Scope 28)</span>
             </div>
             <div className="footer__accr-actions">
-              <Link to="/certificate-status" className="btn btn--sm btn--green"><ShieldCheck size={14} /> Verify an Aspira certificate</Link>
-              <Link to="/resources" className="btn btn--sm btn--outline-light"><Download size={14} /> Certificate</Link>
-              {nabcb.verifyUrl && <a href={nabcb.verifyUrl} target="_blank" rel="noopener noreferrer" className="btn btn--sm btn--outline-light"><ExternalLink size={14} /> Verify on NABCB</a>}
+              <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="btn btn--sm btn--green"><ShieldCheck size={14} /> Verify on NABCB</a>
+              <Link to="/accreditations" className="btn btn--sm btn--outline-light">Accreditation details</Link>
             </div>
           </div>
         )}
         <div className="footer__grid">
           <div className="footer__brand">
-            <BrandLogo className="blogo--card" src={fileUrl(settings.logo)} />
+            <BrandLogo className="blogo--card"/>
             <p>{settings.aboutShort}</p>
             <div className="socials">
               {Object.entries(social).filter(([, v]) => v).map(([k, v]) => (

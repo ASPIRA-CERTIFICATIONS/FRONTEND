@@ -2,13 +2,13 @@
 export const FALLBACK_SETTINGS = {
   "companyName": "Aspira Certifications",
   "legalName": "Aspira Certifications Private Limited",
-  "tagline": "Audit · Inspection · Certification",
-  "heroTitle": "Audit, inspection & certification for institutions, restaurants and businesses",
+  "tagline": "Audits · Inspections · Assessments",
+  "heroTitle": "Independent audits & inspections for institutions, restaurants and businesses",
   "heroImage": "https://images.unsplash.com/photo-1737874960921-d1205a4f55da?auto=format&fit=crop&w=1600&q=70",
   "aboutImage": "https://images.unsplash.com/photo-1551135049-8a33b5883817?auto=format&fit=crop&w=1600&q=70",
-  "heroSubtitle": "Aspira Certifications helps educational institutions, restaurants and businesses improve environmental sustainability, hygiene, safety and regulatory compliance through professional audits, inspections and certification services.",
-  "aboutShort": "Aspira Certifications is an audit, inspection and certification company. We check whether schools, colleges, restaurants, construction companies and other organisations follow the required safety, hygiene and environmental standards.",
-  "aboutLong": "Aspira Certifications helps educational institutions, restaurants and businesses improve environmental sustainability, hygiene, safety and regulatory compliance through professional audits, inspections and certification services.\n\nWe are a business-to-business (B2B) service company — our clients are organisations, not individual consumers: schools, colleges and universities; restaurants, hotels and canteens; builders and contractors; factories, industries and commercial buildings.\n\nAspira Certifications Private Limited is a Chennai-based inspection body. Our experienced professionals carry out independent audits, inspections and assessments in green and sustainability performance, food hygiene and workplace safety. We serve government departments, large corporations and small and medium enterprises, aligning our services with national and international standards so that every report we issue is impartial, transparent and technically sound.",
+  "heroSubtitle": "Aspira Certifications helps educational institutions, restaurants and businesses improve environmental sustainability, hygiene, safety and regulatory compliance through professional audits and inspections.",
+  "aboutShort": "Aspira Certifications is an audit and inspection company. We check whether schools, colleges, restaurants, construction companies and other organisations follow the required safety, hygiene and environmental standards.",
+  "aboutLong": "Aspira Certifications helps educational institutions, restaurants and businesses improve environmental sustainability, hygiene, safety and regulatory compliance through professional audits and inspections.\n\nWe are a business-to-business (B2B) service company — our clients are organisations, not individual consumers: schools, colleges and universities; restaurants, hotels and canteens; builders and contractors; factories, industries and commercial buildings.\n\nAspira Certifications Private Limited is a Chennai-based inspection body. Our experienced professionals carry out independent audits, inspections and assessments in green and sustainability performance, food hygiene and workplace safety. We serve government departments, large corporations and small and medium enterprises, aligning our services with national and international standards so that every report we issue is impartial, transparent and technically sound.",
   "vision": "A world where every organisation contributes to a safer, healthier and more sustainable future.",
   "mission": "To help organisations meet global benchmarks in quality, safety and sustainability through impartial, transparent and technically sound inspection practices.",
   "values": [
@@ -129,16 +129,15 @@ export const FALLBACK_SETTINGS = {
       "description": "You receive a clear report with findings and practical recommendations."
     },
     {
-      "title": "Certification / outcome",
-      "description": "Where applicable standards are met, the audit outcome or certificate is issued."
+      "title": "Inspection outcome",
+      "description": "Where applicable standards are met, the audit outcome is issued with the inspection report."
     }
   ],
   "stats": [],
   "contact": {
     "address": "New No. 111, Old No. 141, Rajiv Gandhi Salai (OMR), Kottivakkam Village, Thiruvanmiyur, Chennai – 600 041, Tamil Nadu, India",
     "phones": [
-      "+91 96267 76868",
-      "+91 86106 71733"
+      "+91 96267 76868"
     ],
     "emails": [
       "info@aspiracertifications.com"
@@ -158,9 +157,9 @@ export const FALLBACK_SETTINGS = {
   "logo": "/brand/aspira-logo.png",
   "footerText": "Aspiring to improve the quality of lives.",
   "seo": {
-    "defaultTitle": "Aspira Certifications – Audit, Inspection & Certification | NABCB Accredited (IB 159)",
+    "defaultTitle": "Aspira Certifications – Audit & Inspection Services | NABCB Accredited Inspection Body (IB 159)",
     "titleTemplate": "%s | Aspira Certifications",
-    "defaultDescription": "Aspira Certifications is an audit, inspection and certification company in Chennai – NABCB-accredited Inspection Body (Reg. No. IB 159) for green audits of educational institutions. Hygiene rating audits for restaurants, plus construction, electrical, fire, energy and water audits.",
+    "defaultDescription": "Aspira Certifications is an audit and inspection company in Chennai – NABCB-accredited Inspection Body (Reg. No. IB 159) for green audits of educational institutions. Hygiene rating audits for restaurants, plus construction, electrical, fire, energy and water audits.",
     "ogImage": "/brand/og-image.png"
   }
 };
@@ -381,7 +380,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Report & rating outcome",
-        "description": "You receive the audit report and the applicable hygiene rating / certification process is completed."
+        "description": "You receive the audit report and the applicable hygiene rating process is completed."
       }
     ],
     "whyChoose": [
@@ -507,7 +506,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -606,7 +605,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -696,7 +695,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -784,7 +783,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -875,7 +874,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -963,7 +962,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -1056,7 +1055,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -1159,7 +1158,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -1256,7 +1255,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, re-assessment or certification support."
+        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
       }
     ],
     "whyChoose": [
@@ -1301,7 +1300,7 @@ export const FALLBACK_ACCREDITATIONS = [
       "/accreditation/nabcb-ib159-certificate-page2.jpg",
       "/accreditation/nabcb-ib159-certificate-page3.jpg"
     ],
-    "verifyUrl": "https://nabcb.qci.org.in/",
+    "verifyUrl": "https://nabcb.qci.org.in/ib-159/",
     "order": 1,
     "published": true
   }
@@ -1352,27 +1351,14 @@ export const FALLBACK_POSTS = [
     "excerpt": "Accreditation tells you that an inspection body has been independently assessed for competence and impartiality. Here is what NABCB accreditation means for the audits you rely on.",
     "publishedAt": "2026-11-19T00:00:00.000Z",
     "status": "published",
-    "content": "When an audit report is used as evidence — by an accreditation council, a regulator or your own management — the first question is whether the auditor can be trusted. Accreditation answers that question.\n\n## What accreditation means\n\nThe **National Accreditation Board for Certification Bodies (NABCB)** is India’s national accreditation authority under the Quality Council of India. NABCB assesses certification, inspection and verification bodies against international standards. Inspection bodies are assessed against **ISO/IEC 17020**, which sets requirements for their competence, impartiality and consistency.\n\n## What “Type A” means\n\nISO/IEC 17020 recognises different types of inspection bodies. A **Type ‘A’** inspection body is an independent third party — it is not involved in designing, supplying, installing or maintaining what it inspects. That independence is what makes its findings impartial.\n\n## What this means for you\n\n- **Credible reports** — findings come from a body whose competence has been independently verified.\n- **Impartial outcomes** — the inspection body has no stake in the result.\n- **Verifiable credentials** — you can check the accreditation and its scope on NABCB’s website.\n\n## Always check the scope\n\nAccreditation applies to a defined scope. Aspira Certifications is accredited by NABCB as a Type ‘A’ Inspection Body (Reg. No. IB 159) for green audits of educational institutions. You can view and download our accreditation certificate, including the scope schedule, on our Accreditation page.",
+    "content": "When an audit report is used as evidence — by an accreditation council, a regulator or your own management — the first question is whether the auditor can be trusted. Accreditation answers that question.\n\n## What accreditation means\n\nThe **National Accreditation Board for Certification Bodies (NABCB)** is India’s national accreditation authority under the Quality Council of India. NABCB assesses certification, inspection and verification bodies against international standards. Inspection bodies are assessed against **ISO/IEC 17020**, which sets requirements for their competence, impartiality and consistency.\n\n## What “Type A” means\n\nISO/IEC 17020 recognises different types of inspection bodies. A **Type ‘A’** inspection body is an independent third party — it is not involved in designing, supplying, installing or maintaining what it inspects. That independence is what makes its findings impartial.\n\n## What this means for you\n\n- **Credible reports** — findings come from a body whose competence has been independently verified.\n- **Impartial outcomes** — the inspection body has no stake in the result.\n- **Verifiable credentials** — you can check the accreditation and its scope on NABCB’s website.\n\n## Always check the scope\n\nAccreditation applies to a defined scope. Aspira Certifications is accredited by NABCB as a Type ‘A’ Inspection Body (Reg. No. IB 159) for green audits of educational institutions. You can verify our accreditation directly on the NABCB website (nabcb.qci.org.in/ib-159).",
     "seo": {
       "title": "Why Choose a NABCB-Accredited Inspection Body?",
       "description": "What NABCB accreditation and ISO/IEC 17020 Type A status mean, and why they matter when you choose an inspection body."
     }
   }
 ];
-export const FALLBACK_RESOURCES = [
-  {
-    "_id": "local-res-0",
-    "title": "NABCB Accreditation Certificate – IB 159",
-    "description": "Accreditation certificate with Schedule I (scope of accreditation) and Schedule II (office under accreditation). Valid from 12 September 2025 to 11 September 2028.",
-    "category": "Accreditation",
-    "file": "/accreditation/NABCB-IB159-Accreditation-Certificate.pdf",
-    "fileType": "PDF",
-    "fileSize": "0.4 MB",
-    "serviceSlug": "green-audits",
-    "order": 1,
-    "published": true
-  }
-];
+export const FALLBACK_RESOURCES = [];
 export const FALLBACK_POLICIES = [
   {
     "_id": "local-pol-0",
