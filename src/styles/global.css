@@ -2057,3 +2057,46 @@ h3, h4 { font-weight: 700; letter-spacing: -0.01em; }
 /* keep the client's earlier "smaller, professional fonts" limits */
 .mg-hero h1 { font-size: clamp(2rem, 1.45rem + 2.2vw, 3.1rem); max-width: 18ch; }
 .mg-head h2 { font-size: clamp(1.65rem, 1.3rem + 1.2vw, 2.25rem); }
+
+/* =================== HERO v4 – restrained, professional =================== */
+.mg-hero { min-height: 0; padding: clamp(4.5rem, 9vw, 7.5rem) 0 clamp(4rem, 8vw, 6.5rem); background-position: center 30%; }
+.mg-hero::before { background: linear-gradient(90deg, rgba(8, 17, 44, 0.94) 0%, rgba(8, 17, 44, 0.82) 42%, rgba(8, 17, 44, 0.45) 75%, rgba(8, 17, 44, 0.35) 100%); }
+.mg-hero__grid { grid-template-columns: minmax(0, 1fr) 360px; align-items: end; gap: clamp(2rem, 6vw, 6rem); }
+.mg-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 1.4rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #8be09f; }
+.mg-eyebrow::before { content: ''; width: 28px; height: 2px; background: #8be09f; border-radius: 2px; }
+.mg-hero h1 { font-size: clamp(2rem, 1.4rem + 2vw, 2.9rem); line-height: 1.14; letter-spacing: -0.03em; max-width: 21ch; font-weight: 800; }
+.mg-hero__lead { margin-top: 1.25rem; max-width: 56ch; font-size: 1.04rem; line-height: 1.7; color: rgba(226, 232, 240, 0.82); }
+.mg-hero__actions { align-items: center; gap: 1.5rem; margin-top: 2rem; }
+.mg-hero__actions .btn { padding: 0.85rem 1.4rem; border-radius: 10px; font-size: 0.95rem; }
+.mg-hero__link { display: inline-flex; align-items: center; gap: 0.45rem; color: #fff; font-weight: 600; font-size: 0.95rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.35); transition: border-color .2s; }
+.mg-hero__link svg { transition: transform .3s var(--ease); }
+.mg-hero__link:hover { border-color: #fff; }
+.mg-hero__link:hover svg { transform: translateX(4px); }
+
+/* credential panel */
+.mg-cred { padding: 1.5rem; border-radius: 18px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #e2e8f0; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6); }
+.mg-cred__top { display: flex; align-items: center; gap: 0.9rem; padding-bottom: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+.mg-cred__top img { flex: none; width: 52px; height: auto; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35)); }
+.mg-cred__top small { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8be09f; }
+.mg-cred__top b { display: block; margin-top: 0.15rem; font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: #fff; }
+.mg-cred__list { margin: 0; padding: 0.4rem 0; }
+.mg-cred__list > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.88rem; }
+.mg-cred__list > div:last-child { border-bottom: 0; }
+.mg-cred__list dt { color: rgba(203, 213, 225, 0.75); }
+.mg-cred__list dd { margin: 0; color: #fff; font-weight: 600; text-align: right; }
+.mg-cred__links { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: 0.85rem; font-weight: 600; }
+.mg-cred__links a { color: #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem; }
+.mg-cred__links a:last-child { color: #8be09f; }
+.mg-cred__links a:hover { color: #fff; }
+
+@media (max-width: 960px) {
+  .mg-hero__grid { grid-template-columns: 1fr; align-items: start; }
+  .mg-cred { max-width: 420px; }
+}
+@media (max-width: 640px) {
+  .mg-hero { padding: 3rem 0 3.25rem; }
+  .mg-hero h1 { font-size: 1.85rem; }
+  .mg-hero__lead { font-size: 0.98rem; }
+  .mg-hero__actions .btn { flex: 0 1 auto; }
+  .mg-cred { padding: 1.2rem; }
+}

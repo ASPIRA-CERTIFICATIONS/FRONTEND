@@ -74,13 +74,6 @@ export default function Home() {
     ...(bySlug['safety-audits']?.faqs || []).slice(0, 1),
   ];
 
-  const facts = [
-    nabcb && { v: nabcb.registrationNo || 'IB 159', l: 'NABCB registration no.' },
-    { v: 'Type ‘A’', l: 'Inspection body' },
-    { v: 'ISO/IEC 17020', l: 'Accreditation standard' },
-    { v: `${services.length}`, l: 'Audit & inspection services' },
-  ].filter(Boolean);
-
   return (
     <div className="mg">
       <Seo jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
@@ -89,22 +82,36 @@ export default function Home() {
       <section className="mg-hero" style={settings.heroImage ? { '--hero': `url(${imgSize(fileUrl(settings.heroImage), 1920)})` } : undefined}>
         <div className="mg-wrap mg-hero__grid">
           <div className="mg-hero__text">
-            <p className="mg-pill"><BadgeCheck size={15} /> {settings.tagline || 'Audit · Inspection · Certification'}</p>
+            <p className="mg-eyebrow">{settings.tagline || 'Audit · Inspection · Certification'}</p>
             <h1>{settings.heroTitle || 'Audit, inspection & certification'}</h1>
             {settings.heroSubtitle && <p className="mg-hero__lead">{settings.heroSubtitle}</p>}
             <div className="mg-hero__actions">
-              <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--lg">Book an audit <ArrowRight size={17} /></Link>
-              <Link to="/services" className="btn btn--glass btn--lg">Our services</Link>
+              <Link to="/contact?intent=booking#enquiry" className="btn btn--green">Book an audit <ArrowRight size={16} /></Link>
+              <Link to="/services" className="mg-hero__link">Explore services <ArrowRight size={16} /></Link>
             </div>
           </div>
-          <div className="mg-facts">
-            {facts.map((f) => (
-              <div key={f.l} className="mg-fact">
-                <b>{f.v}</b>
-                <span>{f.l}</span>
+
+          {nabcb && (
+            <aside className="mg-cred" aria-label="Accreditation">
+              <div className="mg-cred__top">
+                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="56" height="61" />
+                <div>
+                  <small>Accredited by NABCB</small>
+                  <b>Inspection Body</b>
+                </div>
               </div>
-            ))}
-          </div>
+              <dl className="mg-cred__list">
+                <div><dt>Registration no.</dt><dd>{nabcb.registrationNo}</dd></div>
+                <div><dt>Type</dt><dd>Type ‘A’</dd></div>
+                <div><dt>Standard</dt><dd>ISO/IEC 17020:2012</dd></div>
+                {nabcb.validUntil && <div><dt>Valid until</dt><dd>{new Date(nabcb.validUntil).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</dd></div>}
+              </dl>
+              <div className="mg-cred__links">
+                <Link to="/accreditations">View accreditation</Link>
+                <Link to="/certificate-status">Verify a certificate <ArrowRight size={14} /></Link>
+              </div>
+            </aside>
+          )}
         </div>
       </section>
 
