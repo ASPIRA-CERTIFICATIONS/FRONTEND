@@ -159,7 +159,7 @@ export default function Home() {
       </section>
 
       {/* ---------- SERVICES: photo cards ---------- */}
-      <section className="mg-sec mg-sec--blue">
+      <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
           <Head kicker="Our services" title="Audit & inspection services" text="Independent, standards-based audits for institutions, food businesses, workplaces and buildings." />
           <div className="sv-grid">
@@ -192,7 +192,7 @@ export default function Home() {
       <WhyAspira />
 
       {/* ---------- ENQUIRY ---------- */}
-      <section className="mg-sec mg-enq mg-sec--green" id="enquiry">
+      <section className="mg-sec mg-enq" id="enquiry">
         <div className="mg-wrap">
           <Head kicker="Get started" title="Find the right audit for your organisation" text="Tell us who you are and what you need – we'll confirm the scope, standards and timeline." />
           <div className="mg-enq__card">
@@ -219,7 +219,7 @@ export default function Home() {
       </section>
 
       {/* ---------- INDUSTRIES ---------- */}
-      <section className="mg-sec">
+      <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
           <Head kicker="Who we serve" title="Audits for every kind of organisation" text="Each audit is matched to the organisations it is designed for." />
           <div className="mg-ind">
@@ -241,7 +241,7 @@ export default function Home() {
 
       {/* ---------- PROCESS ---------- */}
       {steps.length > 0 && (
-        <section className="mg-sec mg-sec--blue">
+        <section className="mg-sec">
           <div className="mg-wrap">
             <Head kicker="How it works" title="From enquiry to report" text="A clear, documented process for every audit and inspection." />
             <ol className="mg-steps" style={{ '--n': steps.length }}>
@@ -261,7 +261,7 @@ export default function Home() {
 
       {/* ---------- INSIGHTS ---------- */}
       {posts.length > 0 && (
-        <section className="mg-sec">
+        <section className="mg-sec mg-sec--soft">
           <div className="mg-wrap">
             <Head kicker="Insights" title="Guides from our auditors" />
             <div className="mg-posts">
@@ -283,7 +283,7 @@ export default function Home() {
 
       {/* ---------- FAQ ---------- */}
       {faqs.length > 0 && (
-        <section className="mg-sec mg-sec--green">
+        <section className="mg-sec">
           <div className="mg-wrap mg-faq">
             <Head kicker="FAQ" title="Frequently asked questions" />
             <Faq items={faqs} />
