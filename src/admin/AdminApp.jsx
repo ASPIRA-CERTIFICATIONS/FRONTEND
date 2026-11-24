@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation, Link } from 'react-router-dom';
-import { LayoutDashboard, Inbox, Layers, MessageSquareQuote, Building, Award, FileBadge, Image, Settings, LogOut, Menu, ExternalLink, MessagesSquare, Newspaper, Briefcase, FileDown } from 'lucide-react';
+import { LayoutDashboard, Inbox, Layers, MessageSquareQuote, Building, Award, FileBadge, Image, Settings, LogOut, Menu, ExternalLink, MessagesSquare, Newspaper, Briefcase, FileDown, UserRound, Images, ScrollText } from 'lucide-react';
 import { api, getToken, setToken } from '../lib/api';
 import Seo from '../components/Seo';
 import { Loader, BrandLogo } from '../components/ui';
@@ -9,7 +9,8 @@ import { useNewEnquiries, NotificationBell } from './Notifications';
 import Dashboard from './pages/Dashboard';
 import Enquiries from './pages/Enquiries';
 import { ServicesList, ServiceEditor } from './pages/Services';
-import { Testimonials, Clients, AccreditationsAdmin, Certificates, Posts, CaseStudiesAdmin, ResourcesAdmin } from './pages/Collections';
+import { Testimonials, Clients, AccreditationsAdmin, Certificates, Posts, CaseStudiesAdmin, ResourcesAdmin, GalleryAdmin, PoliciesAdmin } from './pages/Collections';
+import CareersAdmin from './pages/Careers';
 import MediaLibrary from './pages/Media';
 import SettingsPage from './pages/Settings';
 import Account from './pages/Account';
@@ -20,13 +21,13 @@ const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
 
 const NAV = [
-  ['Leads', [['', 'Dashboard', LayoutDashboard, true], ['enquiries', 'All enquiries', Inbox], ['enquiries?channel=chat', 'Chat enquiries', MessagesSquare]]],
-  ['Content', [['services', 'Services', Layers], ['posts', 'Blog', Newspaper], ['case-studies', 'Case studies', Briefcase], ['resources', 'Downloads', FileDown], ['testimonials', 'Testimonials', MessageSquareQuote], ['clients', 'Client logos', Building]]],
+  ['Leads', [['', 'Dashboard', LayoutDashboard, true], ['enquiries', 'All enquiries', Inbox], ['enquiries?channel=chat', 'Chat enquiries', MessagesSquare], ['careers', 'Careers', UserRound]]],
+  ['Content', [['services', 'Services', Layers], ['posts', 'Blog', Newspaper], ['case-studies', 'Case studies', Briefcase], ['resources', 'Downloads', FileDown], ['testimonials', 'Testimonials', MessageSquareQuote], ['clients', 'Client logos', Building], ['gallery', 'Gallery', Images], ['policies', 'Policies', ScrollText]]],
   ['Credentials', [['accreditations', 'Accreditation', Award], ['certificates', 'Issued certificates', FileBadge]]],
   ['Site', [['media', 'Media library', Image], ['settings', 'Site settings', Settings]]],
 ];
 
-const TITLES = { '': 'Dashboard', enquiries: 'Enquiries', posts: 'Blog', 'case-studies': 'Case studies', resources: 'Downloadable resources', services: 'Services', testimonials: 'Testimonials', clients: 'Client logos', accreditations: 'Accreditations', certificates: 'Certificates', media: 'Media library', settings: 'Site settings', account: 'Account' };
+const TITLES = { '': 'Dashboard', enquiries: 'Enquiries', posts: 'Blog', 'case-studies': 'Case studies', resources: 'Downloadable resources', services: 'Services', testimonials: 'Testimonials', clients: 'Client logos', accreditations: 'Accreditations', certificates: 'Certificates', media: 'Media library', careers: 'Careers', gallery: 'Gallery', policies: 'Policies', settings: 'Site settings', account: 'Account' };
 
 /** Active-state aware of the query string, so "All enquiries" and "Chat enquiries" don't both light up. */
 function SideLink({ to, end, icon: Ic, label, badge }) {
@@ -68,7 +69,7 @@ function Shell({ children }) {
           {NAV.map(([group, items]) => (
             <div key={group} className="adm-side__group">
               <h6>{group}</h6>
-              {items.map(([to, label, Ic, end]) => <SideLink key={to} to={to} end={end} icon={Ic} label={label} badge={to === 'enquiries' ? feed.total : 0} />)}
+              {items.map(([to, label, Ic, end]) => <SideLink key={to} to={to} end={end} icon={Ic} label={label} badge={to === 'enquiries' ? feed.total : to === 'careers' ? feed.appsNew : 0} />)}
             </div>
           ))}
         </nav>
@@ -151,6 +152,9 @@ export default function AdminApp() {
                     <Route path="accreditations" element={<AccreditationsAdmin />} />
                     <Route path="certificates" element={<Certificates />} />
                     <Route path="media" element={<MediaLibrary />} />
+                    <Route path="careers" element={<CareersAdmin />} />
+                    <Route path="gallery" element={<GalleryAdmin />} />
+                    <Route path="policies" element={<PoliciesAdmin />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="account" element={<Account />} />
                     <Route path="*" element={<p>Page not found. <Link to="/admin">Back to dashboard</Link></p>} />

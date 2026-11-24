@@ -54,6 +54,8 @@ export function useNewEnquiries() {
   const toast = useToast();
   const [state, setState] = useState({ items: [], total: 0, seenAt: readSeen() });
   const known = useRef(null); // ids seen in previous polls
+  const appsSeen = useRef(null);
+  const [appsNew, setAppsNew] = useState(0);
 
   const load = useCallback(async () => {
     try {
@@ -69,6 +71,16 @@ export function useNewEnquiries() {
       }
       known.current = new Set(items.map((e) => e._id));
       setState((s) => ({ ...s, items, total: d.total || 0 }));
+      // Job applications: count of "new" ones for the sidebar badge, toast when it grows
+      const a = await api('/careers?status=new&limit=1', { auth: true }).catch(() => null);
+      if (a) {
+        if (appsSeen.current !== null && a.total > appsSeen.current) {
+          chime();
+          toast(a.total - appsSeen.current === 1 ? `New job application from ${a.items?.[0]?.name || 'a candidate'}` : `${a.total - appsSeen.current} new job applications`);
+        }
+        appsSeen.current = a.total;
+        setAppsNew(a.total);
+      }
     } catch {
       /* offline – try again next poll */
     }
@@ -100,7 +112,7 @@ export function useNewEnquiries() {
     document.title = state.total ? `(${state.total > 99 ? '99+' : state.total}) ${base}` : base;
   }, [state.total]);
 
-  return { ...state, unread, markSeen, reload: load };
+  return { ...state, unread, markSeen, reload: load, appsNew };
 }
 
 const CH_ICON = { chat: MessagesSquare, whatsapp: MessageCircle, form: FileText };

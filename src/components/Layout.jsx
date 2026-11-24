@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { ChevronDown, Menu, X, Phone, Mail, MapPin, ArrowRight, ArrowUp, BadgeCheck, MessageCircle, Search, Download, ExternalLink, BookOpen, FileText, Briefcase, ShieldCheck } from 'lucide-react';
+import { ChevronDown, Menu, X, Phone, Mail, MapPin, ArrowRight, ArrowUp, BadgeCheck, MessageCircle, Search, Download, ExternalLink, BookOpen, FileText, Briefcase, ShieldCheck, Users, Images, ScrollText, Building2 } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
 import { Icon } from '../lib/icons';
 import { fileUrl } from '../lib/api';
@@ -90,7 +90,15 @@ function Header() {
 
           <nav className="nav" aria-label="Main">
             <NavLink to="/" end>Home</NavLink>
-            <NavLink to="/about">About</NavLink>
+            <div className="nav__item">
+              <NavLink to="/about" className="nav__trigger" aria-haspopup="true">About <ChevronDown size={15} /></NavLink>
+              <div className="mega mega--sm" role="menu">
+                <Link className="mega__link" to="/about"><span className="ic"><Building2 size={17} /></span><span><strong>About us</strong><span>Who we are and how we work</span></span></Link>
+                <Link className="mega__link" to="/careers"><span className="ic"><Users size={17} /></span><span><strong>Careers</strong><span>Open roles and resume submission</span></span></Link>
+                <Link className="mega__link" to="/gallery"><span className="ic"><Images size={17} /></span><span><strong>Gallery</strong><span>Photos from our audits and events</span></span></Link>
+                <Link className="mega__link" to="/policies"><span className="ic"><ScrollText size={17} /></span><span><strong>Policies</strong><span>Impartiality, confidentiality & more</span></span></Link>
+              </div>
+            </div>
             <div className="nav__item">
               <NavLink to="/services" className="nav__trigger" aria-haspopup="true">
                 Services <ChevronDown size={15} />
@@ -144,7 +152,13 @@ function Header() {
           </div>
           <Link to="/certificate-status" className="drawer__verify"><ShieldCheck size={18} /> Verify a certificate <ArrowRight size={16} /></Link>
           <Link to="/">Home</Link>
-          <Link to="/about">About Us</Link>
+          <details className="drawer__group">
+            <summary>About <ChevronDown size={18} /></summary>
+            <Link to="/about">About us</Link>
+            <Link to="/careers">Careers</Link>
+            <Link to="/gallery">Gallery</Link>
+            <Link to="/policies">Policies</Link>
+          </details>
           <details className="drawer__group">
             <summary>Services <ChevronDown size={18} /></summary>
             <Link to="/services">All services</Link>
@@ -222,6 +236,9 @@ function Footer() {
             <ul>
               <li><Link to="/about">About us</Link></li>
               <li><Link to="/accreditations">Accreditation</Link></li>
+              <li><Link to="/careers">Careers</Link></li>
+              <li><Link to="/gallery">Gallery</Link></li>
+              <li><Link to="/policies">Policies</Link></li>
               <li><Link to="/blog">Blog</Link></li>
               <li><Link to="/case-studies">Case studies</Link></li>
               <li><Link to="/resources">Downloads</Link></li>

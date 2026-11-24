@@ -22,6 +22,11 @@ const BlogPost = lazy(() => pubPages().then((m) => ({ default: m.BlogPost })));
 const CaseStudies = lazy(() => pubPages().then((m) => ({ default: m.CaseStudies })));
 const CaseStudy = lazy(() => pubPages().then((m) => ({ default: m.CaseStudy })));
 const Resources = lazy(() => pubPages().then((m) => ({ default: m.Resources })));
+const company = () => import('./pages/Company');
+const Careers = lazy(() => company().then((m) => ({ default: m.Careers })));
+const Gallery = lazy(() => company().then((m) => ({ default: m.Gallery })));
+const Policies = lazy(() => company().then((m) => ({ default: m.Policies })));
+const PolicyDetail = lazy(() => company().then((m) => ({ default: m.PolicyDetail })));
 const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 export default function App() {
@@ -49,6 +54,10 @@ export default function App() {
             <Route path="resources" element={<Resources />} />
             <Route path="downloads" element={<Resources />} />
             <Route path="complaints-and-appeals" element={<Complaints />} />
+            <Route path="careers" element={<Careers />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="policies" element={<Policies />} />
+            <Route path="policies/:slug" element={<PolicyDetail />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

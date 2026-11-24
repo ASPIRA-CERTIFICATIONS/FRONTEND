@@ -1373,3 +1373,32 @@ export const FALLBACK_RESOURCES = [
     "published": true
   }
 ];
+export const FALLBACK_POLICIES = [
+  {
+    "_id": "local-pol-0",
+    "title": "Quality Policy",
+    "slug": "quality-policy",
+    "summary": "Our commitment to impartial, independent and reliable inspection services.",
+    "content": "Aspira Certifications Private Limited is committed to delivering impartial, independent, and reliable inspection services while upholding the highest standards of integrity, professionalism, and compliance with national and international regulations.\n\nWe ensure technical competence, transparency, and ethical practices in all our assessments, striving to safeguard life, property, and the environment through rigorous quality assurance.\n\nWe work collaboratively with our clients to drive continuous improvement, business excellence, and sustainability, providing cost-effective and timely inspection services.\n\nOur commitment to ongoing enhancement of systems, processes, and resources ensures the highest level of trust, credibility, and value in our services.\n\n**The Top Management**\n\nAspira Certifications Private Limited",
+    "order": 1,
+    "published": true
+  },
+  {
+    "_id": "local-pol-1",
+    "title": "Impartiality Policy",
+    "slug": "impartiality-policy",
+    "summary": "How we keep every inspection decision independent and free from conflicts of interest.",
+    "content": "Aspira Certifications Private Limited is fully committed to maintaining impartiality, independence, and integrity in all its inspection and conformity assessment activities. We ensure that decisions are based solely on objective evidence, free from commercial, financial, or external influence. Our organization does not provide consultancy, training, or internal audits to clients under any assessment scheme to avoid conflicts of interest. A dedicated Impartiality Committee regularly reviews and monitors impartiality risks and ensures transparency in operations. All personnel act with integrity, declare potential conflicts, and uphold confidentiality. Continuous monitoring through audits and reviews ensures compliance with ISO/IEC 17020:2012 and PADD-QCI HRAA requirements, reinforcing trust and confidence among clients and stakeholders.\n\n**The Top Management**\n\nAspira Certifications Private Limited",
+    "order": 2,
+    "published": true
+  },
+  {
+    "_id": "local-pol-2",
+    "title": "Confidentiality Policy",
+    "slug": "confidentiality-policy",
+    "summary": "How we protect the information our clients, employees and stakeholders share with us.",
+    "content": "Aspira Certifications Private Limited is committed to maintaining the highest standards of confidentiality to protect sensitive and proprietary information of our clients, employees, and stakeholders. Our organization acknowledges that the trust placed in us depends on our ability to safeguard confidential information against unauthorized access, disclosure, and misuse.\n\nThis policy ensures compliance with ISO/IEC 17020, relevant legal requirements, and applicable data protection laws such as India’s DPDP Act 2023 where applicable. We uphold impartiality and independence by ensuring confidential information is not used in a manner that compromises audit integrity or decision-making. All personnel, including auditors and field inspectors engaged in on-site operations, must handle information with the utmost discretion and diligence to prevent any compromise that could result in reputational, legal, or financial consequences.\n\nOur confidentiality commitment extends to all forms of information received, stored, processed, and shared, irrespective of its medium—physical, digital, or verbal. We enforce strict access controls, data protection measures, and contractual agreements to uphold confidentiality in every aspect of our operations.\n\n**The Top Management**\n\nAspira Certifications Private Limited",
+    "order": 3,
+    "published": true
+  }
+];

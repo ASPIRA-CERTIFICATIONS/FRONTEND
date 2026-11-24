@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Plus, Pencil, Trash2, X, Save } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Plus, Pencil, Trash2, X, Save, ImagePlus } from 'lucide-react';
 import { api, fileUrl } from '../../lib/api';
 import { useSite } from '../../context/SiteContext';
 import { Loader } from '../../components/ui';
@@ -16,7 +16,7 @@ const setK = (o, k, v) => {
  * Generic list + side-panel editor for simple collections.
  * fields: [{ key, label, type, options, full, hint, required }]
  */
-function Collection({ endpoint, fields, columns, blank, intro, singular, publishKey = 'published', note, viewPath }) {
+function Collection({ endpoint, fields, columns, blank, intro, singular, publishKey = 'published', note, viewPath, refresh = 0, extra = null }) {
   const toast = useToast();
   const { reload } = useSite();
   const [items, setItems] = useState(null);
@@ -27,7 +27,7 @@ function Collection({ endpoint, fields, columns, blank, intro, singular, publish
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endpoint]);
+  }, [endpoint, refresh]);
 
   async function save(e) {
     e.preventDefault();
@@ -67,7 +67,10 @@ function Collection({ endpoint, fields, columns, blank, intro, singular, publish
     <>
       <div className="toolbar" style={{ justifyContent: 'space-between' }}>
         <p className="muted" style={{ margin: 0, maxWidth: '70ch' }}>{intro}</p>
-        <button className="btn btn--green btn--sm" onClick={() => setEdit({ ...blank })}><Plus size={15} /> Add {singular.toLowerCase()}</button>
+        <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
+          {extra}
+          <button className="btn btn--green btn--sm" onClick={() => setEdit({ ...blank })}><Plus size={15} /> Add {singular.toLowerCase()}</button>
+        </div>
       </div>
       {note && <Callout>{note}</Callout>}
       <div className="tbl-wrap">
@@ -336,3 +339,126 @@ export const ResourcesAdmin = () => (
     ]}
   />
 );
+
+/* ---------------- Careers: job openings ---------------- */
+export const JobsAdmin = () => (
+  <Collection
+    endpoint="/jobs"
+    singular="Opening"
+    intro="Published openings with status “Open” appear on the Careers page. Visitors can always send a general application even when there are no openings."
+    blank={{ title: '', department: '', location: '', employmentType: 'Full-time', experience: '', summary: '', description: '', requirements: [], status: 'open', order: 100, published: false }}
+    fields={[
+      { key: 'title', label: 'Job title *', required: true, full: true },
+      { key: 'department', label: 'Department' },
+      { key: 'location', label: 'Location', hint: 'e.g. Chennai / On-site' },
+      { key: 'employmentType', label: 'Employment type', type: 'select', options: ['Full-time', 'Part-time', 'Contract', 'Internship'] },
+      { key: 'experience', label: 'Experience', hint: 'e.g. 2–4 years' },
+      { key: 'summary', label: 'Short summary', type: 'area', rows: 2, full: true, hint: 'One or two lines shown in the list' },
+      { key: 'description', label: 'Full description (Markdown)', type: 'area', rows: 8, full: true },
+      { key: 'requirements', label: 'Requirements', type: 'list', full: true, addLabel: 'Add requirement' },
+      { key: 'status', label: 'Status', type: 'select', options: ['open', 'closed'] },
+      { key: 'order', label: 'Order', type: 'number' },
+      { key: 'published', label: 'Show on website', type: 'toggle' },
+    ]}
+    columns={[
+      { label: 'Title', render: (it) => <><b>{it.title}</b><div className="muted">{[it.location, it.employmentType].filter(Boolean).join(' · ')}</div></> },
+      { label: 'Status', render: (it) => <span className={`badge badge--${it.status === 'open' ? 'yes' : 'no'}`}>{it.status}</span> },
+      { label: 'Website', render: pub },
+    ]}
+    viewPath={() => '/careers'}
+  />
+);
+
+/* ---------------- Policies ---------------- */
+export const PoliciesAdmin = () => (
+  <Collection
+    endpoint="/policies"
+    singular="Policy"
+    intro="Published policies are listed on /policies. Paste the approved text (Markdown supported) and/or upload the signed PDF. “Complaints & Appeals” is always listed and links to its own page."
+    blank={{ title: '', slug: '', summary: '', content: '', file: '', version: '', effectiveDate: '', order: 100, published: false }}
+    fields={[
+      { key: 'title', label: 'Title *', required: true },
+      { key: 'slug', label: 'URL slug', hint: 'Leave empty to create it from the title' },
+      { key: 'summary', label: 'Short summary', type: 'area', rows: 2, full: true },
+      { key: 'content', label: 'Policy text (Markdown)', type: 'area', rows: 14, full: true, hint: 'Use ## for headings and - for bullet points' },
+      { key: 'file', label: 'PDF version (optional)', type: 'file', full: true },
+      { key: 'version', label: 'Version', hint: 'e.g. 1.0 or Issue 02' },
+      { key: 'effectiveDate', label: 'Effective date', type: 'date' },
+      { key: 'order', label: 'Order', type: 'number' },
+      { key: 'published', label: 'Show on website', type: 'toggle' },
+    ]}
+    columns={[
+      { label: 'Policy', render: (it) => <><b>{it.title}</b><div className="muted">/policies/{it.slug}</div></> },
+      { label: 'Version', render: (it) => <span className="muted">{[it.version, it.effectiveDate && d10(it.effectiveDate)].filter(Boolean).join(' · ') || '—'}</span> },
+      { label: 'Status', render: pub },
+    ]}
+    viewPath={(it) => `/policies/${it.slug}`}
+  />
+);
+
+/* ---------------- Gallery ---------------- */
+function BulkPhotoUpload({ onDone }) {
+  const toast = useToast();
+  const input = useRef(null);
+  const [busy, setBusy] = useState(false);
+  async function pick(e) {
+    const files = [...(e.target.files || [])].filter((f) => f.type.startsWith('image/'));
+    e.target.value = '';
+    if (!files.length) return;
+    setBusy(true);
+    try {
+      let added = 0;
+      for (let i = 0; i < files.length; i += 10) {
+        const fd = new FormData();
+        files.slice(i, i + 10).forEach((f) => fd.append('files', f));
+        const media = await api('/media', { method: 'POST', body: fd, auth: true });
+        for (const m of media) {
+          const title = (m.originalName || '').replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+          await api('/gallery', { method: 'POST', body: { image: m.url, title, published: true }, auth: true });
+          added++;
+        }
+      }
+      toast(`${added} photo${added === 1 ? '' : 's'} added to the gallery`);
+      onDone();
+    } catch (err) {
+      toast(err.message, 'err');
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <>
+      <input ref={input} type="file" accept="image/*" multiple hidden onChange={pick} />
+      <button type="button" className="btn btn--ghost btn--sm" disabled={busy} onClick={() => input.current?.click()}><ImagePlus size={15} /> {busy ? 'Uploading…' : 'Upload photos'}</button>
+    </>
+  );
+}
+
+export function GalleryAdmin() {
+  const [n, setN] = useState(0);
+  return (
+    <Collection
+      endpoint="/gallery"
+      singular="Photo"
+      refresh={n}
+      extra={<BulkPhotoUpload onDone={() => setN((x) => x + 1)} />}
+      intro="Only use genuine photos you have the right to publish (your own audits, team and events). Use “Upload photos” to add several at once, then edit each one to add a title, caption and category."
+      blank={{ title: '', caption: '', image: '', category: '', takenAt: '', order: 100, published: true }}
+      fields={[
+        { key: 'image', label: 'Photo *', type: 'image', full: true },
+        { key: 'title', label: 'Title' },
+        { key: 'category', label: 'Category', hint: 'e.g. Green audits, Hygiene audits, Team, Events' },
+        { key: 'caption', label: 'Caption', type: 'area', rows: 2, full: true },
+        { key: 'takenAt', label: 'Date taken', type: 'date' },
+        { key: 'order', label: 'Order', type: 'number' },
+        { key: 'published', label: 'Show on website', type: 'toggle' },
+      ]}
+      columns={[
+        { label: 'Photo', render: (it) => <img src={fileUrl(it.image)} alt="" style={{ width: 72, height: 50, objectFit: 'cover', borderRadius: 6, display: 'block' }} /> },
+        { label: 'Title', render: (it) => <><b>{it.title || '—'}</b><div className="muted">{it.category}</div></> },
+        { label: 'Status', render: pub },
+      ]}
+      viewPath={() => '/gallery'}
+    />
+  );
+}

@@ -28,6 +28,7 @@ export default function Dashboard() {
         <div className="kpi"><small>Total enquiries</small><b>{e.total}</b></div>
         <div className="kpi"><small>New chat leads</small><b>{e.chatNew ?? 0}</b></div>
         <div className="kpi"><small>Converted</small><b>{statusCount('converted')}</b></div>
+        {d.applications && <Link to="/admin/careers?status=new" className="kpi"><small>New job applications</small><b>{d.applications.new}</b></Link>}
       </div>
       <div className="grid2">
         <div className="card">

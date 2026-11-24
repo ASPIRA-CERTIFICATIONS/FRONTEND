@@ -364,3 +364,18 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   .lg__card { padding: 1.75rem 1.25rem; }
 }
 .lg__art::before { background: linear-gradient(180deg, rgba(16,42,134,.35) 0%, rgba(16,42,134,.62) 38%, rgba(12,30,105,.94) 100%), linear-gradient(90deg, rgba(14,34,112,.55), rgba(14,34,112,.05)); }
+
+/* v10 — careers */
+.badge--app-new { background: #eef2ff; color: #2247d6; }
+.badge--app-reviewing { background: #fef7e6; color: #a15c07; }
+.badge--app-shortlisted { background: #e9f8ee; color: #0f7a35; }
+.badge--app-rejected { background: #f1f5f9; color: #64748b; }
+.badge--app-hired { background: #18a548; color: #fff; }
+.resume-file { width: 100%; display: flex; align-items: center; gap: 0.75rem; margin-top: 1.25rem; padding: 0.85rem 1rem; border: 1px solid #c7d2fe; border-radius: 12px; background: #f5f8ff; color: #2247d6; font: inherit; text-align: left; cursor: pointer; transition: all .2s; }
+.resume-file span { flex: 1; min-width: 0; display: grid; }
+.resume-file b { color: #0f172a; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.resume-file small { color: #64748b; font-size: 0.76rem; }
+.resume-file:hover { background: #eef2ff; border-color: #2247d6; }
+/* sidebar: a little tighter so 16 links still fit without scrolling */
+.adm-side a { padding-top: 0.38rem; padding-bottom: 0.38rem; }
+.adm-side h6 { margin-top: 0.55rem; margin-bottom: 0.2rem; }

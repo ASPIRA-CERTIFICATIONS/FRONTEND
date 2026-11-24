@@ -18,5 +18,4 @@ export const LEGACY_REDIRECTS = {
   '/accreditations-wso': '/accreditations',
   '/client-testimonials': '/',
   '/blogs': '/blog',
-  '/policies': '/complaints-and-appeals',
 };
