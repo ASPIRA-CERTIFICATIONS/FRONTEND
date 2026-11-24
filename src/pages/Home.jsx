@@ -7,7 +7,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, ArrowUpRight, ClipboardCheck, BadgeCheck, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
+  ArrowRight, ArrowUpRight, BadgeCheck, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
   Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School,
 } from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
@@ -116,11 +116,11 @@ export default function Home() {
       <Seo jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
 
       {/* ---------- ACCREDITATION BANNER ---------- */}
-      <div className="accr-banner" role="note">
-        <div className="mg-wrap accr-banner__in">
-          <BadgeCheck size={18} aria-hidden="true" />
+      <div className="accr-banner pbanner" role="note">
+        <div className="mg-wrap pbanner__in">
+          <span className="pbanner__tag"><BadgeCheck size={14} aria-hidden="true" /> NABCB Accredited</span>
           <p>We are a <b>National Accreditation Board for Certification Bodies (NABCB)</b> accredited Inspection Body <b>(Reg No: {nabcb?.registrationNo || 'IB 159'})</b> for green audits for educational institutions (IAF Scope 28)</p>
-          <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer">Verify <ArrowUpRight size={14} /></a>
+          <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="pbanner__link">Verify <ArrowUpRight size={14} /></a>
         </div>
       </div>
 
@@ -145,28 +145,12 @@ export default function Home() {
             </div>
           </div>
 
-          <ul className="vh__stats" aria-label="Aspira at a glance">
-            <li style={{ '--i': 0 }}>
-              <span className="vh__stat-ic"><ClipboardCheck size={20} /></span>
-              <b><CountUp to={services.length || parents.length} /></b>
-              <span>Audit &amp; inspection services</span>
-            </li>
-            <li style={{ '--i': 1 }}>
-              <span className="vh__stat-ic"><Building2 size={20} /></span>
-              <b><CountUp to={SECTORS.length} /></b>
-              <span>Sectors served</span>
-            </li>
-            <li style={{ '--i': 2 }}>
-              <span className="vh__stat-ic"><Scale size={20} /></span>
-              <b>Type ‘A’</b>
-              <span>Independent inspection body · ISO/IEC 17020</span>
-            </li>
-            <li style={{ '--i': 3 }}>
-              <span className="vh__stat-ic"><ShieldCheck size={20} /></span>
-              <b>{nabcb?.registrationNo || 'IB 159'}</b>
-              <span>Accreditation registration no.</span>
-            </li>
-          </ul>
+          <dl className="vh__facts" aria-label="Aspira at a glance">
+            <div style={{ '--i': 0 }}><dt>Services</dt><dd><CountUp to={services.length || parents.length} /></dd></div>
+            <div style={{ '--i': 1 }}><dt>Sectors served</dt><dd><CountUp to={SECTORS.length} /></dd></div>
+            <div style={{ '--i': 2 }}><dt>Inspection body</dt><dd>Type ‘A’</dd></div>
+            <div style={{ '--i': 3 }}><dt>Standard</dt><dd>ISO/IEC 17020</dd></div>
+          </dl>
         </div>
         <a href="#about" className="vh__scroll" aria-label="Scroll to content"><span /></a>
       </section>
