@@ -3,8 +3,8 @@ import { api } from '../lib/api';
 import { FALLBACK_SETTINGS, FALLBACK_SERVICES, FALLBACK_ACCREDITATIONS } from '../lib/fallback';
 
 /* Card-level fields used in lists/menus */
-const toListItem = ({ title, slug, category, parentSlug, icon, shortDescription, image, featured, order }) => ({
-  title, slug, category, parentSlug, icon, shortDescription, image, featured, order,
+const toListItem = ({ title, slug, category, parentSlug, icon, shortDescription, audience, ctaLabel, whatsappMessage, formType, scope, image, featured, order }) => ({
+  title, slug, category, parentSlug, icon, shortDescription, audience, ctaLabel, whatsappMessage, formType, scope, image, featured, order,
 });
 const FALLBACK_LIST = FALLBACK_SERVICES.map(toListItem).sort((a, b) => a.order - b.order);
 

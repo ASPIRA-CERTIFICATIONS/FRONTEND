@@ -16,6 +16,7 @@ import { Reveal, Faq, BADGE_SRC } from '../components/ui';
 import { imgSize, Testimonials, ClientLogos, CtaBand } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
 import { isApiDown, fileUrl } from '../lib/api';
+import { Icon } from '../lib/icons';
 import { FALLBACK_POSTS } from '../lib/fallback';
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
@@ -171,24 +172,30 @@ export default function Home() {
       <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
           <Head kicker="Our services" title="Audit & inspection services" text="Independent, standards-based audits for institutions, food businesses, workplaces and buildings." />
-          <div className="mg-svc">
-            {parents.map((s, i) => (
-              <Reveal key={s.slug} delay={i * 60} as={Link} to={`/services/${s.slug}`} className="mg-svc__card" style={s.image ? { '--img': `url(${imgSize(fileUrl(s.image), 800)})` } : undefined}>
-                <span className="mg-svc__no">{String(i + 1).padStart(2, '0')}</span>
-                <div className="mg-svc__body">
-                  <h3>{s.title}</h3>
-                  {s.audience && <p className="mg-svc__for">{s.audience}</p>}
-                  {s.scope?.length > 0 && (
-                    <>
-                      <small>What we assess</small>
-                      <ul>{s.scope.slice(0, 3).map((x) => <li key={short(x)}>{short(x)}</li>)}</ul>
-                    </>
-                  )}
-                  <span className="mg-svc__go">Explore service <ArrowRight size={15} /></span>
-                </div>
-              </Reveal>
-            ))}
+          <div className="sv-grid">
+            {parents.map((s, i) => {
+              const points = (s.scope || []).slice(0, 3).map(short);
+              return (
+                <Reveal key={s.slug} delay={i * 60} as={Link} to={`/services/${s.slug}`} className="sv-card">
+                  <div className="sv-card__img">
+                    {s.image && <img src={imgSize(fileUrl(s.image), 760)} alt="" loading="lazy" />}
+                    <span className="sv-card__ic"><Icon name={s.icon} size={22} /></span>
+                  </div>
+                  <div className="sv-card__body">
+                    <h3>{s.title}</h3>
+                    {s.audience && <p className="sv-card__for">{s.audience}</p>}
+                    {points.length > 0 ? (
+                      <ul className="sv-card__list">{points.map((x) => <li key={x}><Check size={15} strokeWidth={2.5} />{x}</li>)}</ul>
+                    ) : (
+                      s.shortDescription && <p className="sv-card__desc">{s.shortDescription}</p>
+                    )}
+                    <span className="sv-card__go">Explore service <ArrowRight size={16} /></span>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
+          <div className="mg-center"><Link to="/services" className="btn btn--outline">View all services <ArrowRight size={16} /></Link></div>
         </div>
       </section>
 
