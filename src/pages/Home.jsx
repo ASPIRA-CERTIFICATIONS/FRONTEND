@@ -199,23 +199,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- WHY: dark band ---------- */}
-      <section className="mg-sec mg-dark">
-        <div className="mg-wrap">
-          <div className="mg-why__top">
-            <Head center={false} light kicker="Why Aspira" title="Why organisations choose Aspira" />
-            <p>Our commitments are set out in our Quality, Impartiality and Confidentiality policies – and assessed by NABCB as part of our accreditation.</p>
-          </div>
-          <div className="mg-why">
-            {WHY.map(({ I, t, d }) => (
-              <div key={t} className="mg-why__card">
-                <span className="mg-why__ic"><I size={22} /></span>
-                <h3>{t}</h3>
-                <p>{d}</p>
+      {/* ---------- WHY ASPIRA ---------- */}
+      <section className="mg-sec wy">
+        <div className="mg-wrap wy__grid">
+          <div className="wy__aside">
+            <p className="mg-kicker">Why Aspira</p>
+            <h2>Why organisations choose Aspira</h2>
+            <p className="wy__intro">Our commitments are set out in our Quality, Impartiality and Confidentiality policies – and assessed by NABCB as part of our accreditation.</p>
+            {nabcb && (
+              <div className="wy__cred">
+                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="58" height="63" />
+                <div>
+                  <b>NABCB Accredited Inspection Body</b>
+                  <span>Reg. No. {nabcb.registrationNo} · ISO/IEC 17020:2012 · Type ‘A’</span>
+                </div>
               </div>
-            ))}
+            )}
+            <div className="wy__actions">
+              <Link to="/policies" className="btn">Read our policies <ArrowRight size={16} /></Link>
+              <Link to="/accreditations" className="mg-link">View accreditation <ArrowRight size={16} /></Link>
+            </div>
           </div>
-          <Link to="/policies" className="mg-link mg-link--light">Read our policies <ArrowRight size={16} /></Link>
+          <ol className="wy__list">
+            {WHY.map(({ I, t, d }, idx) => (
+              <li key={t}>
+                <div className="wy__ic"><I size={20} /></div>
+                <div>
+                  <span className="wy__no">{String(idx + 1).padStart(2, '0')}</span>
+                  <h3>{t}</h3>
+                  <p>{d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
