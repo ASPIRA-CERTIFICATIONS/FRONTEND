@@ -4,7 +4,7 @@ export const FALLBACK_SETTINGS = {
   "legalName": "Aspira Certifications Private Limited",
   "tagline": "Audits · Inspections · Assessments",
   "heroTitle": "Independent audits & inspections for institutions, restaurants and businesses",
-  "heroImage": "https://images.unsplash.com/photo-1737874960921-d1205a4f55da?auto=format&fit=crop&w=1600&q=70",
+  "heroImage": "https://images.unsplash.com/photo-1723721198216-ecb4b6f2f4bb?auto=format&fit=crop&w=1600&q=70",
   "aboutImage": "https://images.unsplash.com/photo-1551135049-8a33b5883817?auto=format&fit=crop&w=1600&q=70",
   "heroSubtitle": "Aspira Certifications helps educational institutions, restaurants and businesses improve environmental sustainability, hygiene, safety and regulatory compliance through professional audits and inspections.",
   "aboutShort": "Aspira Certifications is an audit and inspection company. We check whether schools, colleges, restaurants, construction companies and other organisations follow the required safety, hygiene and environmental standards.",
