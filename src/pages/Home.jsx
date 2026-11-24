@@ -4,10 +4,10 @@
  * a dark "why choose us" band, enquiry form, industries grid, numbered process, insights and FAQ.
  * All facts are Aspira's own (NABCB certificate, policies, services) – no invented statistics.
  */
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, BadgeCheck, CheckCircle2, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
+  ArrowRight, BadgeCheck, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
   Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School,
 } from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
@@ -65,6 +65,9 @@ export default function Home() {
   const parents = services.filter((s) => !s.parentSlug);
   const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
   const steps = (settings.process || []).slice(0, 6);
+  const heroTitle = settings.heroTitle || 'Audit, inspection & certification';
+  const words = heroTitle.split(' ');
+  const accentFrom = Math.max(1, words.length - 2);
   const postsRes = useFetch('/posts?limit=3');
   const posts = postsRes.data || (isApiDown(postsRes.error) ? FALLBACK_POSTS.slice(0, 3) : []);
   const [tab, setTab] = useState(FORM_TABS[0]);
@@ -78,42 +81,59 @@ export default function Home() {
     <div className="mg">
       <Seo jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
 
-      {/* ---------- HERO ---------- */}
-      <section className="mg-hero" style={settings.heroImage ? { '--hero': `url(${imgSize(fileUrl(settings.heroImage), 1920)})` } : undefined}>
-        <div className="mg-wrap mg-hero__grid">
-          <div className="mg-hero__text">
-            <p className="mg-eyebrow">{settings.tagline || 'Audit · Inspection · Certification'}</p>
-            <h1>{settings.heroTitle || 'Audit, inspection & certification'}</h1>
-            {settings.heroSubtitle && <p className="mg-hero__lead">{settings.heroSubtitle}</p>}
-            <div className="mg-hero__actions">
-              <Link to="/contact?intent=booking#enquiry" className="btn btn--green">Book an audit <ArrowRight size={16} /></Link>
-              <Link to="/services" className="mg-hero__link">Explore services <ArrowRight size={16} /></Link>
+      {/* ---------- HERO (original design, kept at the client's request) ---------- */}
+      <section className="hero">
+        <div className="container hero__inner">
+          <div className="hero__text">
+            {nabcb && (
+              <Link to="/accreditations" className="hero__accr">
+                <img src={BADGE_SRC} alt="" width="44" height="48" />
+                <span><b>{nabcb.shortName} Accredited Inspection Body</b>Reg. No. {nabcb.registrationNo} · ISO/IEC 17020 Type ‘A’</span>
+              </Link>
+            )}
+            <span className="eyebrow">{settings.tagline || 'Audit · Inspection · Certification'}</span>
+            <h1 aria-label={heroTitle}>
+              {words.map((w, i) => (
+                <Fragment key={i}>
+                  <span className="w" aria-hidden="true">
+                    <span style={{ animationDelay: `${0.05 * i}s` }}>{i >= accentFrom ? <em className="accent">{w}</em> : w}</span>
+                  </span>{' '}
+                </Fragment>
+              ))}
+            </h1>
+            <p className="hero__lead">{settings.heroSubtitle}</p>
+            <div className="hero__actions">
+              <Link to="/contact?intent=booking#enquiry" className="btn btn--green"><CalendarCheck size={16} /> Book an audit</Link>
+              <Link to="/contact?intent=expert#enquiry" className="btn btn--ghost"><Headset size={16} /> Talk to our experts</Link>
+            </div>
+            <div className="hero__quick">
+              <Link to="/services/green-audits"><span className="hq-ic hq-ic--green"><GraduationCap size={16} /></span><span><b>Green Audit</b>for educational institutions</span><ArrowRight size={14} /></Link>
+              <Link to="/services/hygiene-rating-audits"><span className="hq-ic hq-ic--amber"><UtensilsCrossed size={16} /></span><span><b>Hygiene Rating Audit</b>for restaurants & food businesses</span><ArrowRight size={14} /></Link>
             </div>
           </div>
 
-          {nabcb && (
-            <aside className="mg-cred" aria-label="Accreditation">
-              <div className="mg-cred__top">
-                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="56" height="61" />
-                <div>
-                  <small>Accredited by NABCB</small>
-                  <b>Inspection Body</b>
-                </div>
+          <div className="hero__media">
+            {settings.heroImage && <img className="hero__img" src={imgSize(settings.heroImage, 1200)} alt="Aspira auditors reviewing an inspection on site" width="1200" height="900" fetchpriority="high" />}
+            <div className="report report--float" aria-label="Illustration of an Aspira inspection report">
+              <div className="report__top">
+                <div><small>Inspection report</small><strong>Compliance summary</strong></div>
               </div>
-              <dl className="mg-cred__list">
-                <div><dt>Registration no.</dt><dd>{nabcb.registrationNo}</dd></div>
-                <div><dt>Type</dt><dd>Type ‘A’</dd></div>
-                <div><dt>Standard</dt><dd>ISO/IEC 17020:2012</dd></div>
-                {nabcb.validUntil && <div><dt>Valid until</dt><dd>{new Date(nabcb.validUntil).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</dd></div>}
-              </dl>
-              <div className="mg-cred__links">
-                <Link to="/accreditations">View accreditation</Link>
-                <Link to="/certificate-status">Verify a certificate <ArrowRight size={14} /></Link>
+              <ul className="report__rows">
+                <li><span className="tick"><Check size={12} strokeWidth={3} /></span><span><Leaf size={13} className="ri" />Campus green audit</span><em>Done</em></li>
+                <li><span className="tick"><Check size={12} strokeWidth={3} /></span><span><UtensilsCrossed size={13} className="ri" />Restaurant hygiene</span><em>Done</em></li>
+                <li><span className="tick"><Check size={12} strokeWidth={3} /></span><span><ShieldCheck size={13} className="ri" />Workplace safety</span><em>Done</em></li>
+              </ul>
+            </div>
+            {nabcb && (
+              <div className="hero__badge-card">
+                <img src={BADGE_SRC} alt="NABCB Accredited Inspection Body – Reg. No. IB 159" width="64" height="70" />
+                <div><b>NABCB Accredited</b><span>Valid till Sep 2028</span></div>
               </div>
-            </aside>
-          )}
+            )}
+          </div>
         </div>
       </section>
+
 
       {/* Client logos appear here once genuine ones are uploaded */}
       <ClientLogos />
