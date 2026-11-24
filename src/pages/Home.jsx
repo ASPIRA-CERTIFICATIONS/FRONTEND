@@ -1,46 +1,60 @@
 /**
- * Home – clean layout (v2).
- * One message per section, generous whitespace, one primary action per screen.
- * Testimonials / case studies / client logos appear automatically once genuine ones are published.
+ * Home – v3, styled after the reference site the client liked (magirenewables.com):
+ * full-bleed photo hero with frosted fact cards, centred section headings, photo service cards,
+ * a dark "why choose us" band, enquiry form, industries grid, numbered process, insights and FAQ.
+ * All facts are Aspira's own (NABCB certificate, policies, services) – no invented statistics.
  */
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight, BadgeCheck, CheckCircle2, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
+  Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School,
+} from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
-import Seo, { orgSchema } from '../components/Seo';
-import { Reveal, BADGE_SRC, useCertificateImage } from '../components/ui';
+import Seo, { orgSchema, faqSchema } from '../components/Seo';
+import { Reveal, Faq, BADGE_SRC } from '../components/ui';
 import { imgSize, Testimonials, ClientLogos, CtaBand } from '../components/Sections';
-import { Icon } from '../lib/icons';
+import EnquiryForm from '../components/EnquiryForm';
 import { isApiDown, fileUrl } from '../lib/api';
 import { FALLBACK_POSTS } from '../lib/fallback';
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
+const short = (x) => String(x?.title || x || '').split(' – ')[0];
 
-// Short, factual one-liners for the two audiences (from the services Aspira described)
-const AUDIENCES = [
-  {
-    slug: 'green-audits',
-    label: 'Schools, colleges & universities',
-    title: 'Green Audit',
-    text: 'Water, energy, waste, solar and campus practices – assessed and reported to support NAAC requirements.',
-    cta: 'Green Audit for institutions',
-  },
-  {
-    slug: 'hygiene-rating-audits',
-    label: 'Restaurants, hotels & canteens',
-    title: 'Hygiene Rating Audit',
-    text: 'Kitchen cleanliness, storage, handling, pest control and sanitation – audited for FSSAI hygiene rating.',
-    cta: 'Hygiene audit for food businesses',
-  },
+/* Why Aspira – every point comes from Aspira's accreditation certificate or its published policies */
+const WHY = [
+  { I: BadgeCheck, t: 'NABCB accredited', d: 'Type ‘A’ inspection body under ISO/IEC 17020, Reg. No. IB 159.' },
+  { I: Scale, t: 'Independent & impartial', d: 'We do not provide consultancy, training or internal audits to the clients we inspect.' },
+  { I: FileSearch, t: 'Evidence-based decisions', d: 'Findings rest on objective evidence – free from commercial, financial or external influence.' },
+  { I: Lock, t: 'Strict confidentiality', d: 'Client information is protected in line with ISO/IEC 17020 and the DPDP Act 2023.' },
+  { I: Users, t: 'Impartiality Committee', d: 'A dedicated committee regularly reviews and monitors impartiality risks.' },
+  { I: RefreshCcw, t: 'Continuous improvement', d: 'Our systems, processes and resources are reviewed and improved through audits.' },
 ];
 
-function SectionTitle({ kicker, title, link }) {
+/* Who we serve – mapped from each service's stated audience */
+const INDUSTRIES = [
+  { I: School, t: 'Educational institutions', d: 'Green, energy and water audits for schools, colleges and universities.' },
+  { I: UtensilsCrossed, t: 'Restaurants & food businesses', d: 'Hygiene rating audits for restaurants, canteens and food outlets.' },
+  { I: Hotel, t: 'Hotels & hospitality', d: 'Hygiene and fire safety audits for hotels and kitchens.' },
+  { I: HardHat, t: 'Builders & contractors', slug: 'construction-safety-audits', d: 'Construction safety audits – scaffolding, PPE and site practices.' },
+  { I: Factory, t: 'Factories & industries', slug: 'electrical-safety-audits', d: 'Electrical, workplace, fire, energy and water audits.' },
+  { I: Building2, t: 'Commercial buildings', d: 'Electrical safety, energy audits and green building assessments.' },
+  { I: Warehouse, t: 'Warehouses & logistics', d: 'Warehouse safety audits – storage, racking and material handling.' },
+  { I: Briefcase, t: 'Offices & institutions', slug: 'fire-safety-audits', d: 'Fire safety and workplace safety audits.' },
+];
+
+const FORM_TABS = [
+  { key: 'institution', label: 'Educational institution', I: GraduationCap, service: 'Green Audits', slug: 'green-audits', category: 'Sustainability', title: 'Book a Green Audit for your institution', submit: 'Book a Green Audit' },
+  { key: 'restaurant', label: 'Restaurant / food business', I: UtensilsCrossed, service: 'Hygiene Rating Audits', slug: 'hygiene-rating-audits', category: 'Food Safety', title: 'Get your restaurant audited', submit: 'Get My Restaurant Audited' },
+  { key: 'default', label: 'Other organisations', I: Briefcase, service: '', slug: '', category: '', title: 'Request a quote', submit: 'Request a Quote' },
+];
+
+function Head({ kicker, title, text, light = false, center = true }) {
   return (
-    <div className="hm-head">
-      <div>
-        {kicker && <p className="hm-kicker">{kicker}</p>}
-        <h2>{title}</h2>
-      </div>
-      {link && <Link to={link.to} className="hm-more">{link.label} <ArrowRight size={16} /></Link>}
+    <div className={`mg-head ${center ? 'is-center' : ''} ${light ? 'is-light' : ''}`}>
+      {kicker && <p className="mg-kicker">{kicker}</p>}
+      <h2>{title}</h2>
+      {text && <p className="mg-sub">{text}</p>}
     </div>
   );
 }
@@ -48,119 +62,186 @@ function SectionTitle({ kicker, title, link }) {
 export default function Home() {
   const { settings, services, accreditations } = useSite();
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
-  const cert = useCertificateImage();
+  const parents = services.filter((s) => !s.parentSlug);
   const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
-  // Every other service with who it is for (replaces the separate "target customers" table)
-  const OTHER_ORDER = ['construction-safety-audits', 'electrical-safety-audits', 'fire-safety-audits', 'workplace-safety-audits', 'warehouse-safety-audits', 'energy-audits', 'water-audits', 'green-building-assessments'];
-  const others = OTHER_ORDER.map((slug) => bySlug[slug]).filter(Boolean);
-  const forWhom = (s) => (s?.audience || '').replace(/^For /, '').replace(/^./, (c) => c.toUpperCase());
   const steps = (settings.process || []).slice(0, 6);
   const postsRes = useFetch('/posts?limit=3');
   const posts = postsRes.data || (isApiDown(postsRes.error) ? FALLBACK_POSTS.slice(0, 3) : []);
+  const [tab, setTab] = useState(FORM_TABS[0]);
+  const faqs = [
+    ...(bySlug['green-audits']?.faqs || []).slice(0, 2),
+    ...(bySlug['hygiene-rating-audits']?.faqs || []).slice(0, 2),
+    ...(bySlug['safety-audits']?.faqs || []).slice(0, 1),
+  ];
+
+  const facts = [
+    nabcb && { v: nabcb.registrationNo || 'IB 159', l: 'NABCB registration no.' },
+    { v: 'Type ‘A’', l: 'Inspection body' },
+    { v: 'ISO/IEC 17020', l: 'Accreditation standard' },
+    { v: `${services.length}`, l: 'Audit & inspection services' },
+  ].filter(Boolean);
 
   return (
-    <div className="hm">
-      <Seo jsonLd={[orgSchema(settings, accreditations), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
+    <div className="mg">
+      <Seo jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
 
-      {/* 1 · Hero – one message, one action */}
-      <section className="hm-hero">
-        <div className="hm-wrap hm-hero__grid">
-          <div className="hm-hero__text">
-            <p className="hm-kicker">{settings.tagline || 'Audit · Inspection · Certification'}</p>
+      {/* ---------- HERO ---------- */}
+      <section className="mg-hero" style={settings.heroImage ? { '--hero': `url(${imgSize(fileUrl(settings.heroImage), 1920)})` } : undefined}>
+        <div className="mg-wrap mg-hero__grid">
+          <div className="mg-hero__text">
+            <p className="mg-pill"><BadgeCheck size={15} /> {settings.tagline || 'Audit · Inspection · Certification'}</p>
             <h1>{settings.heroTitle || 'Audit, inspection & certification'}</h1>
-            {settings.heroSubtitle && <p className="hm-hero__lead">{settings.heroSubtitle}</p>}
-            <div className="hm-hero__actions">
-              <Link to="/contact?intent=booking#enquiry" className="btn">Book an audit <ArrowRight size={16} /></Link>
-              <Link to="/services" className="hm-textlink">Explore our services</Link>
+            {settings.heroSubtitle && <p className="mg-hero__lead">{settings.heroSubtitle}</p>}
+            <div className="mg-hero__actions">
+              <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--lg">Book an audit <ArrowRight size={17} /></Link>
+              <Link to="/services" className="btn btn--glass btn--lg">Our services</Link>
             </div>
-            {nabcb && (
-              <Link to="/accreditations" className="hm-hero__accr">
-                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="34" height="37" />
-                <span><b>NABCB accredited inspection body</b>Reg. No. {nabcb.registrationNo} · ISO/IEC 17020 Type ‘A’</span>
-              </Link>
-            )}
           </div>
-          {settings.heroImage && (
-            <div className="hm-hero__media">
-              <img src={imgSize(fileUrl(settings.heroImage), 1100)} alt="Aspira auditors on site" width="1100" height="1300" fetchpriority="high" />
-            </div>
-          )}
+          <div className="mg-facts">
+            {facts.map((f) => (
+              <div key={f.l} className="mg-fact">
+                <b>{f.v}</b>
+                <span>{f.l}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 2 · Who we work with */}
-      <section className="hm-sec">
-        <div className="hm-wrap">
-          <SectionTitle kicker="Who we work with" title="Two audits we're known for" />
-          <p className="hm-intro">We are a business-to-business (B2B) company – our clients are organisations, not individual consumers.</p>
-          <div className="hm-aud">
-            {AUDIENCES.map((a) => {
-              const s = bySlug[a.slug];
+      {/* Client logos appear here once genuine ones are uploaded */}
+      <ClientLogos />
+
+      {/* ---------- ABOUT ---------- */}
+      <section className="mg-sec">
+        <div className="mg-wrap mg-about">
+          <Reveal className="mg-about__media">
+            {(settings.aboutImage || bySlug['safety-audits']?.image) && <img src={imgSize(fileUrl(settings.aboutImage || bySlug['safety-audits'].image), 1000)} alt="Aspira auditors at work" loading="lazy" />}
+            {nabcb && (
+              <Link to="/accreditations" className="mg-about__badge">
+                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="40" height="44" />
+                <span><b>NABCB Accredited</b>Reg. No. {nabcb.registrationNo}</span>
+              </Link>
+            )}
+          </Reveal>
+          <div className="mg-about__text">
+            <Head center={false} kicker="About Aspira" title="Independent audits you can rely on" />
+            <p className="mg-about__p">{(settings.aboutShort || '').split('\n\n')[0]}</p>
+            <p className="mg-about__p">We are a business-to-business (B2B) company – our clients are organisations, not individual consumers.</p>
+            <ul className="mg-checks">
+              {['green-audits', 'hygiene-rating-audits', 'safety-audits', 'energy-audits'].map((slug) => bySlug[slug] && (
+                <li key={slug}>
+                  <CheckCircle2 size={20} />
+                  <span><b>{bySlug[slug].title}</b>{(bySlug[slug].audience || '').replace(/^For /, 'For ')}</span>
+                </li>
+              ))}
+            </ul>
+            <Link to="/about" className="mg-link">More about us <ArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- SERVICES: photo cards ---------- */}
+      <section className="mg-sec mg-sec--soft">
+        <div className="mg-wrap">
+          <Head kicker="Our services" title="Audit & inspection services" text="Independent, standards-based audits for institutions, food businesses, workplaces and buildings." />
+          <div className="mg-svc">
+            {parents.map((s, i) => (
+              <Reveal key={s.slug} delay={i * 60} as={Link} to={`/services/${s.slug}`} className="mg-svc__card" style={s.image ? { '--img': `url(${imgSize(fileUrl(s.image), 800)})` } : undefined}>
+                <span className="mg-svc__no">{String(i + 1).padStart(2, '0')}</span>
+                <div className="mg-svc__body">
+                  <h3>{s.title}</h3>
+                  {s.audience && <p className="mg-svc__for">{s.audience}</p>}
+                  {s.scope?.length > 0 && (
+                    <>
+                      <small>What we assess</small>
+                      <ul>{s.scope.slice(0, 3).map((x) => <li key={short(x)}>{short(x)}</li>)}</ul>
+                    </>
+                  )}
+                  <span className="mg-svc__go">Explore service <ArrowRight size={15} /></span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- WHY: dark band ---------- */}
+      <section className="mg-sec mg-dark">
+        <div className="mg-wrap">
+          <div className="mg-why__top">
+            <Head center={false} light kicker="Why Aspira" title="Why organisations choose Aspira" />
+            <p>Our commitments are set out in our Quality, Impartiality and Confidentiality policies – and assessed by NABCB as part of our accreditation.</p>
+          </div>
+          <div className="mg-why">
+            {WHY.map(({ I, t, d }) => (
+              <div key={t} className="mg-why__card">
+                <span className="mg-why__ic"><I size={22} /></span>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </div>
+            ))}
+          </div>
+          <Link to="/policies" className="mg-link mg-link--light">Read our policies <ArrowRight size={16} /></Link>
+        </div>
+      </section>
+
+      {/* ---------- ENQUIRY ---------- */}
+      <section className="mg-sec mg-enq" id="enquiry">
+        <div className="mg-wrap">
+          <Head kicker="Get started" title="Find the right audit for your organisation" text="Tell us who you are and what you need – we'll confirm the scope, standards and timeline." />
+          <div className="mg-enq__card">
+            <div className="mg-tabs" role="tablist" aria-label="Who is enquiring">
+              {FORM_TABS.map((t) => (
+                <button key={t.key} type="button" role="tab" aria-selected={tab.key === t.key} onClick={() => setTab(t)}>
+                  <t.I size={18} /> {t.label}
+                </button>
+              ))}
+            </div>
+            <EnquiryForm
+              key={tab.key}
+              variant={tab.key}
+              service={tab.service}
+              serviceSlug={tab.slug}
+              category={tab.category}
+              title={tab.title}
+              submitLabel={tab.submit}
+              lockService={!!tab.service}
+              intent="booking"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- INDUSTRIES ---------- */}
+      <section className="mg-sec mg-sec--soft">
+        <div className="mg-wrap">
+          <Head kicker="Who we serve" title="Audits for every kind of organisation" text="Each audit is matched to the organisations it is designed for." />
+          <div className="mg-ind">
+            {INDUSTRIES.map(({ I, t, d, slug }) => {
+              // where a service states its audience, show that exact wording
+              const s = slug && bySlug[slug];
+              const text = s?.audience ? `${s.title} ${s.audience.replace(/^For /, 'for ')}.` : d;
               return (
-                <Reveal key={a.slug} as={Link} to={`/services/${a.slug}`} className="hm-aud__card">
-                  {s?.image && <div className="hm-aud__img"><img src={imgSize(fileUrl(s.image), 900)} alt="" loading="lazy" /></div>}
-                  <div className="hm-aud__body">
-                    <p className="hm-aud__label">{forWhom(s) || a.label}</p>
-                    <h3>{a.title}</h3>
-                    <p>{a.text}</p>
-                    <span className="hm-textlink">{a.cta} <ArrowRight size={16} /></span>
-                  </div>
-                </Reveal>
+                <div key={t} className="mg-ind__card">
+                  <span className="mg-ind__ic"><I size={22} /></span>
+                  <h3>{t}</h3>
+                  <p>{text}</p>
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* 3 · Other services – a quiet list, no images */}
-      {others.length > 0 && (
-        <section className="hm-sec hm-sec--soft">
-          <div className="hm-wrap">
-            <SectionTitle kicker="Services" title="Other audits & inspections" link={{ to: '/services', label: 'All services' }} />
-            <ul className="hm-svc">
-              {others.map((s) => (
-                <li key={s.slug}>
-                  <Link to={`/services/${s.slug}`}>
-                    <span className="hm-svc__ic"><Icon name={s.icon} size={20} /></span>
-                    <span className="hm-svc__txt"><b>{s.title}</b><span>{forWhom(s)}</span></span>
-                    <ArrowRight size={18} className="hm-svc__go" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
-
-      {/* 4 · Accreditation – one calm statement */}
-      {nabcb && (
-        <section className="hm-sec">
-          <div className="hm-wrap hm-accr">
-            <div className="hm-accr__text">
-              <p className="hm-kicker">Accreditation</p>
-              <h2>Accredited by NABCB as a Type ‘A’ inspection body</h2>
-              <p>Our accreditation (Reg. No. {nabcb.registrationNo}) under ISO/IEC 17020 covers green audits of educational institutions. It means our methods, people and reporting have been independently assessed for competence and impartiality.</p>
-              <div className="hm-accr__links">
-                <Link to="/accreditations" className="hm-textlink">View our accreditation <ArrowRight size={16} /></Link>
-                <Link to="/certificate-status" className="hm-textlink">Verify a certificate <ArrowRight size={16} /></Link>
-              </div>
-            </div>
-            <Link to="/accreditations" className="hm-accr__doc" aria-label="View the NABCB accreditation certificate">
-              <img src={cert} alt="NABCB accreditation certificate, IB 159" loading="lazy" />
-            </Link>
-          </div>
-        </section>
-      )}
-
-      {/* 5 · How it works */}
+      {/* ---------- PROCESS ---------- */}
       {steps.length > 0 && (
-        <section className="hm-sec hm-sec--soft">
-          <div className="hm-wrap">
-            <SectionTitle kicker="How it works" title="From enquiry to report" />
-            <ol className="hm-steps">
+        <section className="mg-sec">
+          <div className="mg-wrap">
+            <Head kicker="How it works" title="From enquiry to report" text="A clear, documented process for every audit and inspection." />
+            <ol className="mg-steps" style={{ '--n': steps.length }}>
               {steps.map((st, i) => (
                 <li key={st.title}>
-                  <span className="hm-steps__n">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="mg-steps__n">{String(i + 1).padStart(2, '0')}</span>
                   <b>{st.title}</b>
                   <p>{st.description}</p>
                 </li>
@@ -170,31 +251,41 @@ export default function Home() {
         </section>
       )}
 
-      {/* Genuine testimonials only – the component renders nothing when none are published */}
       <Testimonials />
-      <ClientLogos />
 
-      {/* 6 · Insights */}
+      {/* ---------- INSIGHTS ---------- */}
       {posts.length > 0 && (
-        <section className="hm-sec">
-          <div className="hm-wrap">
-            <SectionTitle kicker="Insights" title="Guides from our auditors" link={{ to: '/blog', label: 'All articles' }} />
-            <ul className="hm-posts">
+        <section className="mg-sec mg-sec--soft">
+          <div className="mg-wrap">
+            <Head kicker="Insights" title="Guides from our auditors" />
+            <div className="mg-posts">
               {posts.map((p) => (
-                <li key={p.slug}>
-                  <Link to={`/blog/${p.slug}`}>
+                <Link key={p.slug} to={`/blog/${p.slug}`} className="mg-post">
+                  <div className="mg-post__img">{p.coverImage && <img src={imgSize(fileUrl(p.coverImage), 700)} alt="" loading="lazy" />}</div>
+                  <div className="mg-post__body">
                     <small>{[p.category, fmtDate(p.publishedAt)].filter(Boolean).join(' · ')}</small>
-                    <b>{p.title}</b>
-                    <span className="hm-textlink">Read article <ArrowRight size={16} /></span>
-                  </Link>
-                </li>
+                    <h3>{p.title}</h3>
+                    <span className="mg-link">Read article <ArrowRight size={15} /></span>
+                  </div>
+                </Link>
               ))}
-            </ul>
+            </div>
+            <div className="mg-center"><Link to="/blog" className="btn btn--outline">View all articles <ArrowRight size={16} /></Link></div>
           </div>
         </section>
       )}
 
-      {/* 7 · Closing call to action – same band as the rest of the site */}
+      {/* ---------- FAQ ---------- */}
+      {faqs.length > 0 && (
+        <section className="mg-sec">
+          <div className="mg-wrap mg-faq">
+            <Head kicker="FAQ" title="Frequently asked questions" />
+            <Faq items={faqs} />
+          </div>
+        </section>
+      )}
+
+      {/* ---------- CTA (existing band) ---------- */}
       <CtaBand title="Planning an audit or inspection?" text="Tell us about your organisation and we'll confirm the scope, standards and timeline." />
     </div>
   );
