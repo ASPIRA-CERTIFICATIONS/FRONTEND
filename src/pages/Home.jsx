@@ -7,7 +7,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, ArrowUpRight, BadgeCheck, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
+  ArrowRight, ArrowUpRight, BadgeCheck, FileCheck2, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
   Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School,
 } from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
@@ -83,6 +83,48 @@ function HeroVideo({ poster, src }) {
   );
 }
 
+
+/** Illustrative inspection timeline for the hero – steps come from Settings → process */
+function HeroPanel({ steps }) {
+  const list = steps.slice(0, 5);
+  const [done, setDone] = useState(0);
+  useEffect(() => {
+    if (!list.length) return undefined;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setDone(list.length); return undefined; }
+    const id = setInterval(() => setDone((d) => (d >= list.length + 2 ? 0 : d + 1)), 1100);
+    return () => clearInterval(id);
+  }, [list.length]);
+  if (!list.length) return null;
+  const pct = Math.min(100, Math.round((Math.min(done, list.length) / list.length) * 100));
+  const complete = done >= list.length;
+  return (
+    <div className="hpan" aria-hidden="true">
+      <div className="hpan__glow" />
+      <div className="hpan__card">
+        <div className="hpan__head">
+          <span className="hpan__live"><i /> {complete ? 'Inspection complete' : 'Inspection in progress'}</span>
+          <span className="hpan__pct">{pct}%</span>
+        </div>
+        <div className="hpan__bar"><span style={{ width: `${pct}%` }} /></div>
+        <ol className="hpan__steps">
+          {list.map((st, i) => (
+            <li key={st.title} className={i < done ? 'is-done' : i === done ? 'is-active' : ''}>
+              <span className="hpan__tick">{i < done ? <Check size={13} strokeWidth={3} /> : <span className="hpan__n">{i + 1}</span>}</span>
+              <span>{st.title}</span>
+            </li>
+          ))}
+        </ol>
+        <div className={`hpan__foot ${complete ? 'is-on' : ''}`}>
+          <span className="hpan__foot-ic"><FileCheck2 size={18} /></span>
+          <span><b>Inspection report</b>Clear findings & recommendations</span>
+        </div>
+      </div>
+      <div className="hpan__chip hpan__chip--a"><Scale size={15} /> Independent & impartial</div>
+      <div className="hpan__chip hpan__chip--b"><ShieldCheck size={15} /> ISO/IEC 17020</div>
+    </div>
+  );
+}
+
 function Head({ kicker, title, text, light = false, center = true }) {
   return (
     <div className={`mg-head ${center ? 'is-center' : ''} ${light ? 'is-light' : ''}`}>
@@ -117,15 +159,19 @@ export default function Home() {
 
       {/* ---------- ACCREDITATION BANNER ---------- */}
       <div className="accr-banner pbanner" role="note">
+        <span className="pbanner__sheen" aria-hidden="true" />
         <div className="mg-wrap pbanner__in">
           <span className="pbanner__tag"><BadgeCheck size={14} aria-hidden="true" /> NABCB Accredited</span>
+          <span className="pbanner__div" aria-hidden="true" />
           <p>We are a <b>National Accreditation Board for Certification Bodies (NABCB)</b> accredited Inspection Body <b>(Reg No: {nabcb?.registrationNo || 'IB 159'})</b> for green audits for educational institutions (IAF Scope 28)</p>
           <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="pbanner__link">Verify <ArrowUpRight size={14} /></a>
         </div>
       </div>
 
       {/* ---------- HERO: background video, animated headline, key facts ---------- */}
-      <section className="vh">
+      <section className="vh" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`); }}>
+        <span className="vh__spot" aria-hidden="true" />
+        <span className="vh__grid" aria-hidden="true" />
         <HeroVideo poster={settings.heroImage ? imgSize(fileUrl(settings.heroImage), 1600) : ''} src={settings.heroVideo ? fileUrl(settings.heroVideo) : ''} />
         <div className="mg-wrap vh__inner">
           <div className="vh__text">
@@ -145,6 +191,7 @@ export default function Home() {
             </div>
           </div>
 
+          <HeroPanel steps={steps.length ? steps : settings.process || []} />
           <dl className="vh__facts" aria-label="Aspira at a glance">
             <div style={{ '--i': 0 }}><dt>Services</dt><dd><CountUp to={services.length || parents.length} /></dd></div>
             <div style={{ '--i': 1 }}><dt>Sectors served</dt><dd><CountUp to={SECTORS.length} /></dd></div>
@@ -228,18 +275,19 @@ export default function Home() {
       <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
           <Head kicker="Who we serve" title="Find the right audit for your sector" text="Pick your type of organisation to see the audits and inspections designed for it." />
-          <div className="ws-grid">
+          <div className="ws-list">
             {sectors.map(({ I, t, list }, i) => (
-              <Reveal key={t} delay={i * 0.04} className="ws-card">
-                <div className="ws-card__top">
-                  <span className="ws-card__ic"><I size={22} /></span>
+              <Reveal key={t} delay={i * 0.03} className="ws-row">
+                <span className="ws-row__ic"><I size={22} strokeWidth={1.7} /></span>
+                <div className="ws-row__body">
                   <h3>{t}</h3>
+                  <p className="ws-row__links">
+                    {list.map((sv, k) => (
+                      <span key={sv.slug}><Link to={`/services/${sv.slug}`}>{sv.title}</Link>{k < list.length - 1 ? ',' : ''}</span>
+                    ))}
+                  </p>
                 </div>
-                <ul className="ws-card__chips">
-                  {list.map((sv) => (
-                    <li key={sv.slug}><Link to={`/services/${sv.slug}`}>{sv.title}<ArrowUpRight size={13} /></Link></li>
-                  ))}
-                </ul>
+                <span className="ws-row__count">{list.length} {list.length === 1 ? 'audit' : 'audits'}</span>
               </Reveal>
             ))}
           </div>
