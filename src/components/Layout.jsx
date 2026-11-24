@@ -67,12 +67,11 @@ function Header() {
       <div className="topbar">
         <div className="container">
           {nabcb ? (
-            <Link to="/accreditations" className="topbar__accr"><BadgeCheck size={14} /> <span className="long">{nabcb.shortName} Accredited Inspection Body ·</span> <b>Reg. No. {nabcb.registrationNo}</b></Link>
+            <Link to="/accreditations" className="topbar__accr"><span className="long">{nabcb.shortName} accredited inspection body · </span>Reg. No. {nabcb.registrationNo}</Link>
           ) : <span />}
           <div className="topbar__links">
             {c.phones?.[0] && <a href={tel(c.phones[0])}><Phone size={13} /> {c.phones[0]}</a>}
             {c.emails?.[0] && <a href={`mailto:${c.emails[0]}`}><Mail size={13} /> {c.emails[0]}</a>}
-            <Link to="/certificate-status" className="topbar__verify"><ShieldCheck size={13} /> Verify a certificate</Link>
           </div>
         </div>
       </div>
@@ -81,15 +80,8 @@ function Header() {
           <Link to="/" className="brand" aria-label={`${settings.companyName || 'Aspira Certifications'} – home`}>
             <BrandLogo src={fileUrl(settings.logo)} />
           </Link>
-          {nabcb && (
-            <Link to="/accreditations" className="hdr-badge" title={`${nabcb.shortName} Accredited Inspection Body – Reg. No. ${nabcb.registrationNo}`}>
-              <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="NABCB Accredited Inspection Body, Reg. No. IB 159" width="38" height="41" />
-              <span><b>NABCB</b> Accredited<br />Reg. No. {nabcb.registrationNo}</span>
-            </Link>
-          )}
 
           <nav className="nav" aria-label="Main">
-            <NavLink to="/" end>Home</NavLink>
             <div className="nav__item">
               <NavLink to="/about" className="nav__trigger" aria-haspopup="true">About <ChevronDown size={15} /></NavLink>
               <div className="mega mega--sm" role="menu">
@@ -136,7 +128,7 @@ function Header() {
           </nav>
 
           <div className="header__cta">
-            <Link to="/certificate-status" className="hdr-verify" title="Verify an Aspira certificate or inspection report"><ShieldCheck size={17} /><span>Verify<span className="hdr-verify__long"> certificate</span></span></Link>
+            <Link to="/certificate-status" className="hdr-verify" title="Verify an Aspira certificate or inspection report"><span>Verify certificate</span></Link>
             <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--sm">Book an audit <ArrowRight size={15} /></Link>
             <button className="burger" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu size={22} /></button>
           </div>
@@ -268,13 +260,15 @@ function Footer() {
 function FloatingActions() {
   const { settings, services } = useSite();
   const { pathname } = useLocation();
-  const [show, setShow] = useState(false);
   const [chat, setChat] = useState(false);
+  const [dial, setDial] = useState(false);
+  useEffect(() => setDial(false), [pathname]);
   useEffect(() => {
-    const on = () => setShow(window.scrollY > 700);
-    window.addEventListener('scroll', on, { passive: true });
-    return () => window.removeEventListener('scroll', on);
-  }, []);
+    if (!dial) return undefined;
+    const k = (e) => e.key === 'Escape' && setDial(false);
+    document.addEventListener('keydown', k);
+    return () => document.removeEventListener('keydown', k);
+  }, [dial]);
   useEffect(() => {
     const openChat = () => setChat(true);
     window.addEventListener('aspira:open-chat', openChat);
@@ -284,15 +278,34 @@ function FloatingActions() {
   return (
     <>
       <ChatWidget open={chat} setOpen={setChat} />
-      <div className={`fab ${chat ? 'fab--chat-open' : ''}`}>
-        <button className={`fab__top ${show ? 'show' : ''}`} aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><ArrowUp size={19} /></button>
-        {wa && (
-          <a className="fab__wa" href={waLink(wa, waMessageFor(pathname, services))} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" data-testid="wa-fab">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z" /></svg>
-            <span className="fab__label">WhatsApp</span>
-          </a>
+      <div className={`fab fab--dial ${chat ? 'fab--chat-open' : ''} ${dial ? 'is-open' : ''}`}>
+        {dial && !chat && (
+          <div className="fab__menu" role="menu">
+            {wa && (
+              <a role="menuitem" className="fab__opt" href={waLink(wa, waMessageFor(pathname, services))} target="_blank" rel="noopener noreferrer" data-testid="wa-fab" onClick={() => setDial(false)}>
+                <span className="fab__opt-ic fab__opt-ic--wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z" /></svg></span>
+                WhatsApp us
+              </a>
+            )}
+            <button type="button" role="menuitem" className="fab__opt" onClick={() => (setDial(false), setChat(true))}>
+              <span className="fab__opt-ic"><MessageCircle size={18} /></span>
+              Chat with us
+            </button>
+            {settings.contact?.phones?.[0] && (
+              <a role="menuitem" className="fab__opt" href={`tel:${settings.contact.phones[0].replace(/[^+\d]/g, '')}`} onClick={() => setDial(false)}>
+                <span className="fab__opt-ic"><Phone size={18} /></span>
+                Call us
+              </a>
+            )}
+          </div>
         )}
-        <ChatLauncher open={chat} setOpen={setChat} unread />
+        {chat ? (
+          <ChatLauncher open={chat} setOpen={setChat} />
+        ) : (
+          <button type="button" className="fab__main" onClick={() => setDial((d) => !d)} aria-expanded={dial} aria-label={dial ? 'Close contact options' : 'Contact us'}>
+            {dial ? <X size={22} /> : <MessageCircle size={22} />}
+          </button>
+        )}
       </div>
     </>
   );
