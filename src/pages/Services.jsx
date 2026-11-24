@@ -35,7 +35,7 @@ export default function Services() {
             ))}
           </div>
           {list.length ? (
-            <div className="services-grid">{list.map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}</div>
+            <div className="sv-grid">{list.map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}</div>
           ) : (
             <div className="empty">No services in this category yet.</div>
           )}
@@ -50,7 +50,7 @@ export default function Services() {
       <section className="section">
         <div className="container">
           <Reveal className="section-head section-head--center">
-            <div><span className="eyebrow">§ Our process</span><h2>How an Aspira audit works</h2></div>
+            <div><span className="eyebrow">Our process</span><h2>How an Aspira audit works</h2></div>
           </Reveal>
           <ProcessSteps white />
         </div>

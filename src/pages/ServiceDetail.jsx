@@ -179,7 +179,7 @@ export default function ServiceDetail() {
 
       {/* ================= BENEFITS ================= */}
       {has.benefits && (
-        <section className="section section--tint svc-sec" id="benefits">
+        <section className="section svc-sec svc-benefits-sec" id="benefits">
           <div className="container">
             <div className="svc-head svc-head--split">
               <div><span className="eyebrow">Purpose & benefits</span><h2>Why it matters</h2></div>
@@ -210,7 +210,6 @@ export default function ServiceDetail() {
               <span className="eyebrow">Scope of audit</span>
               <h2>What we assess</h2>
               <p className="muted-p">Every engagement is scoped to your site. A typical {s.title.toLowerCase().replace(/s$/, '')} covers:</p>
-              {gallery[1] && <img src={imgSize(gallery[1], 700)} alt="" loading="lazy" width="700" height="500" />}
             </div>
             <ol className={`svc-scope ${s.scope.length <= 5 ? 'svc-scope--few' : ''}`}>
               {s.scope.map((x, i) => {
@@ -246,7 +245,7 @@ export default function ServiceDetail() {
 
       {/* ================= PROCESS ================= */}
       {has.process && (
-        <section className="section section--brand svc-sec" id="process">
+        <section className="section svc-sec svc-process-sec" id="process">
           <div className="container">
             <div className="svc-head svc-head--center"><span className="eyebrow">Audit process</span><h2>How the audit works</h2></div>
             <ol className="svc-process">
@@ -258,19 +257,6 @@ export default function ServiceDetail() {
                 </Reveal>
               ))}
             </ol>
-          </div>
-        </section>
-      )}
-
-      {/* ================= GALLERY ================= */}
-      {gallery.length > 1 && (
-        <section className="section section--tight section--white">
-          <div className="container">
-            <div className="svc-gallery" data-count={Math.min(gallery.length, 4)}>
-              {gallery.slice(0, 4).map((g, i) => (
-                <Reveal key={g} delay={i * 0.05} className="svc-gallery__item"><img src={imgSize(g, 700)} alt="" loading="lazy" width="700" height="500" /></Reveal>
-              ))}
-            </div>
           </div>
         </section>
       )}

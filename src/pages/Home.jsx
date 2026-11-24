@@ -13,7 +13,7 @@ import {
 import { useSite, useFetch } from '../context/SiteContext';
 import Seo, { orgSchema, faqSchema } from '../components/Seo';
 import { Reveal, Faq, BADGE_SRC } from '../components/ui';
-import { imgSize, Testimonials, ClientLogos, CtaBand } from '../components/Sections';
+import { imgSize, Testimonials, ClientLogos, CtaBand, WhyAspira } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
 import { isApiDown, fileUrl } from '../lib/api';
 import { Icon } from '../lib/icons';
@@ -21,16 +21,6 @@ import { FALLBACK_POSTS } from '../lib/fallback';
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
 const short = (x) => String(x?.title || x || '').split(' – ')[0];
-
-/* Why Aspira – every point comes from Aspira's accreditation certificate or its published policies */
-const WHY = [
-  { I: BadgeCheck, t: 'NABCB accredited', d: 'Type ‘A’ inspection body under ISO/IEC 17020, Reg. No. IB 159.' },
-  { I: Scale, t: 'Independent & impartial', d: 'We do not provide consultancy, training or internal audits to the clients we inspect.' },
-  { I: FileSearch, t: 'Evidence-based decisions', d: 'Findings rest on objective evidence – free from commercial, financial or external influence.' },
-  { I: Lock, t: 'Strict confidentiality', d: 'Client information is protected in line with ISO/IEC 17020 and the DPDP Act 2023.' },
-  { I: Users, t: 'Impartiality Committee', d: 'A dedicated committee regularly reviews and monitors impartiality risks.' },
-  { I: RefreshCcw, t: 'Continuous improvement', d: 'Our systems, processes and resources are reviewed and improved through audits.' },
-];
 
 /* Who we serve – mapped from each service's stated audience */
 const INDUSTRIES = [
@@ -199,41 +189,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- WHY ASPIRA ---------- */}
-      <section className="mg-sec wy">
-        <div className="mg-wrap wy__grid">
-          <div className="wy__aside">
-            <p className="mg-kicker">Why Aspira</p>
-            <h2>Why organisations choose Aspira</h2>
-            <p className="wy__intro">Our commitments are set out in our Quality, Impartiality and Confidentiality policies – and assessed by NABCB as part of our accreditation.</p>
-            {nabcb && (
-              <div className="wy__cred">
-                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="58" height="63" />
-                <div>
-                  <b>NABCB Accredited Inspection Body</b>
-                  <span>Reg. No. {nabcb.registrationNo} · ISO/IEC 17020:2012 · Type ‘A’</span>
-                </div>
-              </div>
-            )}
-            <div className="wy__actions">
-              <Link to="/policies" className="btn">Read our policies <ArrowRight size={16} /></Link>
-              <Link to="/accreditations" className="mg-link">View accreditation <ArrowRight size={16} /></Link>
-            </div>
-          </div>
-          <ol className="wy__list">
-            {WHY.map(({ I, t, d }, idx) => (
-              <li key={t}>
-                <div className="wy__ic"><I size={20} /></div>
-                <div>
-                  <span className="wy__no">{String(idx + 1).padStart(2, '0')}</span>
-                  <h3>{t}</h3>
-                  <p>{d}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <WhyAspira />
 
       {/* ---------- ENQUIRY ---------- */}
       <section className="mg-sec mg-enq" id="enquiry">

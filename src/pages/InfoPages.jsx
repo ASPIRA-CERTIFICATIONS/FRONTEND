@@ -5,7 +5,7 @@ import { useSite } from '../context/SiteContext';
 import { api, fileUrl } from '../lib/api';
 import Seo, { breadcrumbSchema, orgSchema } from '../components/Seo';
 import { PageHero, Reveal, SectionHead, Seal, CheckList } from '../components/ui';
-import { WhyChoose, IndustriesGrid, AccreditationBand, AccreditationSection, CtaBand, ServiceCard, CustomerTable } from '../components/Sections';
+import { WhyChoose, IndustriesGrid, AccreditationBand, AccreditationSection, CtaBand, ServiceCard, CustomerTable, WhyAspira } from '../components/Sections';
 import EnquiryFormDefault, { INTENTS } from '../components/EnquiryForm';
 import { waLink } from '../lib/whatsapp';
 
@@ -22,7 +22,7 @@ export function About() {
       <section className="section">
         <div className="container split split--top">
           <Reveal>
-            <span className="eyebrow">§ Our story</span>
+            <span className="eyebrow">Our story</span>
             <h2>Impartial. Transparent. <em className="accent">Technically sound.</em></h2>
           </Reveal>
           <Reveal delay={0.1} className="prose">
@@ -33,11 +33,11 @@ export function About() {
       <section className="section section--white">
         <div className="container split split--top">
           <div className="vm">
-            <Reveal className="vm__card vm__card--ink"><span className="ic"><Eye size={22} /></span><h3>Our vision</h3><p>{settings.vision}</p></Reveal>
+            <Reveal className="vm__card"><span className="ic"><Eye size={22} /></span><h3>Our vision</h3><p>{settings.vision}</p></Reveal>
             <Reveal className="vm__card" delay={0.08}><span className="ic"><Target size={22} /></span><h3>Our mission</h3><p>{settings.mission}</p></Reveal>
           </div>
           <div>
-            <Reveal><span className="eyebrow">§ Our values</span><h2>What guides every audit</h2></Reveal>
+            <Reveal><span className="eyebrow">Our values</span><h2>What guides every audit</h2></Reveal>
             <div className="faq" style={{ marginTop: '1.5rem' }}>
               {(settings.values || []).map((v, i) => (
                 <Reveal key={v.title} delay={i * 0.05} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: '1rem', padding: '1.1rem 0', borderBottom: '1px solid var(--line)' }}>
@@ -52,7 +52,7 @@ export function About() {
       {settings.pillars?.length > 0 && (
         <section className="section">
           <div className="container">
-            <SectionHead center eyebrow="§ Our focus" title={<>People. Processes. <em className="accent">Planet.</em></>} />
+            <SectionHead center eyebrow="Our focus" title={<>People. Processes. <em className="accent">Planet.</em></>} />
             <div className="pillars" style={{ marginTop: 0 }}>
               {settings.pillars.map((p, i) => (
                 <Reveal className="pillar" key={p.title} delay={i * 0.08}><small>0{i + 1}</small><h4>{p.title}</h4><p>{p.description}</p></Reveal>
@@ -61,7 +61,7 @@ export function About() {
           </div>
         </section>
       )}
-      <WhyChoose />
+      <WhyAspira />
       <section className="section section--tight"><div className="container"><AccreditationBand /></div></section>
       <CtaBand />
     </>
@@ -142,8 +142,8 @@ export function Industries() {
       </section>
       <section className="section section--white">
         <div className="container">
-          <SectionHead split eyebrow="§ Services" title="Find the right audit for your sector" />
-          <div className="services-grid">{services.filter((s) => !s.parentSlug).map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}</div>
+          <SectionHead split eyebrow="Services" title="Find the right audit for your sector" />
+          <div className="sv-grid">{services.filter((s) => !s.parentSlug).map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}</div>
         </div>
       </section>
       <CtaBand />
@@ -287,7 +287,7 @@ export function Complaints() {
       <section className="section">
         <div className="container split split--top">
           <div>
-            <Reveal><span className="eyebrow">§ Complaints procedure</span><h2>How we handle your complaint</h2></Reveal>
+            <Reveal><span className="eyebrow">Complaints procedure</span><h2>How we handle your complaint</h2></Reveal>
             <ol className="steps-ol">
               <li><div><strong>Submit</strong><p>Email {c.complaintsEmail ? <a href={`mailto:${c.complaintsEmail}`}>{c.complaintsEmail}</a> : 'us'}{c.complaintsCcEmail && <> with a copy to <a href={`mailto:${c.complaintsCcEmail}`}>{c.complaintsCcEmail}</a></>}. Verbal complaints made in person or by phone are documented within 24 hours.</p></div></li>
               <li><div><strong>Acknowledge & record</strong><p>Each submission is acknowledged and logged under our documented procedure.</p></div></li>
@@ -297,7 +297,7 @@ export function Complaints() {
             </ol>
           </div>
           <div>
-            <Reveal><span className="eyebrow">§ Hygiene rating appeals</span><h2>Hygiene Rating Audit appeals</h2></Reveal>
+            <Reveal><span className="eyebrow">Hygiene rating appeals</span><h2>Hygiene Rating Audit appeals</h2></Reveal>
             <CheckList one items={[
               'Appeals can be submitted in writing or online by the FBO or applicant, and each receives a unique reference number.',
               'If we cannot resolve the appeal within 15 days, it is referred to the Quality Council of India (QCI).',

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, BadgeCheck, Check, Phone, FileCheck2, Scale, Lock, Download, ExternalLink, ShieldCheck, Award, Globe2, MessageCircle, GraduationCap, UtensilsCrossed, CalendarCheck, Headset, Play, Search } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BadgeCheck, Check, Phone, FileCheck2, Scale, Lock, Download, ExternalLink, ShieldCheck, Award, Globe2, MessageCircle, GraduationCap, UtensilsCrossed, CalendarCheck, Headset, Play, Search, FileSearch, Users, RefreshCcw } from 'lucide-react';
 import { Icon } from '../lib/icons';
 import { fileUrl } from '../lib/api';
 import { useSite, useFetch } from '../context/SiteContext';
@@ -9,24 +9,24 @@ import { waLink } from '../lib/whatsapp';
 
 export const imgSize = (url, w) => (/images\.unsplash\.com/.test(url || '') ? url.replace(/([?&])w=\d+/, `$1w=${w}`) : fileUrl(url));
 
-export function ServiceCard({ s, i = 0, feature = false }) {
+export function ServiceCard({ s, i = 0 }) {
+  const points = (s.scope || []).slice(0, 3).map((x) => String(x?.title || x).split(' – ')[0]);
   return (
-    <Reveal delay={Math.min(i, 5) * 0.06} className={`svc-card ${feature ? 'svc-card--feature' : ''} ${s.image ? 'has-img' : ''}`} as="article">
-      {s.image && (
-        <div className="svc-card__img">
-          <img src={imgSize(s.image, feature ? 1100 : 640)} alt="" loading="lazy" width="640" height="360" />
-        </div>
-      )}
-      <div className="svc-card__body">
-        <div className="svc-card__top">
-          <span className="svc-card__ic"><Icon name={s.icon} size={24} /></span>
-          <span className="svc-card__tag">{s.category}</span>
-        </div>
-        <h3>{s.title}</h3>
-        <p>{s.shortDescription}</p>
-        <span className="svc-card__more">Explore service <ArrowUpRight size={16} /></span>
+    <Reveal delay={Math.min(i, 5) * 0.06} as={Link} to={`/services/${s.slug}`} className="sv-card">
+      <div className="sv-card__img">
+        {s.image && <img src={imgSize(s.image, 760)} alt="" loading="lazy" width="760" height="428" />}
+        <span className="sv-card__ic"><Icon name={s.icon} size={22} /></span>
       </div>
-      <Link to={`/services/${s.slug}`} aria-label={s.title} className="svc-card__link" />
+      <div className="sv-card__body">
+        <h3>{s.title}</h3>
+        {s.audience && <p className="sv-card__for">{s.audience}</p>}
+        {points.length > 0 ? (
+          <ul className="sv-card__list">{points.map((x) => <li key={x}><Check size={15} strokeWidth={2.5} />{x}</li>)}</ul>
+        ) : (
+          s.shortDescription && <p className="sv-card__desc">{s.shortDescription}</p>
+        )}
+        <span className="sv-card__go">Explore service <ArrowRight size={16} /></span>
+      </div>
     </Reveal>
   );
 }
@@ -86,7 +86,7 @@ export function WhyChoose() {
       <div className="container why">
         <div className="why__sticky">
           <Reveal>
-            <span className="eyebrow">§ Why Aspira</span>
+            <span className="eyebrow">Why Aspira</span>
             <h2>Audits you can <em className="accent">rely on</em> — and act on.</h2>
             <p style={{ color: '#aebad3', fontSize: 'var(--fs-lg)', maxWidth: '44ch' }}>{settings.mission}</p>
             {values.length > 0 && (
@@ -116,7 +116,7 @@ export function IndustriesGrid({ withHead = true }) {
   return (
     <>
       {withHead && (
-        <SectionHead split eyebrow="§ Industries we serve" title={<>From campuses to <em className="accent">construction sites</em></>} intro="We work with government departments, large corporations and SMEs across sectors where compliance, safety and sustainability matter." />
+        <SectionHead split eyebrow="Industries we serve" title={<>From campuses to <em className="accent">construction sites</em></>} intro="We work with government departments, large corporations and SMEs across sectors where compliance, safety and sustainability matter." />
       )}
       <div className="industries">
         {list.map((ind, i) => (
@@ -316,7 +316,7 @@ export function Testimonials({ serviceSlug }) {
   return (
     <section className="section">
       <div className="container">
-        <SectionHead center eyebrow="§ Client voices" title={<>What our clients <em className="accent">say</em></>} />
+        <SectionHead center eyebrow="Client voices" title={<>What our clients <em className="accent">say</em></>} />
         <div className="quotes">
           {items.slice(0, 6).map((t, i) => (
             <Reveal as="figure" key={t._id} className="quote" delay={i * 0.06} style={{ margin: 0 }}>
@@ -405,5 +405,57 @@ export function VerifyStrip({ compact = false }) {
         <button className="btn btn--green"><Search size={16} /> Verify</button>
       </form>
     </div>
+  );
+}
+
+/* Why Aspira – every point comes from Aspira's accreditation certificate or its published policies */
+const WHY_ASPIRA = [
+  { I: BadgeCheck, t: 'NABCB accredited', d: 'Type ‘A’ inspection body under ISO/IEC 17020, Reg. No. IB 159.' },
+  { I: Scale, t: 'Independent & impartial', d: 'We do not provide consultancy, training or internal audits to the clients we inspect.' },
+  { I: FileSearch, t: 'Evidence-based decisions', d: 'Findings rest on objective evidence – free from commercial, financial or external influence.' },
+  { I: Lock, t: 'Strict confidentiality', d: 'Client information is protected in line with ISO/IEC 17020 and the DPDP Act 2023.' },
+  { I: Users, t: 'Impartiality Committee', d: 'A dedicated committee regularly reviews and monitors impartiality risks.' },
+  { I: RefreshCcw, t: 'Continuous improvement', d: 'Our systems, processes and resources are reviewed and improved through audits.' },
+];
+
+/** "Why Aspira" – clean two-column layout, used on Home and About */
+export function WhyAspira() {
+  const { accreditations } = useSite();
+  const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
+  return (
+      <section className="mg-sec wy">
+        <div className="mg-wrap wy__grid">
+          <div className="wy__aside">
+            <p className="mg-kicker">Why Aspira</p>
+            <h2>Why organisations choose Aspira</h2>
+            <p className="wy__intro">Our commitments are set out in our Quality, Impartiality and Confidentiality policies – and assessed by NABCB as part of our accreditation.</p>
+            {nabcb && (
+              <div className="wy__cred">
+                <img src={nabcb.logo ? fileUrl(nabcb.logo) : BADGE_SRC} alt="" width="58" height="63" />
+                <div>
+                  <b>NABCB Accredited Inspection Body</b>
+                  <span>Reg. No. {nabcb.registrationNo} · ISO/IEC 17020:2012 · Type ‘A’</span>
+                </div>
+              </div>
+            )}
+            <div className="wy__actions">
+              <Link to="/policies" className="btn">Read our policies <ArrowRight size={16} /></Link>
+              <Link to="/accreditations" className="mg-link">View accreditation <ArrowRight size={16} /></Link>
+            </div>
+          </div>
+          <ol className="wy__list">
+            {WHY_ASPIRA.map(({ I, t, d }, idx) => (
+              <li key={t}>
+                <div className="wy__ic"><I size={20} /></div>
+                <div>
+                  <span className="wy__no">{String(idx + 1).padStart(2, '0')}</span>
+                  <h3>{t}</h3>
+                  <p>{d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
   );
 }

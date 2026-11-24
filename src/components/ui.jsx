@@ -56,7 +56,7 @@ export function SectionHead({ eyebrow, title, intro, center, split, children }) 
   return (
     <Reveal className={`section-head ${center ? 'section-head--center' : ''} ${split ? 'section-head--split' : ''}`}>
       <div>
-        {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+        {eyebrow && <span className="eyebrow">{typeof eyebrow === 'string' ? eyebrow.replace(/^§\s*/, '') : eyebrow}</span>}
         <h2>{title}</h2>
       </div>
       {(intro || children) && <div>{intro && <p>{intro}</p>}{children}</div>}
@@ -82,26 +82,26 @@ export function useCertificateImage() {
   return fileUrl(f || CERT_DOC_FALLBACK);
 }
 
-export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageKey, actions = true, primary, children, cards, accrText }) {
-  const { settings, accreditations } = useSite();
-  const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
+/**
+ * Inner-page header – clean layout: breadcrumb, label, heading, one paragraph, one action,
+ * and a single image (or the accreditation certificate). `cards` is accepted for
+ * compatibility but no longer rendered, to keep the header uncluttered.
+ */
+export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageKey, actions = true, primary, children, accrText }) {
+  const { settings } = useSite();
   const wa = settings.contact?.whatsapp;
   const certImg = useCertificateImage();
   if (doc === 'cert') doc = certImg;
   const custom = pageKey ? settings.pageImages?.[pageKey] : '';
-  const img = doc ? null : fileUrl(unsplashW(custom || image || DEFAULT_HERO_IMG, 1400));
+  const img = doc ? null : fileUrl(unsplashW(custom || image || DEFAULT_HERO_IMG, 1200));
   const p = primary || { to: '/contact?intent=booking#enquiry', label: 'Book an audit' };
   return (
-    <section className={`phero ${doc ? 'phero--doc' : ''}`}>
-      <div className="phero__media" aria-hidden="true">
-        {img && <img src={img} alt="" fetchpriority="high" width="1400" height="900" />}
-        {doc && <img className="phero__doc" src={doc} alt="" width="560" height="790" />}
-      </div>
-      <div className="container phero__inner">
-        <div className="phero__text">
+    <section className={`ph ${doc ? 'ph--doc' : ''}`}>
+      <div className="container ph__grid">
+        <div className="ph__text">
           {crumbs.length > 0 && (
             <nav aria-label="Breadcrumb">
-              <ol className="crumbs">
+              <ol className="ph__crumbs">
                 <li><Link to="/">Home</Link></li>
                 {crumbs.map((c, i) => (
                   <li key={i}>{c.to ? <Link to={c.to}>{c.label}</Link> : <span aria-current="page">{c.label}</span>}</li>
@@ -109,33 +109,25 @@ export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageK
               </ol>
             </nav>
           )}
-          {eyebrow && <span className="phero__pill">{eyebrow}</span>}
+          {eyebrow && <p className="ph__eyebrow">{eyebrow}</p>}
           <h1>{title}</h1>
-          {intro && <p className="phero__lead">{intro}</p>}
+          {intro && <p className="ph__lead">{intro}</p>}
           {children}
           {actions && (
-            <div className="phero__actions">
+            <div className="ph__actions">
               {p.href ? <a href={p.href} className="btn btn--green">{p.label} <ArrowRight size={16} /></a> : <Link to={p.to} className="btn btn--green">{p.label} <ArrowRight size={16} /></Link>}
               {wa && (
-                <a href={`https://wa.me/${String(wa).replace(/\D/g, '')}?text=${encodeURIComponent(p.wa || 'Hello Aspira Certifications, I would like to know more about your audit services.')}`} className="btn btn--wa" target="_blank" rel="noopener noreferrer">
-                  <MessageCircle size={16} /> WhatsApp us
+                <a href={`https://wa.me/${String(wa).replace(/\D/g, '')}?text=${encodeURIComponent(p.wa || 'Hello Aspira Certifications, I would like to know more about your audit services.')}`} className="ph__wa" target="_blank" rel="noopener noreferrer">
+                  <MessageCircle size={17} /> WhatsApp us
                 </a>
               )}
             </div>
           )}
-          <ul className="phero__trust">
-            {nabcb && <li><img src={BADGE_SRC} alt="" width="22" height="24" /> {accrText || `NABCB-accredited inspection body · ${nabcb.registrationNo}`}</li>}
-            <li><Scale size={15} /> Independent & impartial</li>
-            <li><Lock size={15} /> Confidential</li>
-          </ul>
+          {accrText && <p className="ph__note"><img src={BADGE_SRC} alt="" width="22" height="24" /> {accrText}</p>}
         </div>
-        <div className="phero__cards">
-          {cards || (nabcb && (
-            <div className="phero__card">
-              <img src={BADGE_SRC} alt="NABCB Accredited Inspection Body – Reg. No. IB 159" width="52" height="56" />
-              <div><b>NABCB Accredited</b><span>Type ‘A’ Inspection Body · {nabcb.registrationNo}</span></div>
-            </div>
-          ))}
+        <div className="ph__media" aria-hidden="true">
+          {img && <img src={img} alt="" fetchpriority="high" width="1200" height="900" />}
+          {doc && <img className="ph__doc" src={doc} alt="" width="560" height="790" />}
         </div>
       </div>
     </section>
