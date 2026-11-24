@@ -36,10 +36,7 @@ const SECTORS = [
 
 /* Royalty-free hero footage (Pexels licence). Override from Admin → Settings → heroVideo,
    or drop a file at public/media/hero.mp4 – sources are tried in order. */
-// Aerial view of a green university campus (Pexels, free licence) – matches the green-audit theme.
-const HERO_VIDEO_FALLBACK = typeof window !== 'undefined' && window.innerWidth >= 1280
-  ? 'https://videos.pexels.com/video-files/37770779/16020606_1280_720_30fps.mp4'
-  : 'https://videos.pexels.com/video-files/37770779/16020604_960_540_30fps.mp4';
+const HERO_VIDEO_FALLBACK = 'https://videos.pexels.com/video-files/8964291/8964291-hd_1280_720_50fps.mp4';
 
 /** Counts up from 0 to `to` once the element scrolls into view */
 function CountUp({ to, duration = 1400 }) {
