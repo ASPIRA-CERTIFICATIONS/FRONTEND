@@ -27,6 +27,16 @@
     <meta name="twitter:title" content="Aspira Certifications – Green, Hygiene &amp; Safety Audits" />
     <meta name="twitter:description" content="NABCB-accredited inspection body (Reg. No. IB 159) – green, hygiene, safety, energy and water audits." />
     <meta name="twitter:image" content="__SITE_URL__/brand/og-image.png?v=2" />
+    <script>
+      /* if a stylesheet/script from an older deploy is missing, reload once to get the new version */
+      addEventListener('error', function (e) {
+        var t = e.target;
+        if (t && (t.tagName === 'LINK' || t.tagName === 'SCRIPT') && /\/assets\//.test(t.href || t.src || '')) {
+          try { if (!sessionStorage.getItem('aspira-asset-reload')) { sessionStorage.setItem('aspira-asset-reload', '1'); location.reload(); } } catch (x) {}
+        }
+      }, true);
+      addEventListener('load', function () { setTimeout(function () { try { sessionStorage.removeItem('aspira-asset-reload'); } catch (x) {} }, 10000); });
+    </script>
   </head>
   <body>
     <div id="root"></div>
