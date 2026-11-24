@@ -423,7 +423,7 @@ export function WhyAspira() {
   const { accreditations } = useSite();
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
   return (
-      <section className="mg-sec wy">
+      <section className="mg-sec wy wy--dark">
         <div className="mg-wrap wy__grid">
           <div className="wy__aside">
             <p className="mg-kicker">Why Aspira</p>
