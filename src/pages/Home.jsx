@@ -20,7 +20,7 @@ import { photo } from '../lib/companyPhotos';
 const ABOUT_PHOTO = photo('05');
 const HOME_PHOTOS = ['01', '02', '07', '06', '04'].map(photo);
 // hero background slideshow – photos framed to keep people in view
-const HERO_SLIDES = [['04', '50% 40%'], ['05', '50% 45%'], ['03', '50% 30%'], ['10', '50% 30%'], ['06', '50% 35%']].map(([n, pos]) => ({ ...photo(n), pos }));
+const HERO_SLIDES = [['04', '50% 40%'], ['05', '50% 45%'], ['10', '50% 30%'], ['06', '50% 35%']].map(([n, pos]) => ({ ...photo(n), pos }));
 import { isApiDown, fileUrl } from '../lib/api';
 import { Icon } from '../lib/icons';
 import { FALLBACK_POSTS } from '../lib/fallback';

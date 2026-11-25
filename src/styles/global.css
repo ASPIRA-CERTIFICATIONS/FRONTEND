@@ -2769,3 +2769,22 @@ img[src*="/gallery/aspira-05"].mg-about__photo { object-position: 50% 85%; }
 .mg-about__p { color: #475467; font-size: 1.1rem; line-height: 1.75; }
 .mg-sub, .ph__lead, .wy__intro { color: #475467; }
 .mg-checks span { color: #475467; font-size: .9rem; line-height: 1.6; }
+
+/* v42 – home enquiry: one card instead of a card inside a card (wider fields) */
+.mg-enq__card { border-top: 4px solid var(--brand, #2247d6); }
+.mg-enq__card .form-card { border: 0 !important; box-shadow: none !important; padding: 0 !important; background: none; border-radius: 0; }
+@media (max-width: 700px) {
+  .mg-enq__card { padding: 1.25rem 1rem 1.4rem; border-radius: 18px; }
+}
+
+/* v42 – phones: show each hero photo in full above the text (no cropping) */
+@media (max-width: 700px) {
+  .vh { --band: calc(100vw / 1.6); background: #0a1433; }
+  .vh__bg { bottom: auto; height: var(--band); background: #0a1433; }
+  .vh__slide { height: 100%; object-fit: contain; object-position: 50% 50% !important; -webkit-mask-image: none; mask-image: none; transform: none; transition: opacity 1.2s ease; }
+  .vh__slide.is-on { transform: none; }
+  .vh__shade { height: var(--band); background: linear-gradient(180deg, transparent 75%, #0a1433 100%); }
+  .vh__dots { top: auto; bottom: .6rem; right: 50%; transform: translateX(50%); }
+  .vh__inner { padding-top: calc(var(--band) + 1.75rem) !important; }
+  .vh__grid, .vh__spot { display: none; }
+}
