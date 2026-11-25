@@ -2719,3 +2719,4 @@ img[src*="/gallery/aspira-01"] { object-position: 50% 12%; }
 .hg__more { display: none; }
 @media (max-width: 560px) { .hg__head .hg__all { display: none; } .hg__more { display: block; margin-top: 1.25rem; } .hg__more .btn { width: 100%; justify-content: center; } }
 img[src*="/gallery/aspira-05"].mg-about__photo { object-position: 50% 85%; }
+.ws-row { grid-template-columns: auto 1fr; }

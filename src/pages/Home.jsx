@@ -311,7 +311,6 @@ export default function Home() {
                     ))}
                   </p>
                 </div>
-                <span className="ws-row__count">{list.length} {list.length === 1 ? 'audit' : 'audits'}</span>
               </Reveal>
             ))}
           </div>
