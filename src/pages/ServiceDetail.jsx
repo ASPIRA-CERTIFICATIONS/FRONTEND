@@ -13,6 +13,8 @@ import Seo, { breadcrumbSchema, faqSchema, serviceSchema } from '../components/S
 import { Faq, Loader, Reveal, BADGE_SRC, PageHero } from '../components/ui';
 import { Testimonials, CtaBand, ServiceAccreditation, imgSize } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
+import GreenAuditFlow from '../components/GreenAuditFlow';
+import { COMPANY_PHOTOS, photo } from '../lib/companyPhotos';
 import NotFound from './NotFound';
 
 const cap = (t = '') => t.charAt(0).toUpperCase() + t.slice(1);
@@ -26,6 +28,7 @@ const SECTIONS = [
   ['scope', 'Scope'],
   ['standards', 'Standards'],
   ['process', 'Process'],
+  ['photos', 'Photos'],
   ['faq', 'FAQs'],
   ['enquire', 'Enquire'],
 ];
@@ -53,13 +56,15 @@ export default function ServiceDetail() {
   const wa = c.whatsapp;
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
 
+  const isGreen = s?.slug === 'green-audits'; // Aspira's NABCB scope – official flowchart + own photos
   const has = {
     overview: true,
     services: !!s?.children?.length,
     benefits: !!(s?.purpose || s?.benefits?.length),
     scope: !!s?.scope?.length,
-    standards: !!s?.standards?.length,
-    process: !!s?.process?.length,
+    standards: !!s?.standards?.length && !isGreen,
+    process: !!s?.process?.length || isGreen,
+    photos: isGreen,
     faq: !!s?.faqs?.length,
     enquire: true,
   };
@@ -74,7 +79,7 @@ export default function ServiceDetail() {
   const waMsg = s.whatsappMessage || `Hello Aspira, I would like to enquire about ${s.title}.`;
   const cta = s.ctaLabel || 'Book this audit';
   const gallery = (s.gallery || []).filter(Boolean);
-  const overviewImg = gallery[0] || s.image;
+  const overviewImg = isGreen ? null : gallery[0] || s.image;
   const ld = [
     serviceSchema(s),
     breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }, ...(parent ? [{ name: parent.title, path: `/services/${parent.slug}` }] : []), { name: s.title, path: `/services/${s.slug}` }]),
@@ -98,7 +103,7 @@ export default function ServiceDetail() {
         eyebrow={<><Icon name={s.icon} size={14} /> {s.audience || s.category}</>}
         title={s.title}
         intro={s.shortDescription}
-        image={s.image || undefined}
+        image={isGreen ? photo('01').image : s.image || undefined}
         primary={{ href: '#enquire', label: cta, wa: waMsg }}
         accrText={inScope && nabcb ? `NABCB accredited for green audits · ${nabcb.registrationNo}` : undefined}
         cards={
@@ -143,6 +148,7 @@ export default function ServiceDetail() {
             <ServiceAccreditation slug={s.slug} />
           </Reveal>
           <Reveal className="svc-overview__media" delay={0.08}>
+            {isGreen && <img src={photo('04').image} alt="Aspira green audit team inspecting campus green cover" loading="lazy" width={photo('04').width} height={photo('04').height} className="svc-own-photo" />}
             {overviewImg && <img src={imgSize(overviewImg, 900)} alt="" loading="lazy" width="900" height="700" />}
             {s.industries?.length > 0 && (
               <div className="svc-who">
@@ -247,16 +253,44 @@ export default function ServiceDetail() {
       {has.process && (
         <section className="section svc-sec svc-process-sec" id="process">
           <div className="container">
-            <div className="svc-head svc-head--center"><span className="eyebrow">Audit process</span><h2>How the audit works</h2></div>
-            <ol className="svc-process">
-              {s.process.map((p, i) => (
-                <Reveal as="li" key={i} delay={i * 0.06}>
-                  <span className="n">{i + 1}</span>
-                  <h3>{p.title}</h3>
-                  {p.description && <p>{p.description}</p>}
+            {isGreen ? (
+              <>
+                <div className="svc-head svc-head--center"><span className="eyebrow">Inspection process</span><h2>Green audit inspection flow</h2></div>
+                <GreenAuditFlow />
+              </>
+            ) : (
+              <>
+                <div className="svc-head svc-head--center"><span className="eyebrow">Audit process</span><h2>How the audit works</h2></div>
+                <ol className="svc-process">
+                  {s.process.map((p, i) => (
+                    <Reveal as="li" key={i} delay={i * 0.06}>
+                      <span className="n">{i + 1}</span>
+                      <h3>{p.title}</h3>
+                      {p.description && <p>{p.description}</p>}
+                    </Reveal>
+                  ))}
+                </ol>
+              </>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ================= OWN AUDIT PHOTOS (green audits) ================= */}
+      {has.photos && (
+        <section className="section section--white svc-sec" id="photos">
+          <div className="container">
+            <div className="svc-head svc-photos__head">
+              <div><span className="eyebrow">From our audits</span><h2>Green audits in the field</h2></div>
+              <Link to="/gallery" className="btn btn--outline">View full gallery <ArrowRight size={16} /></Link>
+            </div>
+            <div className="svc-photos">
+              {COMPANY_PHOTOS.slice(0, 9).map((ph, i) => (
+                <Reveal key={ph._id} delay={i * 0.04} as={Link} to="/gallery" className="svc-photos__item">
+                  <img src={ph.thumb} srcSet={`${ph.thumb} 720w, ${ph.image} ${ph.width}w`} sizes="(max-width: 700px) 50vw, 25vw" width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
                 </Reveal>
               ))}
-            </ol>
+            </div>
           </div>
         </section>
       )}

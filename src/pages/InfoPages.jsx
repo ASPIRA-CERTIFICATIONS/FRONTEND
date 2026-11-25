@@ -5,7 +5,7 @@ import { useSite } from '../context/SiteContext';
 import { api, fileUrl } from '../lib/api';
 import Seo, { breadcrumbSchema, orgSchema } from '../components/Seo';
 import { PageHero, Reveal, SectionHead, Seal, CheckList } from '../components/ui';
-import { WhyChoose, IndustriesGrid, AccreditationBand, AccreditationSection, CtaBand, ServiceCard, CustomerTable, WhyAspira } from '../components/Sections';
+import { WhyChoose, IndustriesGrid, AccreditationSection, CtaBand, ServiceCard, CustomerTable, WhyAspira } from '../components/Sections';
 import EnquiryFormDefault, { INTENTS } from '../components/EnquiryForm';
 import { waLink } from '../lib/whatsapp';
 import { photo } from '../lib/companyPhotos';
@@ -80,7 +80,6 @@ export function About() {
         </section>
       )}
       <WhyAspira />
-      <section className="section section--tight"><div className="container"><AccreditationBand /></div></section>
       <CtaBand />
     </>
   );
