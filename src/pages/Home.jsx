@@ -7,7 +7,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, ArrowUpRight, BadgeCheck, FileCheck2, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
+  ArrowRight, ArrowUpRight, BadgeCheck, FileCheck2, ClipboardCheck, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
   Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School,
 } from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
@@ -67,7 +67,8 @@ function CountUp({ to, duration = 1400 }) {
 /** Background video that respects reduced-motion and data-saver, with the hero photo as poster */
 function HeroVideo({ poster, src }) {
   const [ok, setOk] = useState(true);
-  const reduce = typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData);
+  // phones get the still photo (a 16:9 video cropped to a tall screen looks blurry and costs data)
+  const reduce = typeof window !== 'undefined' && (window.innerWidth < 700 || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData);
   return (
     <div className="vh__bg" aria-hidden="true">
       {poster && <img className="vh__poster" src={poster} alt="" fetchpriority="high" width="1600" height="900" />}
@@ -187,20 +188,40 @@ export default function Home() {
             </h1>
             {settings.heroSubtitle && <p className="vh__lead">{settings.heroSubtitle}</p>}
             <div className="vh__actions">
-              <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--lg"><CalendarCheck size={18} /> Book an audit <ArrowRight size={17} /></Link>
+              <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--lg vh__cta"><CalendarCheck size={18} /> Book an audit <ArrowRight size={17} /></Link>
             </div>
+            <ul className="vh__trust" aria-label="Our commitments">
+              <li><Check size={14} strokeWidth={3} /> Impartial</li>
+              <li><Check size={14} strokeWidth={3} /> Confidential</li>
+              <li><Check size={14} strokeWidth={3} /> Standards-based</li>
+            </ul>
           </div>
 
           <HeroPanel steps={steps.length ? steps : settings.process || []} />
-          <dl className="vh__facts" aria-label="Aspira at a glance">
-            <div style={{ '--i': 0 }}><dt>Services</dt><dd><CountUp to={services.length || parents.length} /></dd></div>
-            <div style={{ '--i': 1 }}><dt>Sectors served</dt><dd><CountUp to={SECTORS.length} /></dd></div>
-            <div style={{ '--i': 2 }}><dt>Inspection body</dt><dd>Type ‘A’</dd></div>
-            <div style={{ '--i': 3 }}><dt>Standard</dt><dd>ISO/IEC 17020</dd></div>
-          </dl>
         </div>
-        <a href="#about" className="vh__scroll" aria-label="Scroll to content"><span /></a>
       </section>
+
+      {/* ---------- KEY FACTS: floating card overlapping the hero ---------- */}
+      <div className="mg-wrap kf-wrap">
+        <dl className="kf" aria-label="Aspira at a glance">
+          <div className="kf__item" style={{ '--i': 0 }}>
+            <span className="kf__ic"><ClipboardCheck size={22} strokeWidth={1.8} /></span>
+            <div><dd><CountUp to={services.length || parents.length} /></dd><dt>Audit &amp; inspection services</dt></div>
+          </div>
+          <div className="kf__item" style={{ '--i': 1 }}>
+            <span className="kf__ic"><Building2 size={22} strokeWidth={1.8} /></span>
+            <div><dd><CountUp to={SECTORS.length} /></dd><dt>Sectors served</dt></div>
+          </div>
+          <div className="kf__item" style={{ '--i': 2 }}>
+            <span className="kf__ic"><Scale size={22} strokeWidth={1.8} /></span>
+            <div><dd>Type ‘A’</dd><dt>Independent inspection body</dt></div>
+          </div>
+          <div className="kf__item" style={{ '--i': 3 }}>
+            <span className="kf__ic"><ShieldCheck size={22} strokeWidth={1.8} /></span>
+            <div><dd>ISO/IEC 17020</dd><dt>Inspection standard</dt></div>
+          </div>
+        </dl>
+      </div>
 
       {/* Client logos appear here once genuine ones are uploaded */}
       <ClientLogos />
