@@ -2854,3 +2854,6 @@ img[src*="/gallery/aspira-05"].mg-about__photo { object-position: 50% 85%; }
   .svc-scope-photo img { height: 260px; }
   .svc-scope-cta { display: none; }
 }
+/* v45 – scope list: never stretch items apart when there are only a few */
+.svc-scope, .svc-scope--few { align-content: start !important; align-self: start; }
+.svc-scope--few li { padding-block: 1.15rem; }
