@@ -2621,3 +2621,100 @@ h3, h4 { font-weight: 700; letter-spacing: -0.01em; }
 .kf dd { font-size: clamp(1.25rem, 1rem + .6vw, 1.55rem); }
 .kf__item { padding: 1.5rem 1.4rem; gap: .9rem; }
 @media (max-width: 700px) { .kf dd { font-size: 1.15rem; } .kf__item { padding: 1.1rem 1rem; } }
+
+/* v35 – compact, centred key-facts card on phones */
+@media (max-width: 700px) {
+  .vh__inner { padding-bottom: 4.25rem !important; }
+  .kf-wrap { margin-top: -2.75rem; }
+  .kf { border-radius: 16px; box-shadow: 0 18px 40px -22px rgba(11, 27, 63, .35); }
+  .kf__item { flex-direction: column; align-items: center; text-align: center; gap: .45rem; padding: 1rem .5rem 1.05rem; }
+  .kf__item + .kf__item::before { top: 18%; bottom: 18%; }
+  .kf__ic { width: 34px; height: 34px; border-radius: 10px; }
+  .kf__ic svg { width: 17px; height: 17px; }
+  .kf dd { font-size: 1.05rem; letter-spacing: -0.01em; }
+  .kf dt { margin-top: .15rem; font-size: .7rem; line-height: 1.3; letter-spacing: .01em; }
+  .kf__item::after { left: 25%; right: 25%; }
+}
+@media (max-width: 360px) { .kf dd { font-size: .95rem; } }
+
+/* =====================================================================
+   v36 – Aspira's own photos: gallery page, home preview, about page
+   ===================================================================== */
+/* About (home): keep the photo's natural framing */
+.mg-about__photo { object-fit: cover; object-position: 40% 30%; }
+
+/* gallery page */
+.gl-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 0 0 2rem; }
+.gl-chips button { display: inline-flex; align-items: center; gap: .55rem; padding: .55rem 1rem; border-radius: 999px; border: 1px solid #dfe5ef; background: #fff; color: var(--ink); font: 600 .88rem/1 var(--sans); cursor: pointer; transition: all .2s; }
+.gl-chips button span { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: #eef2f8; color: #5b6785; font-size: .72rem; }
+.gl-chips button:hover { border-color: #2247d6; color: #2247d6; }
+.gl-chips button.on { background: #0f1d45; border-color: #0f1d45; color: #fff; }
+.gl-chips button.on span { background: rgba(255,255,255,.16); color: #fff; }
+.gl-grid { columns: 3 300px; column-gap: 1.1rem; }
+.gl-item { position: relative; display: block; width: 100%; margin: 0 0 1.1rem; padding: 0; border: 0; border-radius: 16px; overflow: hidden; background: #e9edf3; cursor: zoom-in; break-inside: avoid; box-shadow: 0 1px 2px rgba(15, 29, 69, .06); transition: box-shadow .35s, transform .35s var(--ease); }
+.gl-item img { display: block; width: 100%; height: auto; transition: transform .8s var(--ease); }
+.gl-item__cap { position: absolute; inset: auto 0 0 0; display: grid; gap: .15rem; padding: 2.75rem 1.1rem .95rem; text-align: left; color: #fff; background: linear-gradient(transparent, rgba(8, 17, 45, .82)); }
+.gl-item__cap small { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #8be09f; }
+.gl-item__cap b { font: 700 .98rem/1.3 var(--serif); }
+.gl-item__cap em { font-style: normal; font-size: .8rem; color: rgba(255,255,255,.78); }
+.gl-item__zoom { position: absolute; top: .8rem; right: .8rem; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.92); color: #0f1d45; opacity: 0; transform: scale(.85); transition: all .3s var(--ease); }
+@media (hover: hover) {
+  .gl-item:hover { transform: translateY(-3px); box-shadow: 0 24px 50px -28px rgba(11, 27, 63, .5); }
+  .gl-item:hover img { transform: scale(1.04); }
+  .gl-item:hover .gl-item__zoom { opacity: 1; transform: none; }
+}
+@media (max-width: 700px) {
+  .gl-chips { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin: 0 -1.25rem 1.25rem; padding: 0 1.25rem .25rem; scrollbar-width: none; }
+  .gl-chips button { flex: none; }
+  .gl-grid { columns: 1; }
+  .gl-item { margin-bottom: .9rem; border-radius: 14px; }
+}
+@media (min-width: 480px) and (max-width: 700px) { .gl-grid { columns: 2; column-gap: .8rem; } .gl-item__cap em { display: none; } }
+.q-lb figure img { max-width: min(92vw, 1600px); max-height: 80vh; width: auto; height: auto; object-fit: contain; }
+
+/* home gallery preview – bento */
+.hg__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.hg__head > :first-child { margin-bottom: 0; text-align: left; }
+.hg__head > :first-child * { text-align: left; margin-left: 0; }
+.hg__grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; grid-template-rows: 230px 230px; gap: 1rem; }
+.hg__item { position: relative; display: block; border-radius: 18px; overflow: hidden; background: #e9edf3; }
+.hg__item--1 { grid-row: span 2; }
+.hg__item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s var(--ease); }
+.hg__cap { position: absolute; inset: auto 0 0 0; display: grid; gap: .2rem; padding: 2.5rem 1.1rem .95rem; color: #fff; font: 700 .95rem/1.3 var(--serif); background: linear-gradient(transparent, rgba(8, 17, 45, .8)); }
+.hg__cap small { font: 700 .66rem/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #8be09f; }
+@media (hover: hover) { .hg__item:hover img { transform: scale(1.05); } }
+@media (max-width: 900px) {
+  .hg__grid { grid-template-columns: 1fr 1fr; grid-template-rows: 260px 180px 180px; }
+  .hg__item--1 { grid-column: span 2; grid-row: auto; }
+}
+@media (max-width: 560px) {
+  .hg__grid { grid-template-rows: 220px 150px 150px; gap: .65rem; }
+  .hg__item { border-radius: 14px; }
+  .hg__cap { padding: 2rem .8rem .7rem; font-size: .82rem; }
+  .hg__cap small { display: none; }
+  .hg__all { width: 100%; justify-content: center; }
+}
+
+/* about page photo grid */
+.ab-ph__grid { display: grid; grid-template-columns: 1.2fr 1fr; grid-template-rows: 260px 260px; gap: 1rem; margin-top: 2rem; }
+.ab-ph__item { position: relative; display: block; border-radius: 18px; overflow: hidden; background: #e9edf3; }
+.ab-ph__item--1 { grid-row: span 2; }
+.ab-ph__grid .ab-ph__item--4 { display: none; }
+.ab-ph__item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s var(--ease); }
+.ab-ph__cap { position: absolute; left: .9rem; bottom: .9rem; padding: .45rem .8rem; border-radius: 10px; background: rgba(255,255,255,.94); color: #0f1d45; font-size: .82rem; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(0,0,0,.4); }
+@media (hover: hover) { .ab-ph__item:hover img { transform: scale(1.05); } }
+@media (min-width: 1000px) {
+  .ab-ph__grid { grid-template-columns: 1.3fr 1fr 1fr; }
+  .ab-ph__grid .ab-ph__item--4 { display: block; }
+  .ab-ph__item--2 { grid-column: 2 / 4; }
+}
+@media (max-width: 700px) {
+  .ab-ph__grid { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 160px; gap: .65rem; }
+  .ab-ph__item--1 { grid-column: span 2; grid-row: auto; }
+  .ab-ph__cap { left: .6rem; bottom: .6rem; font-size: .72rem; padding: .35rem .6rem; }
+}
+.hg__head > :first-child { margin: 0 !important; max-width: 640px; }
+.mg-about__photo { object-position: 50% 40%; }
+img[src*="/gallery/aspira-01"] { object-position: 50% 12%; }
+.hg__more { display: none; }
+@media (max-width: 560px) { .hg__head .hg__all { display: none; } .hg__more { display: block; margin-top: 1.25rem; } .hg__more .btn { width: 100%; justify-content: center; } }

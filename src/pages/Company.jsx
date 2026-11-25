@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   ArrowRight, ArrowLeft, MapPin, Briefcase, Clock, ChevronDown, UploadCloud, FileCheck2, X, CheckCircle2,
   AlertCircle, Download, ChevronLeft, ChevronRight, ScrollText, Mail,
+  Maximize2,
 } from 'lucide-react';
 import Seo, { breadcrumbSchema } from '../components/Seo';
 import { Loader } from '../components/ui';
@@ -16,6 +17,7 @@ import { useSite, useFetch } from '../context/SiteContext';
 import { isEmail, isMobile } from '../components/EnquiryForm';
 import NotFound from './NotFound';
 import { FALLBACK_POLICIES } from '../lib/fallback';
+import { COMPANY_PHOTOS } from '../lib/companyPhotos';
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : '');
 
@@ -318,7 +320,7 @@ function Lightbox({ items, index, onClose, onMove }) {
       <button type="button" className="q-lb__close" onClick={onClose} aria-label="Close"><X size={22} /></button>
       {items.length > 1 && <button type="button" className="q-lb__nav q-lb__nav--prev" onClick={(e) => (e.stopPropagation(), onMove(-1))} aria-label="Previous photo"><ChevronLeft size={26} /></button>}
       <figure onClick={(e) => e.stopPropagation()}>
-        <img src={fileUrl(it.image)} alt={it.title || it.caption || 'Gallery photo'} />
+        <img src={fileUrl(it.image)} width={it.width || undefined} height={it.height || undefined} alt={it.title || it.caption || 'Gallery photo'} />
         {(it.title || it.caption) && <figcaption>{it.title && <b>{it.title}</b>}{it.caption && <span>{it.caption}</span>}<small>{index + 1} / {items.length}</small></figcaption>}
       </figure>
       {items.length > 1 && <button type="button" className="q-lb__nav q-lb__nav--next" onClick={(e) => (e.stopPropagation(), onMove(1))} aria-label="Next photo"><ChevronRight size={26} /></button>}
@@ -328,36 +330,51 @@ function Lightbox({ items, index, onClose, onMove }) {
 
 export function Gallery() {
   const res = useFetch('/gallery');
-  const all = res.data || [];
+  // Aspira's own photos first, then anything added from Admin → Gallery
+  const all = useMemo(() => [...COMPANY_PHOTOS, ...(res.data || [])], [res.data]);
   const cats = useMemo(() => [...new Set(all.map((x) => x.category).filter(Boolean))], [all]);
   const [cat, setCat] = useState('All');
   const items = cat === 'All' ? all : all.filter((x) => x.category === cat);
   const [open, setOpen] = useState(-1);
   const move = (d) => setOpen((i) => (i + d + items.length) % items.length);
+  const count = (c) => (c === 'All' ? all.length : all.filter((x) => x.category === c).length);
 
   return (
     <>
-      <Seo title="Gallery" description="Photos from Aspira Certifications' audits, inspections and events." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }])} />
-      <PageIntro wide eyebrow="Gallery" title="Our work in pictures" lead="A look at our audits, inspections and the people behind them." crumbs={[{ label: 'Gallery' }]} />
+      <Seo title="Gallery" description="Photos from Aspira Certifications' audits, inspections, meetings and awareness sessions." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }])} />
+      <PageIntro wide eyebrow="Gallery" title="Our work in pictures" lead="Real photos from our audits, on-site inspections, review meetings and awareness sessions." crumbs={[{ label: 'Gallery' }]} />
       <section className="q-sec">
         <div className="q-wrap q-wrap--wide">
           {cats.length > 1 && (
-            <div className="q-chips" role="tablist" aria-label="Filter photos">
+            <div className="gl-chips" role="tablist" aria-label="Filter photos">
               {['All', ...cats].map((c) => (
-                <button key={c} type="button" role="tab" aria-selected={cat === c} className={cat === c ? 'on' : ''} onClick={() => setCat(c)}>{c}</button>
+                <button key={c} type="button" role="tab" aria-selected={cat === c} className={cat === c ? 'on' : ''} onClick={() => { setCat(c); setOpen(-1); }}>
+                  {c}<span>{count(c)}</span>
+                </button>
               ))}
             </div>
           )}
-          {res.loading ? (
-            <Loader />
-          ) : items.length === 0 ? (
-            <div className="q-empty q-empty--center"><p>Photos will be added here soon.</p></div>
+          {items.length === 0 ? (
+            res.loading ? <Loader /> : <div className="q-empty q-empty--center"><p>Photos will be added here soon.</p></div>
           ) : (
-            <div className="q-gallery">
+            <div className="gl-grid">
               {items.map((it, i) => (
-                <button type="button" key={it._id} className="q-gallery__item" onClick={() => setOpen(i)} aria-label={`Open photo${it.title ? `: ${it.title}` : ''}`}>
-                  <img src={fileUrl(it.image)} alt={it.title || it.caption || ''} loading="lazy" />
-                  {(it.title || it.category) && <span className="q-gallery__cap">{it.title || it.category}</span>}
+                <button type="button" key={it._id} className="gl-item" onClick={() => setOpen(i)} aria-label={`Open photo${it.title ? `: ${it.title}` : ''}`}>
+                  <img
+                    src={fileUrl(it.thumb || it.image)}
+                    srcSet={it.thumb ? `${it.thumb} 720w, ${it.image} ${it.width}w` : undefined}
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 50vw, 33vw"
+                    width={it.width || undefined}
+                    height={it.height || undefined}
+                    alt={it.title || it.caption || 'Aspira Certifications photo'}
+                    loading={i < 3 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                  <span className="gl-item__cap">
+                    {it.category && <small>{it.category}</small>}
+                    {it.title && <b>{it.title}</b>}
+                  </span>
+                  <span className="gl-item__zoom" aria-hidden="true"><Maximize2 size={16} /></span>
                 </button>
               ))}
             </div>

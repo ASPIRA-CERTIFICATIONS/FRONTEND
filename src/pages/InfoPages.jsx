@@ -8,6 +8,9 @@ import { PageHero, Reveal, SectionHead, Seal, CheckList } from '../components/ui
 import { WhyChoose, IndustriesGrid, AccreditationBand, AccreditationSection, CtaBand, ServiceCard, CustomerTable, WhyAspira } from '../components/Sections';
 import EnquiryFormDefault, { INTENTS } from '../components/EnquiryForm';
 import { waLink } from '../lib/whatsapp';
+import { photo } from '../lib/companyPhotos';
+
+const ABOUT_PHOTOS = ['03', '07', '06', '10'].map(photo);
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
 const tel = (p) => `tel:${String(p).replace(/[^+\d]/g, '')}`;
@@ -18,7 +21,7 @@ export function About() {
   return (
     <>
       <Seo title="About Us" description={settings.aboutShort} jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])} />
-      <PageHero crumbs={[{ label: 'About' }]} image={settings.aboutImage} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
+      <PageHero crumbs={[{ label: 'About' }]} image={photo('01').image} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
       <section className="section">
         <div className="container split split--top">
           <Reveal>
@@ -30,7 +33,22 @@ export function About() {
           </Reveal>
         </div>
       </section>
-      <section className="section section--white">
+      {/* Aspira's own photos */}
+      <section className="section section--white ab-ph">
+        <div className="container">
+          <SectionHead center eyebrow="In the field" title={<>Where our audits <em className="accent">happen</em></>} />
+          <div className="ab-ph__grid">
+            {ABOUT_PHOTOS.map((ph, i) => (
+              <Reveal key={ph._id} delay={i * 0.06} as={Link} to="/gallery" className={`ab-ph__item ab-ph__item--${i + 1}`}>
+                <img src={ph.thumb} srcSet={`${ph.thumb} 720w, ${ph.image} ${ph.width}w`} sizes="(max-width: 700px) 100vw, 50vw" width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
+                <span className="ab-ph__cap">{ph.title}</span>
+              </Reveal>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '1.75rem' }}><Link to="/gallery" className="btn btn--outline">View our gallery <ArrowRight size={16} /></Link></div>
+        </div>
+      </section>
+      <section className="section">
         <div className="container split split--top">
           <div className="vm">
             <Reveal className="vm__card"><span className="ic"><Eye size={22} /></span><h3>Our vision</h3><p>{settings.vision}</p></Reveal>

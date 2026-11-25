@@ -76,7 +76,6 @@ function Header() {
               <div className="mega mega--sm" role="menu">
                 <Link className="mega__link" to="/about"><span className="ic"><Building2 size={17} /></span><span><strong>About us</strong><span>Who we are and how we work</span></span></Link>
                 <Link className="mega__link" to="/careers"><span className="ic"><Users size={17} /></span><span><strong>Careers</strong><span>Open roles and resume submission</span></span></Link>
-                <Link className="mega__link" to="/gallery"><span className="ic"><Images size={17} /></span><span><strong>Gallery</strong><span>Photos from our audits and events</span></span></Link>
                 <Link className="mega__link" to="/policies"><span className="ic"><ScrollText size={17} /></span><span><strong>Policies</strong><span>Impartiality, confidentiality & more</span></span></Link>
               </div>
             </div>
@@ -104,6 +103,7 @@ function Header() {
               )}
             </div>
             <NavLink to="/accreditations">Accreditation</NavLink>
+            <NavLink to="/gallery">Gallery</NavLink>
             <div className="nav__item">
               <button className="nav__trigger" aria-haspopup="true">Resources <ChevronDown size={15} /></button>
               <div className="mega mega--sm" role="menu">
@@ -137,9 +137,9 @@ function Header() {
             <summary>About <ChevronDown size={18} /></summary>
             <Link to="/about">About us</Link>
             <Link to="/careers">Careers</Link>
-            <Link to="/gallery">Gallery</Link>
             <Link to="/policies">Policies</Link>
           </details>
+          <Link to="/gallery">Gallery</Link>
           <details className="drawer__group">
             <summary>Services <ChevronDown size={18} /></summary>
             <Link to="/services">All services</Link>

@@ -15,6 +15,10 @@ import Seo, { orgSchema, faqSchema } from '../components/Seo';
 import { Reveal, Faq, NABCB_VERIFY_URL } from '../components/ui';
 import { imgSize, Testimonials, ClientLogos, CtaBand, WhyAspira } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
+import { photo } from '../lib/companyPhotos';
+
+const ABOUT_PHOTO = photo('03');
+const HOME_PHOTOS = ['01', '02', '07', '06', '04'].map(photo);
 import { isApiDown, fileUrl } from '../lib/api';
 import { Icon } from '../lib/icons';
 import { FALLBACK_POSTS } from '../lib/fallback';
@@ -34,9 +38,9 @@ const SECTORS = [
   { I: Briefcase, t: 'Offices & workplaces', slugs: ['fire-safety-audits', 'workplace-safety-audits'] },
 ];
 
-/* Royalty-free hero footage (Pexels licence). Override from Admin → Settings → heroVideo,
-   or drop a file at public/media/hero.mp4 – sources are tried in order. */
-const HERO_VIDEO_FALLBACK = 'https://videos.pexels.com/video-files/8964291/8964291-hd_1280_720_50fps.mp4';
+/* Hero background video – the company's own file in Frontend/public/media.
+   Admin → Settings → "Hero background video" can override it. */
+const HERO_VIDEO = '/media/8964291-hd_1280_720_50fps.mp4';
 
 /** Counts up from 0 to `to` once the element scrolls into view */
 function CountUp({ to, duration = 1400 }) {
@@ -75,8 +79,7 @@ function HeroVideo({ poster, src }) {
       {ok && !reduce && (
         <video className="vh__video" autoPlay muted loop playsInline preload="metadata" poster={poster || undefined} onError={() => setOk(false)}>
           {src && <source src={src} type="video/mp4" />}
-          <source src="/media/hero.mp4" type="video/mp4" />
-          <source src={HERO_VIDEO_FALLBACK} type="video/mp4" onError={() => setOk(false)} />
+          <source src={HERO_VIDEO} type="video/mp4" onError={() => setOk(false)} />
         </video>
       )}
       <span className="vh__shade" />
@@ -230,7 +233,7 @@ export default function Home() {
       <section className="mg-sec" id="about">
         <div className="mg-wrap mg-about">
           <Reveal className="mg-about__media">
-            {(settings.aboutImage || bySlug['safety-audits']?.image) && <img src={imgSize(fileUrl(settings.aboutImage || bySlug['safety-audits'].image), 1000)} alt="Aspira auditors at work" loading="lazy" />}
+            <img src={ABOUT_PHOTO.image} width={ABOUT_PHOTO.width} height={ABOUT_PHOTO.height} alt="Aspira auditor taking an on-site environmental measurement" loading="lazy" decoding="async" className="mg-about__photo" />
           </Reveal>
           <div className="mg-about__text">
             <Head center={false} kicker="About Aspira" title="Independent audits you can rely on" />
@@ -313,6 +316,25 @@ export default function Home() {
             ))}
           </div>
           <div className="mg-center"><Link to="/industries" className="btn btn--outline">See all industries <ArrowRight size={16} /></Link></div>
+        </div>
+      </section>
+
+      {/* ---------- GALLERY PREVIEW: Aspira's own photos ---------- */}
+      <section className="mg-sec hg">
+        <div className="mg-wrap">
+          <div className="hg__head">
+            <Head kicker="Gallery" title="From our audits" text="Real moments from our on-site inspections, review meetings and awareness sessions." />
+            <Link to="/gallery" className="btn btn--outline hg__all">View full gallery <ArrowRight size={16} /></Link>
+          </div>
+          <div className="hg__grid">
+            {HOME_PHOTOS.map((ph, i) => (
+              <Reveal key={ph._id} delay={i * 0.05} as={Link} to="/gallery" className={`hg__item hg__item--${i + 1}`}>
+                <img src={i === 0 ? ph.image : ph.thumb} width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
+                <span className="hg__cap"><small>{ph.category}</small>{ph.title}</span>
+              </Reveal>
+            ))}
+          </div>
+          <div className="hg__more"><Link to="/gallery" className="btn btn--outline">View full gallery <ArrowRight size={16} /></Link></div>
         </div>
       </section>
 
