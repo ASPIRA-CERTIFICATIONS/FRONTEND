@@ -17,7 +17,7 @@ import { imgSize, Testimonials, ClientLogos, CtaBand, WhyAspira } from '../compo
 import EnquiryForm from '../components/EnquiryForm';
 import { photo } from '../lib/companyPhotos';
 
-const ABOUT_PHOTO = photo('03');
+const ABOUT_PHOTO = photo('05');
 const HOME_PHOTOS = ['01', '02', '07', '06', '04'].map(photo);
 import { isApiDown, fileUrl } from '../lib/api';
 import { Icon } from '../lib/icons';
@@ -233,7 +233,7 @@ export default function Home() {
       <section className="mg-sec" id="about">
         <div className="mg-wrap mg-about">
           <Reveal className="mg-about__media">
-            <img src={ABOUT_PHOTO.image} width={ABOUT_PHOTO.width} height={ABOUT_PHOTO.height} alt="Aspira auditor taking an on-site environmental measurement" loading="lazy" decoding="async" className="mg-about__photo" />
+            <img src={ABOUT_PHOTO.image} width={ABOUT_PHOTO.width} height={ABOUT_PHOTO.height} alt="Aspira audit team with faculty members of an institution" loading="lazy" decoding="async" className="mg-about__photo" />
           </Reveal>
           <div className="mg-about__text">
             <Head center={false} kicker="About Aspira" title="Independent audits you can rely on" />
