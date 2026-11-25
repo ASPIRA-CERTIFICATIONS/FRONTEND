@@ -8,7 +8,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, ArrowUpRight, BadgeCheck, FileCheck2, ClipboardCheck, CheckCircle2, Check, Leaf, ShieldCheck, Headset, CalendarCheck, Scale, FileSearch, Lock, Users, RefreshCcw, GraduationCap, UtensilsCrossed,
-  Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School,
+  Briefcase, Hotel, HardHat, Factory, Building2, Warehouse, School, MapPin,
 } from 'lucide-react';
 import { useSite, useFetch } from '../context/SiteContext';
 import Seo, { orgSchema, faqSchema } from '../components/Seo';
@@ -19,6 +19,8 @@ import { photo } from '../lib/companyPhotos';
 
 const ABOUT_PHOTO = photo('05');
 const HOME_PHOTOS = ['01', '02', '07', '06', '04'].map(photo);
+// hero background slideshow – photos framed to keep people in view
+const HERO_SLIDES = [['04', '50% 40%'], ['05', '50% 45%'], ['03', '50% 30%'], ['10', '50% 30%'], ['06', '50% 35%']].map(([n, pos]) => ({ ...photo(n), pos }));
 import { isApiDown, fileUrl } from '../lib/api';
 import { Icon } from '../lib/icons';
 import { FALLBACK_POSTS } from '../lib/fallback';
@@ -38,9 +40,7 @@ const SECTORS = [
   { I: Briefcase, t: 'Offices & workplaces', slugs: ['fire-safety-audits', 'workplace-safety-audits'] },
 ];
 
-/* Hero background video – the company's own file in Frontend/public/media.
-   Admin → Settings → "Hero background video" can override it. */
-const HERO_VIDEO = '/media/8964291-hd_1280_720_50fps.mp4';
+
 
 /** Counts up from 0 to `to` once the element scrolls into view */
 function CountUp({ to, duration = 1400 }) {
@@ -68,63 +68,75 @@ function CountUp({ to, duration = 1400 }) {
   return <span ref={ref}>{n}</span>;
 }
 
-/** Background video that respects reduced-motion and data-saver, with the hero photo as poster */
-function HeroVideo({ poster, src }) {
-  const [ok, setOk] = useState(true);
-  // phones get the still photo (a 16:9 video cropped to a tall screen looks blurry and costs data)
-  const reduce = typeof window !== 'undefined' && (window.innerWidth < 700 || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData);
+/** Hero background: Aspira's own on-site audit photos, cross-fading with a slow zoom */
+function HeroSlides({ slides }) {
+  const [i, setI] = useState(0);
+  const [ready, setReady] = useState(1); // only the first photo loads up front
+  useEffect(() => {
+    if (slides.length < 2 || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const id = setInterval(() => {
+      setI((n) => (n + 1) % slides.length);
+      setReady((r) => Math.min(slides.length, r + 1));
+    }, 5500);
+    // warm the next photos once the page is idle
+    const t = setTimeout(() => setReady(slides.length), 2500);
+    return () => { clearInterval(id); clearTimeout(t); };
+  }, [slides.length]);
   return (
     <div className="vh__bg" aria-hidden="true">
-      {poster && <img className="vh__poster" src={poster} alt="" fetchpriority="high" width="1600" height="900" />}
-      {ok && !reduce && (
-        <video className="vh__video" autoPlay muted loop playsInline preload="metadata" poster={poster || undefined} onError={() => setOk(false)}>
-          {src && <source src={src} type="video/mp4" />}
-          <source src={HERO_VIDEO} type="video/mp4" onError={() => setOk(false)} />
-        </video>
-      )}
+      {slides.slice(0, ready).map((ph, k) => (
+        <img
+          key={ph._id}
+          className={`vh__slide ${k === i ? 'is-on' : ''}`}
+          src={ph.image}
+          width={ph.width}
+          height={ph.height}
+          alt=""
+          fetchpriority={k === 0 ? 'high' : 'low'}
+          decoding="async"
+          style={{ objectPosition: ph.pos || '50% 35%' }}
+        />
+      ))}
       <span className="vh__shade" />
+      {slides.length > 1 && (
+        <span className="vh__dots">
+          {slides.map((ph, k) => <i key={ph._id} className={k === i ? 'on' : ''} />)}
+        </span>
+      )}
     </div>
   );
 }
 
-
-/** Illustrative inspection timeline for the hero – steps come from Settings → process */
-function HeroPanel({ steps }) {
-  const list = steps.slice(0, 5);
-  const [done, setDone] = useState(0);
+/** Hero card: Aspira's commitments (from its Quality, Impartiality and Confidentiality policies) */
+const COMMITMENTS = [
+  { I: Scale, t: 'Impartial', d: 'No consultancy, training or internal audits for the clients we inspect.' },
+  { I: ShieldCheck, t: 'Independent', d: 'Type ‘A’ inspection body – free from commercial or financial influence.' },
+  { I: Lock, t: 'Confidential', d: 'Client information protected in line with ISO/IEC 17020.' },
+  { I: FileSearch, t: 'Evidence-based', d: 'Every finding rests on objective, verifiable evidence.' },
+];
+function HeroPanel() {
+  const [on, setOn] = useState(0);
   useEffect(() => {
-    if (!list.length) return undefined;
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setDone(list.length); return undefined; }
-    const id = setInterval(() => setDone((d) => (d >= list.length + 2 ? 0 : d + 1)), 1100);
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const id = setInterval(() => setOn((n) => (n + 1) % COMMITMENTS.length), 2600);
     return () => clearInterval(id);
-  }, [list.length]);
-  if (!list.length) return null;
-  const pct = Math.min(100, Math.round((Math.min(done, list.length) / list.length) * 100));
-  const complete = done >= list.length;
+  }, []);
   return (
-    <div className="hpan" aria-hidden="true">
-      <div className="hpan__glow" />
+    <div className="hpan hpan--c">
+      <div className="hpan__glow" aria-hidden="true" />
       <div className="hpan__card">
         <div className="hpan__head">
-          <span className="hpan__live"><i /> {complete ? 'Inspection complete' : 'Inspection in progress'}</span>
-          <span className="hpan__pct">{pct}%</span>
+          <span className="hpan__live"><i aria-hidden="true" /> Our commitments</span>
         </div>
-        <div className="hpan__bar"><span style={{ width: `${pct}%` }} /></div>
-        <ol className="hpan__steps">
-          {list.map((st, i) => (
-            <li key={st.title} className={i < done ? 'is-done' : i === done ? 'is-active' : ''}>
-              <span className="hpan__tick">{i < done ? <Check size={13} strokeWidth={3} /> : <span className="hpan__n">{i + 1}</span>}</span>
-              <span>{st.title}</span>
+        <ul className="hcm">
+          {COMMITMENTS.map(({ I, t, d }, k) => (
+            <li key={t} className={k === on ? 'is-on' : ''}>
+              <span className="hcm__ic"><I size={18} /></span>
+              <span><b>{t}</b><small>{d}</small></span>
             </li>
           ))}
-        </ol>
-        <div className={`hpan__foot ${complete ? 'is-on' : ''}`}>
-          <span className="hpan__foot-ic"><FileCheck2 size={18} /></span>
-          <span><b>Inspection report</b>Clear findings & recommendations</span>
-        </div>
+        </ul>
       </div>
-      <div className="hpan__chip hpan__chip--a"><Scale size={15} /> Independent & impartial</div>
-      <div className="hpan__chip hpan__chip--b"><ShieldCheck size={15} /> ISO/IEC 17020</div>
     </div>
   );
 }
@@ -144,7 +156,6 @@ export default function Home() {
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
   const parents = services.filter((s) => !s.parentSlug);
   const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
-  const sectors = SECTORS.map((x) => ({ ...x, list: x.slugs.map((sl) => bySlug[sl]).filter(Boolean) }));
   const steps = (settings.process || []).slice(0, 6);
   const heroTitle = settings.heroTitle || 'Audits & inspections you can rely on';
   const words = heroTitle.split(' ');
@@ -176,7 +187,7 @@ export default function Home() {
       <section className="vh" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`); }}>
         <span className="vh__spot" aria-hidden="true" />
         <span className="vh__grid" aria-hidden="true" />
-        <HeroVideo poster={settings.heroImage ? imgSize(fileUrl(settings.heroImage), 1600) : ''} src={settings.heroVideo ? fileUrl(settings.heroVideo) : ''} />
+        <HeroSlides slides={HERO_SLIDES} />
         <div className="mg-wrap vh__inner">
           <div className="vh__text">
             <span className="vh__eyebrow"><span className="vh__dot" />{settings.tagline || 'Audits · Inspections · Assessments'}</span>
@@ -193,14 +204,9 @@ export default function Home() {
             <div className="vh__actions">
               <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--lg vh__cta"><CalendarCheck size={18} /> Book an audit <ArrowRight size={17} /></Link>
             </div>
-            <ul className="vh__trust" aria-label="Our commitments">
-              <li><Check size={14} strokeWidth={3} /> Impartial</li>
-              <li><Check size={14} strokeWidth={3} /> Confidential</li>
-              <li><Check size={14} strokeWidth={3} /> Standards-based</li>
-            </ul>
           </div>
 
-          <HeroPanel steps={steps.length ? steps : settings.process || []} />
+          <HeroPanel />
         </div>
       </section>
 
@@ -298,19 +304,12 @@ export default function Home() {
       {/* ---------- WHO WE SERVE: sector → matching audits ---------- */}
       <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
-          <Head kicker="Who we serve" title="Find the right audit for your sector" text="Pick your type of organisation to see the audits and inspections designed for it." />
-          <div className="ws-list">
-            {sectors.map(({ I, t, list }, i) => (
-              <Reveal key={t} delay={i * 0.03} className="ws-row">
-                <span className="ws-row__ic"><I size={22} strokeWidth={1.7} /></span>
-                <div className="ws-row__body">
-                  <h3>{t}</h3>
-                  <p className="ws-row__links">
-                    {list.map((sv, k) => (
-                      <span key={sv.slug}><Link to={`/services/${sv.slug}`}>{sv.title}</Link>{k < list.length - 1 ? ',' : ''}</span>
-                    ))}
-                  </p>
-                </div>
+          <Head kicker="Who we serve" title="Sectors we work with" text="Independent audits and inspections for organisations across these sectors." />
+          <div className="ws-tiles">
+            {SECTORS.map(({ I, t }, i) => (
+              <Reveal key={t} delay={i * 0.03} className="ws-tile">
+                <span className="ws-tile__ic"><I size={22} strokeWidth={1.7} /></span>
+                <h3>{t}</h3>
               </Reveal>
             ))}
           </div>
@@ -322,14 +321,14 @@ export default function Home() {
       <section className="mg-sec hg">
         <div className="mg-wrap">
           <div className="hg__head">
-            <Head kicker="Gallery" title="From our audits" text="Real moments from our on-site inspections, review meetings and awareness sessions." />
+            <Head kicker="Gallery" title="From our audits" text="Real photos from our on-site inspection audits." />
             <Link to="/gallery" className="btn btn--outline hg__all">View full gallery <ArrowRight size={16} /></Link>
           </div>
           <div className="hg__grid">
             {HOME_PHOTOS.map((ph, i) => (
               <Reveal key={ph._id} delay={i * 0.05} as={Link} to="/gallery" className={`hg__item hg__item--${i + 1}`}>
                 <img src={i === 0 ? ph.image : ph.thumb} width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
-                <span className="hg__cap"><small>{ph.category}</small>{ph.title}</span>
+                
               </Reveal>
             ))}
           </div>

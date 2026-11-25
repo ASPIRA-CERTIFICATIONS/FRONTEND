@@ -36,12 +36,12 @@ export function About() {
       {/* Aspira's own photos */}
       <section className="section section--white ab-ph">
         <div className="container">
-          <SectionHead center eyebrow="In the field" title={<>Where our audits <em className="accent">happen</em></>} />
+          <SectionHead center eyebrow="In the field" title={<>Our on-site <em className="accent">inspection audits</em></>} />
           <div className="ab-ph__grid">
             {ABOUT_PHOTOS.map((ph, i) => (
               <Reveal key={ph._id} delay={i * 0.06} as={Link} to="/gallery" className={`ab-ph__item ab-ph__item--${i + 1}`}>
                 <img src={ph.thumb} srcSet={`${ph.thumb} 720w, ${ph.image} ${ph.width}w`} sizes="(max-width: 700px) 100vw, 50vw" width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
-                <span className="ab-ph__cap">{ph.title}</span>
+                
               </Reveal>
             ))}
           </div>

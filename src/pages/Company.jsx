@@ -341,8 +341,8 @@ export function Gallery() {
 
   return (
     <>
-      <Seo title="Gallery" description="Photos from Aspira Certifications' audits, inspections, meetings and awareness sessions." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }])} />
-      <PageIntro wide eyebrow="Gallery" title="Our work in pictures" lead="Real photos from our audits, on-site inspections, review meetings and awareness sessions." crumbs={[{ label: 'Gallery' }]} />
+      <Seo title="Gallery" description="Photos from Aspira Certifications' on-site inspection audits." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }])} />
+      <PageIntro wide eyebrow="Gallery" title="Our work in pictures" lead="Real photos from our on-site inspection audits." crumbs={[{ label: 'Gallery' }]} />
       <section className="q-sec">
         <div className="q-wrap q-wrap--wide">
           {cats.length > 1 && (
@@ -370,10 +370,8 @@ export function Gallery() {
                     loading={i < 3 ? 'eager' : 'lazy'}
                     decoding="async"
                   />
-                  <span className="gl-item__cap">
-                    {it.category && <small>{it.category}</small>}
-                    {it.title && <b>{it.title}</b>}
-                  </span>
+                  {/* Aspira's own photos already carry a GPS stamp, so no overlay caption */}
+                  {!it._id?.startsWith?.('aspira-') && it.title && <span className="gl-item__cap"><b>{it.title}</b></span>}
                   <span className="gl-item__zoom" aria-hidden="true"><Maximize2 size={16} /></span>
                 </button>
               ))}
