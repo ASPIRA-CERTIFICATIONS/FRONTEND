@@ -2840,3 +2840,17 @@ img[src*="/gallery/aspira-05"].mg-about__photo { object-position: 50% 85%; }
 @media (hover: hover) { .svc-photos__item:hover img { transform: scale(1.05); } }
 @media (max-width: 900px) { .svc-photos { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; } .svc-photos__item:nth-child(6) { grid-column: auto; grid-row: auto; } }
 .svc-photos__item:nth-child(6) { grid-column: auto !important; grid-row: auto !important; }
+
+/* v44 – scope section: fill the left column (photo + prompt), kept in view while scrolling */
+.svc-scope-side { position: sticky; top: calc(var(--header-h) + 76px); align-self: start; }
+.svc-scope-photo { position: relative; margin: 1.5rem 0 0; border-radius: 20px; overflow: hidden; box-shadow: 0 24px 50px -30px rgba(11, 27, 63, .5); }
+.svc-scope-photo img { display: block; width: 100%; height: 340px; object-fit: cover; margin: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; }
+.svc-scope-photo figcaption { position: absolute; left: 1rem; bottom: 1rem; display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .9rem; border-radius: 12px; background: rgba(255,255,255,.95); color: #0f1d45; font-size: .88rem; font-weight: 600; box-shadow: 0 10px 24px -12px rgba(0,0,0,.4); }
+.svc-scope-photo figcaption b { display: grid; place-items: center; min-width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, #2247d6, #23a455); color: #fff; font-size: .9rem; }
+.svc-scope-cta { margin-top: 1rem; padding: 1.1rem 1.2rem; border-radius: 16px; background: #f4f7ff; border: 1px solid #e3e8f4; }
+.svc-scope-cta p { margin: 0 0 .8rem; font-size: .92rem; line-height: 1.55; color: #475467; }
+@media (max-width: 1100px) {
+  .svc-scope-side { position: static; }
+  .svc-scope-photo img { height: 260px; }
+  .svc-scope-cta { display: none; }
+}

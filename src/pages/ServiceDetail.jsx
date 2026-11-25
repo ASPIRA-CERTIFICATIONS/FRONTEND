@@ -216,6 +216,18 @@ export default function ServiceDetail() {
               <span className="eyebrow">Scope of audit</span>
               <h2>What we assess</h2>
               <p className="muted-p">Every engagement is scoped to your site. A typical {s.title.toLowerCase().replace(/s$/, '')} covers:</p>
+              {(isGreen || s.image) && (
+                <figure className="svc-scope-photo">
+                  {isGreen
+                    ? <img src={photo('03').image} width={photo('03').width} height={photo('03').height} alt="Aspira auditor taking an on-site environmental measurement" loading="lazy" decoding="async" />
+                    : <img src={imgSize(s.image, 900)} alt="" loading="lazy" width="900" height="675" />}
+                  <figcaption><b>{s.scope.length}</b> areas assessed on site</figcaption>
+                </figure>
+              )}
+              <div className="svc-scope-cta">
+                <p>Not sure what your {isGreen ? 'campus' : 'site'} needs? We’ll confirm the scope with you before the audit.</p>
+                <a href="#enquire" className="btn btn--green btn--sm">{cta} <ArrowRight size={15} /></a>
+              </div>
             </div>
             <ol className={`svc-scope ${s.scope.length <= 5 ? 'svc-scope--few' : ''}`}>
               {s.scope.map((x, i) => {
