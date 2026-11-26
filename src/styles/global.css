@@ -3049,3 +3049,21 @@ img[src*="/gallery/aspira-05"].mg-about__photo { object-position: 50% 85%; }
 .vfy-steps strong { color: #0f1d45; }
 .vfy-steps li span { color: #475467; }
 .ph__media--custom { height: auto !important; aspect-ratio: auto !important; overflow: visible !important; background: none !important; box-shadow: none !important; padding: 0 !important; border: 0 !important; }
+
+/* v50 – contact + complaints: same intro as other pages, tidy mobile layout */
+.section--first { padding-top: clamp(2rem, 4vw, 3rem); }
+.contact-item a, .steps-ol a { overflow-wrap: anywhere; }
+.steps-ol li { align-items: start; }
+@media (max-width: 700px) {
+  .steps-ol { gap: .75rem; }
+  .steps-ol li { grid-template-columns: 1fr; gap: .55rem; padding: 1.1rem 1.1rem 1.15rem; }
+  .steps-ol li::before { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #eaf8ef; color: #1f8a4c; font-weight: 700; padding: 0; }
+  .steps-ol p { font-size: .92rem; line-height: 1.6; }
+  .split { gap: 2.25rem; }
+  .contact-grid { gap: 1.5rem; }
+  .contact-item { padding: .9rem 1rem; gap: .85rem; }
+  .intent-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .intent-tabs button { padding: .7rem .5rem; font-size: .85rem; }
+  .form-card { padding: 1.25rem 1rem 1.4rem; }
+  .form-card .btn { width: 100%; justify-content: center; }
+}

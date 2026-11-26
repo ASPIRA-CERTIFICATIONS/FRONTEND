@@ -271,8 +271,8 @@ export function Contact() {
   return (
     <>
       <Seo title="Contact Us – Request a Quote" description={`Request a quote or talk to Aspira's experts. Call ${c.phones?.[0] || ''} or email ${c.emails?.[0] || ''}.`} jsonLd={[orgSchema(settings, []), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]} />
-      <PageHero crumbs={[{ label: 'Contact' }]} pageKey="contact" image="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=70" eyebrow="Contact" title={<>Let's talk about your <em className="accent">audit</em></>} intro="Request a quote or speak to our experts — we respond to every enquiry." primary={{ href: '#enquiry', label: 'Send an enquiry' }} />
-      <section className="section" id="enquiry">
+      <PageIntro eyebrow="Contact" title={<>Let's talk about your <em className="accent">audit</em></>} lead="Request a quote or speak to our experts — we respond to every enquiry." crumbs={[{ label: 'Contact' }]} />
+      <section className="section section--first" id="enquiry">
         <div className="container contact-grid">
           <div className="contact-list">
             <div className="intent-tabs" role="tablist" aria-label="What would you like to do?">
@@ -395,8 +395,8 @@ export function Complaints() {
   return (
     <>
       <Seo title="Complaints & Appeals" description="How to raise a complaint or appeal with Aspira Certifications, including the hygiene rating appeal process via QCI and FSSAI." />
-      <PageHero crumbs={[{ label: 'Complaints & Appeals' }]} pageKey="complaints" image="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=70" actions={false} eyebrow="Impartiality" title={<>Complaints & <em className="accent">appeals</em></>} intro="Every complaint and appeal is acknowledged, recorded and handled impartially under our documented procedure." />
-      <section className="section">
+      <PageIntro eyebrow="Impartiality" title={<>Complaints &amp; <em className="accent">appeals</em></>} lead="Every complaint and appeal is acknowledged, recorded and handled impartially under our documented procedure." crumbs={[{ label: 'Complaints & Appeals' }]} />
+      <section className="section section--first">
         <div className="container split split--top">
           <div>
             <Reveal><span className="eyebrow">Complaints procedure</span><h2>How we handle your complaint</h2></Reveal>
