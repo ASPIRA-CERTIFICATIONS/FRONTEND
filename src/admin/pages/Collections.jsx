@@ -131,13 +131,14 @@ export const Testimonials = () => (
   <Collection
     endpoint="/testimonials"
     singular="Testimonial"
-    intro="Only add genuine testimonials you have permission to publish. The testimonials section is hidden on the website until at least one is published."
+    intro="Only add genuine testimonials you have permission to publish. Text testimonials and uploaded letters appear on the Testimonials page (the two letters from the old website are always shown)."
     blank={{ name: '', designation: '', organization: '', quote: '', rating: '', photo: '', logo: '', videoUrl: '', serviceSlug: '', order: 100, published: false }}
     fields={[
       { key: 'name', label: 'Name *', required: true },
       { key: 'designation', label: 'Designation' },
       { key: 'organization', label: 'Organisation', full: true },
-      { key: 'quote', label: 'Testimonial *', type: 'area', full: true },
+      { key: 'quote', label: 'Testimonial text', type: 'area', full: true, hint: 'Either type the testimonial, or upload the signed letter below' },
+      { key: 'letter', label: 'Testimonial letter (scan / photo)', type: 'image' },
       { key: 'serviceSlug', label: 'Related service slug', hint: 'Optional, e.g. green-audits – shows on that service page' },
       { key: 'order', label: 'Order', type: 'number' },
       { key: 'videoUrl', label: 'Video testimonial (optional)', hint: 'YouTube link, or upload an MP4 in Media and paste its path', full: true },
@@ -318,12 +319,12 @@ export const ResourcesAdmin = () => (
   <Collection
     endpoint="/resources"
     singular="Resource"
-    intro="Downloadable documents shown on /resources – accreditation certificates, brochures, checklists and guidelines. Upload PDFs through the file picker."
+    intro="Learning resources shown on Insights & guides (/resources) – technical guides, checklists and guidelines for audits. Visitors give their name and email before downloading; each request appears under Enquiries as a “download” lead."
     note="Use only approved company documents. To replace a document, edit it and choose the new file."
-    blank={{ title: '', description: '', category: 'Brochures', file: '', fileType: 'PDF', fileSize: '', serviceSlug: '', order: 100, published: false }}
+    blank={{ title: '', description: '', category: 'Technical guides', file: '', fileType: 'PDF', fileSize: '', serviceSlug: '', order: 100, published: false }}
     fields={[
       { key: 'title', label: 'Title *', required: true, full: true },
-      { key: 'category', label: 'Category', type: 'select', options: ['Accreditation', 'Brochures', 'Company profile', 'Green Audit', 'Hygiene Rating', 'Checklists', 'Guidelines', 'Other'] },
+      { key: 'category', label: 'Category', type: 'select', options: ['Technical guides', 'Checklists', 'Guidelines', 'Green Audit', 'Hygiene Rating', 'Safety Audits', 'Energy & Water', 'Brochures', 'Other'] },
       { key: 'serviceSlug', label: 'Related service', type: 'select', options: SERVICE_OPTS },
       { key: 'description', label: 'Description', type: 'area', rows: 3, full: true },
       { key: 'file', label: 'Document file *', type: 'file' },

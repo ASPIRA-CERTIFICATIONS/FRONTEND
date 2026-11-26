@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, CalendarDays, Download, FileText, MapPin, User, Building, Check, ExternalLink } from 'lucide-react';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, CalendarDays, Download, FileText, MapPin, User, Building, Check, ExternalLink, X } from 'lucide-react';
 import { useFetch, useSite } from '../context/SiteContext';
-import { fileUrl, isApiDown } from '../lib/api';
+import { api, fileUrl, isApiDown } from '../lib/api';
 import { Markdown } from '../lib/markdown';
 import { FALLBACK_POSTS, FALLBACK_RESOURCES } from '../lib/fallback';
 import Seo, { breadcrumbSchema } from '../components/Seo';
@@ -143,6 +143,7 @@ export function BlogPost() {
 export function CaseStudies() {
   const { data, loading, error } = useFetch('/case-studies');
   const items = data || [];
+  if (!loading && !items.length) return <Navigate to="/" replace />; // hidden until a case study is published
   return (
     <>
       <Seo title="Case Studies" description="Verified audit projects completed by Aspira Certifications for educational institutions, restaurants and businesses." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Case studies', path: '/case-studies' }])} />
@@ -222,18 +223,64 @@ export function CaseStudy() {
   );
 }
 
-/* ---------------- Downloads ---------------- */
+/* ---------------- Insights & guides (gated learning resources) ---------------- */
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
+/** Asks for name + email, records the request, then starts the download */
+function DownloadGate({ r, onClose }) {
+  const [v, setV] = useState({ name: '', email: '', organization: '', website: '' });
+  const [st, setSt] = useState({ s: 'idle' });
+  const set = (k) => (e) => setV((x) => ({ ...x, [k]: e.target.value }));
+  async function submit(e) {
+    e.preventDefault();
+    if (v.name.trim().length < 2) return setSt({ s: 'err', msg: 'Please enter your name.' });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) return setSt({ s: 'err', msg: 'Please enter a valid email address.' });
+    setSt({ s: 'sending' });
+    try {
+      const { url } = await api(`/resources/${r._id}/request`, { method: 'POST', body: v });
+      window.location.assign(`${API_BASE}${url}`);
+      setSt({ s: 'done' });
+    } catch (err) {
+      setSt({ s: 'err', msg: err.message || 'Could not start the download. Please try again.' });
+    }
+  }
+  return (
+    <div className="dg" role="dialog" aria-modal="true" aria-labelledby="dg-title" onClick={onClose}>
+      <form className="dg__card" onClick={(e) => e.stopPropagation()} onSubmit={submit} noValidate>
+        <button type="button" className="dg__x" onClick={onClose} aria-label="Close"><X size={20} /></button>
+        <span className="dg__ic"><FileText size={22} /></span>
+        <h2 id="dg-title">Download “{r.title}”</h2>
+        <p>Please share your name and email to download this resource.</p>
+        {st.s === 'done' ? (
+          <div className="alert alert--ok" role="status"><Check size={17} /> Thank you – your download has started.</div>
+        ) : (
+          <>
+            <label><b>Your name <i aria-hidden="true">*</i></b><input value={v.name} onChange={set('name')} autoComplete="name" maxLength={120} required /></label>
+            <label><b>Email <i aria-hidden="true">*</i></b><input type="email" value={v.email} onChange={set('email')} autoComplete="email" maxLength={160} required /></label>
+            <label><b>Organisation <small>(optional)</small></b><input value={v.organization} onChange={set('organization')} autoComplete="organization" maxLength={160} /></label>
+            <input className="hp" tabIndex={-1} autoComplete="off" value={v.website} onChange={set('website')} aria-hidden="true" />
+            {st.s === 'err' && <div className="alert alert--err" role="alert">{st.msg}</div>}
+            <button className="btn btn--green" disabled={st.s === 'sending'}><Download size={16} /> {st.s === 'sending' ? 'Preparing…' : 'Download'}</button>
+            <small className="dg__note">We use these details only to share relevant updates from Aspira. See our <Link to="/policies" onClick={onClose}>policies</Link>.</small>
+          </>
+        )}
+      </form>
+    </div>
+  );
+}
+
 export function Resources() {
   const { data, loading, error } = useFetch('/resources');
   const items = data || (apiDown(error) ? FALLBACK_RESOURCES : []);
   const [cat, setCat] = useState('All');
+  const [gate, setGate] = useState(null);
   const cats = useMemo(() => ['All', ...new Set(items.map((r) => r.category).filter(Boolean))], [items]);
   const list = items.filter((r) => cat === 'All' || r.category === cat);
-  const href = (r) => (r._id && !String(r._id).startsWith('local-') ? `${import.meta.env.VITE_API_URL || ''}/api/resources/${r._id}/download` : fileUrl(r.file));
+  const canGate = (r) => r._id && !String(r._id).startsWith('local-');
   return (
     <>
-      <Seo title="Downloads & Resources" description="Approved Aspira Certifications documents available to download." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Downloads', path: '/resources' }])} />
-      <PageHero crumbs={[{ label: 'Downloads' }]} pageKey="resources" primary={{ href: '#downloads', label: 'View downloads' }} eyebrow="Resources" title={<>Documents & <em className="accent">downloads</em></>} intro="Approved Aspira documents available to download." />
+      <Seo title="Insights & Guides" description="Learning resources and technical guides on green audits, hygiene rating and safety audits from Aspira Certifications." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Insights & guides', path: '/resources' }])} />
+      <PageHero crumbs={[{ label: 'Insights & guides' }]} pageKey="resources" primary={{ href: '#downloads', label: 'Browse resources' }} eyebrow="Insights & guides" title={<>Learning resources <em className="accent">for audits</em></>} intro="Technical guides, checklists and reference material to help you prepare for green, hygiene and safety audits." />
       <section className="section">
         <div className="container">
           {cats.length > 2 && (
@@ -247,32 +294,28 @@ export function Resources() {
                 <Reveal key={r._id || r.title} className="res">
                   <span className="res__ic"><FileText size={22} /></span>
                   <div className="res__body">
-                    <span className="post-card__cat">{r.category}</span>
+                    {r.category && <span className="post-card__cat">{r.category}</span>}
                     <h3>{r.title}</h3>
                     {r.description && <p>{r.description}</p>}
                     <small>{[r.fileType, r.fileSize].filter(Boolean).join(' · ')}</small>
                   </div>
-                  <a className="btn btn--green btn--sm" href={href(r)} target="_blank" rel="noopener noreferrer" download><Download size={15} /> Download</a>
+                  {canGate(r)
+                    ? <button type="button" className="btn btn--green btn--sm" onClick={() => setGate(r)}><Download size={15} /> Download</button>
+                    : <a className="btn btn--green btn--sm" href={fileUrl(r.file)} target="_blank" rel="noopener noreferrer" download><Download size={15} /> Download</a>}
                 </Reveal>
               ))}
             </div>
           ) : (
-            <div className="empty">No documents published yet.</div>
+            <div className="empty empty--lg" id="downloads">
+              <FileText size={30} />
+              <h3>Resources coming soon</h3>
+              <p>We are preparing technical guides and checklists for green, hygiene and safety audits. Meanwhile, read our <Link to="/blog" style={{ textDecoration: 'underline' }}>blog</Link> or <Link to="/contact?intent=expert#enquiry" style={{ textDecoration: 'underline' }}>ask our team</Link>.</p>
+            </div>
           )}
-          <p className="form__note" style={{ marginTop: '1.25rem' }}>
-            Looking for something else — a brochure, checklist or audit guidelines? <Link to="/contact?intent=expert#enquiry" style={{ textDecoration: 'underline' }}>Ask our team</Link>. You can also <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>verify our accreditation on NABCB <ExternalLink size={12} style={{ display: 'inline' }} /></a>.
-          </p>
         </div>
       </section>
-      <section className="section section--white">
-        <div className="container">
-          <SectionHead center eyebrow="Popular" title="Explore our main services" />
-          <div className="audience-mini">
-            <Link to="/services/green-audits" className="link-arrow">Green Audits for educational institutions <ArrowUpRight size={14} /></Link>
-            <Link to="/services/hygiene-rating-audits" className="link-arrow">Hygiene Rating Audits for restaurants <ArrowUpRight size={14} /></Link>
-          </div>
-        </div>
-      </section>
+      {gate && <DownloadGate r={gate} onClose={() => setGate(null)} />}
+      <CtaBand />
     </>
   );
 }

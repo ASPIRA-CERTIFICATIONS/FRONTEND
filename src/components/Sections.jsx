@@ -199,24 +199,45 @@ export const AccreditationBand = () => <AccreditationSection showWhy={false} />;
 /** Accreditation panel on service pages – honest about scope */
 export function ServiceAccreditation({ slug }) {
   const { accreditations } = useSite();
-  const a = accreditations.find((x) => x.shortName === 'NABCB');
-  if (!a) return null;
-  const inScope = slug === 'green-audits';
-  return (
-    <div className={`svc-accr ${inScope ? 'svc-accr--in' : ''}`}>
-      <img src={BADGE_SRC} alt={`${a.shortName} Accredited Inspection Body – Reg. No. ${a.registrationNo}`} width="64" height="70" loading="lazy" />
-      <div>
-        <b>{inScope ? 'This service is within our NABCB scope of accreditation' : `Delivered by a ${a.shortName}-accredited Inspection Body`}</b>
-        <p>
-          {inScope
-            ? `Aspira is accredited by ${a.shortName} as a Type ‘A’ Inspection Body (Reg. No. ${a.registrationNo}) for green audits of educational institutions.`
-            : `Aspira is a ${a.shortName}-accredited Type ‘A’ Inspection Body (Reg. No. ${a.registrationNo}); the accreditation scope covers green audits of educational institutions. This service is delivered as an independent third-party assessment with the same impartial approach.`}
-        </p>
-        <Link to="/accreditations" className="link-arrow">Accreditation details <ArrowRight size={14} /></Link>
+  // NABCB covers green audits only; QCI recognition covers hygiene rating audits only
+  if (slug === 'green-audits') {
+    const a = accreditations.find((x) => x.shortName === 'NABCB');
+    if (!a) return null;
+    return (
+      <div className="svc-accr svc-accr--in">
+        <img src={BADGE_SRC} alt={`NABCB Accredited Inspection Body – Reg. No. ${a.registrationNo}`} width="64" height="70" loading="lazy" />
+        <div>
+          <b>This service is within our NABCB scope of accreditation</b>
+          <p>Aspira is accredited by NABCB as a Type ‘A’ Inspection Body (Reg. No. {a.registrationNo}) for green audits of educational institutions.</p>
+          <Link to="/accreditations" className="link-arrow">Accreditation details <ArrowRight size={14} /></Link>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  if (slug === 'hygiene-rating-audits') {
+    const q = accreditations.find((x) => x.shortName === 'QCI') || QCI_FALLBACK;
+    return (
+      <div className="svc-accr svc-accr--in svc-accr--qci">
+        <span className="svc-accr__seal" aria-hidden="true"><ShieldCheck size={30} /></span>
+        <div>
+          <b>QCI-recognised Hygiene Rating Audit Agency (HRAA)</b>
+          <p>{q.description}</p>
+          <Link to="/accreditations#qci" className="link-arrow">Recognition details <ArrowRight size={14} /></Link>
+        </div>
+      </div>
+    );
+  }
+  return null;
 }
+
+/** Used when the QCI record has not yet been added to the database (wording from the old site) */
+export const QCI_FALLBACK = {
+  shortName: 'QCI',
+  title: 'QCI Recognised Hygiene Rating Audit Agency (HRAA)',
+  body: 'Quality Council of India (QCI)',
+  description: 'Aspira Certifications Private Limited is a Hygiene Rating Audit Agency (HRAA) recognised by the Quality Council of India (QCI) to conduct Hygiene Rating Audits under the FSSAI Hygiene Rating Scheme.',
+  scope: 'Hygiene Rating Audits of food establishments under the FSSAI Hygiene Rating Scheme',
+};
 
 /** Service → target customers table (built from each service's audience text, editable in admin) */
 export function CustomerTable({ limit }) {
@@ -295,7 +316,7 @@ function VideoTestimonial({ url, title }) {
 
 export function Testimonials({ serviceSlug }) {
   const { data } = useFetch('/testimonials');
-  let items = data || [];
+  let items = (data || []).filter((t) => t.quote);
   if (serviceSlug) {
     const specific = items.filter((t) => t.serviceSlug === serviceSlug);
     items = specific.length ? specific : items;
@@ -357,8 +378,7 @@ export function CtaBand({ title = 'Ready to get audit-ready?', text = 'Speak to 
             <p>{text}</p>
           </div>
           <div className="cta__actions">
-            <Link to="/contact?intent=booking#enquiry" className="btn btn--light"><CalendarCheck size={16} /> Book an audit</Link>
-            <Link to="/contact?intent=quote#enquiry" className="btn btn--outline-light">Request a quote</Link>
+            <Link to="/contact?intent=quote#enquiry" className="btn btn--light">Request a quote</Link>
             {phone && <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} className="btn btn--outline-light"><Phone size={16} /> {phone}</a>}
           </div>
         </Reveal>

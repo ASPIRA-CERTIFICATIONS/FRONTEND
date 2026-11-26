@@ -15,7 +15,9 @@ import Seo, { orgSchema, faqSchema } from '../components/Seo';
 import { Reveal, Faq, NABCB_VERIFY_URL } from '../components/ui';
 import { imgSize, Testimonials, ClientLogos, CtaBand, WhyAspira } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
-import { photo } from '../lib/companyPhotos';
+import { photo, customImage } from '../lib/companyPhotos';
+import { TESTIMONIAL_LETTERS } from '../lib/testimonialLetters';
+import LetterImg from '../components/LetterImg';
 
 const ABOUT_PHOTO = photo('05');
 const HOME_PHOTOS = ['01', '02', '07', '06', '04'].map(photo);
@@ -187,7 +189,7 @@ export default function Home() {
       <section className="vh" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`); }}>
         <span className="vh__spot" aria-hidden="true" />
         <span className="vh__grid" aria-hidden="true" />
-        <HeroSlides slides={HERO_SLIDES} />
+        <HeroSlides slides={customImage(settings.heroImage) ? [{ _id: 'admin-hero', image: fileUrl(customImage(settings.heroImage)), width: 1600, height: 900, pos: '50% 40%' }, ...HERO_SLIDES] : HERO_SLIDES} />
         <div className="mg-wrap vh__inner">
           <div className="vh__text">
             <span className="vh__eyebrow"><span className="vh__dot" />{settings.tagline || 'Audits · Inspections · Assessments'}</span>
@@ -239,7 +241,9 @@ export default function Home() {
       <section className="mg-sec" id="about">
         <div className="mg-wrap mg-about">
           <Reveal className="mg-about__media">
-            <img src={ABOUT_PHOTO.image} width={ABOUT_PHOTO.width} height={ABOUT_PHOTO.height} alt="Aspira audit team with faculty members of an institution" loading="lazy" decoding="async" className="mg-about__photo" />
+            {customImage(settings.aboutImage)
+              ? <img src={imgSize(fileUrl(customImage(settings.aboutImage)), 1000)} alt="Aspira auditors at work" loading="lazy" decoding="async" className="mg-about__photo" />
+              : <img src={ABOUT_PHOTO.image} width={ABOUT_PHOTO.width} height={ABOUT_PHOTO.height} alt="Aspira audit team with faculty members of an institution" loading="lazy" decoding="async" className="mg-about__photo" />}
           </Reveal>
           <div className="mg-about__text">
             <Head center={false} kicker="About Aspira" title="Independent audits you can rely on" />
@@ -313,7 +317,6 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-          <div className="mg-center"><Link to="/industries" className="btn btn--outline">See all industries <ArrowRight size={16} /></Link></div>
         </div>
       </section>
 
@@ -354,6 +357,22 @@ export default function Home() {
         </section>
       )}
 
+      {/* ---------- CLIENT TESTIMONIALS ---------- */}
+      <section className="mg-sec ht">
+        <div className="mg-wrap ht__in">
+          <div className="ht__text">
+            <Head kicker="Client testimonials" title="What our clients say" text="Organisations we have audited share their experience of working with Aspira." />
+            <Link to="/testimonials" className="btn btn--outline">Read all testimonials <ArrowRight size={16} /></Link>
+          </div>
+          <div className="ht__letters">
+            {TESTIMONIAL_LETTERS.slice(0, 2).map((l, i) => (
+              <Reveal key={l._id} delay={i * 0.08} as={Link} to="/testimonials" className={`ht__letter ht__letter--${i + 1}`}>
+                <LetterImg l={l} alt={`Client testimonial letter ${i + 1}`} loading="lazy" />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
       <Testimonials />
 
       {/* ---------- INSIGHTS ---------- */}

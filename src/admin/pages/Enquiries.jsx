@@ -6,7 +6,7 @@ import { useToast } from '../fields';
 import { fmt } from './Dashboard';
 
 const STATUSES = ['new', 'contacted', 'in-progress', 'converted', 'closed', 'spam'];
-const TYPES = ['general', 'service', 'quote', 'booking', 'consultation', 'chat', 'certificate', 'complaint'];
+const TYPES = ['general', 'service', 'quote', 'booking', 'consultation', 'chat', 'download', 'certificate', 'complaint'];
 const CHANNELS = [['all', 'All channels'], ['form', 'Website forms'], ['chat', 'Chat'], ['whatsapp', 'WhatsApp']];
 
 export default function Enquiries() {

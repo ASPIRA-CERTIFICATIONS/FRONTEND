@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { ChevronDown, Menu, X, Phone, Mail, MapPin, ArrowRight, ArrowUp, BadgeCheck, MessageCircle, Search, Download, ExternalLink, BookOpen, FileText, Briefcase, ShieldCheck, Users, Images, ScrollText, Building2 } from 'lucide-react';
-import { useSite } from '../context/SiteContext';
+import { useSite, useFetch } from '../context/SiteContext';
 import { Icon } from '../lib/icons';
 import { fileUrl } from '../lib/api';
 import { waLink, waMessageFor } from '../lib/whatsapp';
@@ -23,8 +23,15 @@ function SocialIcon({ name }) {
   );
 }
 
+/** Case studies are only linked once at least one has been published in the admin */
+function useHasCases() {
+  const { data } = useFetch('/case-studies');
+  return Array.isArray(data) && data.length > 0;
+}
+
 function Header() {
   const { settings, services, accreditations } = useSite();
+  const hasCases = useHasCases();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
@@ -108,12 +115,12 @@ function Header() {
               <button className="nav__trigger" aria-haspopup="true">Resources <ChevronDown size={15} /></button>
               <div className="mega mega--sm" role="menu">
                 <Link className="mega__link" to="/blog"><span className="ic"><BookOpen size={17} /></span><span><strong>Blog</strong><span>Guides on green audits, hygiene rating & safety</span></span></Link>
-                <Link className="mega__link" to="/case-studies"><span className="ic"><Briefcase size={17} /></span><span><strong>Case studies</strong><span>Verified projects completed by Aspira</span></span></Link>
-                <Link className="mega__link" to="/resources"><span className="ic"><FileText size={17} /></span><span><strong>Downloads</strong><span>Approved Aspira documents</span></span></Link>
-                <Link className="mega__link" to="/industries"><span className="ic"><Icon name="Factory" size={17} /></span><span><strong>Industries</strong><span>Who we serve</span></span></Link>
+                <Link className="mega__link" to="/resources"><span className="ic"><FileText size={17} /></span><span><strong>Insights &amp; guides</strong><span>Learning resources and technical guides</span></span></Link>
+                {hasCases && <Link className="mega__link" to="/case-studies"><span className="ic"><Briefcase size={17} /></span><span><strong>Case studies</strong><span>Verified projects completed by Aspira</span></span></Link>}
               </div>
             </div>
-            <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="nav__ext">Verify Certificate</a>
+            <NavLink to="/testimonials">Testimonials</NavLink>
+            <NavLink to="/certificate-status">Verify Certificate</NavLink>
             <NavLink to="/contact">Contact</NavLink>
           </nav>
 
@@ -154,11 +161,11 @@ function Header() {
           <details className="drawer__group">
             <summary>Resources <ChevronDown size={18} /></summary>
             <Link to="/blog">Blog</Link>
-            <Link to="/case-studies">Case studies</Link>
-            <Link to="/resources">Downloads</Link>
-            <Link to="/industries">Industries</Link>
+            <Link to="/resources">Insights &amp; guides</Link>
+            {hasCases && <Link to="/case-studies">Case studies</Link>}
           </details>
-          <Link to="/certificate-status">Certificate Status</Link>
+          <Link to="/testimonials">Testimonials</Link>
+          <Link to="/certificate-status">Verify Certificate</Link>
           <Link to="/complaints-and-appeals">Complaints & Appeals</Link>
           <Link to="/contact">Contact</Link>
           <div className="drawer__foot">
@@ -174,6 +181,7 @@ function Header() {
 
 function Footer() {
   const { settings, services, accreditations } = useSite();
+  const hasCases = useHasCases();
   const c = settings.contact || {};
   const social = settings.social || {};
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
@@ -219,9 +227,10 @@ function Footer() {
               <li><Link to="/gallery">Gallery</Link></li>
               <li><Link to="/policies">Policies</Link></li>
               <li><Link to="/blog">Blog</Link></li>
-              <li><Link to="/case-studies">Case studies</Link></li>
-              <li><Link to="/resources">Downloads</Link></li>
-              <li><Link to="/certificate-status">Certificate status</Link></li>
+              {hasCases && <li><Link to="/case-studies">Case studies</Link></li>}
+              <li><Link to="/resources">Insights &amp; guides</Link></li>
+              <li><Link to="/testimonials">Testimonials</Link></li>
+              <li><Link to="/certificate-status">Verify a certificate</Link></li>
               <li><Link to="/complaints-and-appeals">Complaints & appeals</Link></li>
             </ul>
           </div>

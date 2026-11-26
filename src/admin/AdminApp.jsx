@@ -22,7 +22,7 @@ export const useAuth = () => useContext(AuthCtx);
 
 const NAV = [
   ['Leads', [['', 'Dashboard', LayoutDashboard, true], ['enquiries', 'All enquiries', Inbox], ['enquiries?channel=chat', 'Chat enquiries', MessagesSquare], ['careers', 'Careers', UserRound]]],
-  ['Content', [['services', 'Services', Layers], ['posts', 'Blog', Newspaper], ['case-studies', 'Case studies', Briefcase], ['resources', 'Downloads', FileDown], ['testimonials', 'Testimonials', MessageSquareQuote], ['clients', 'Client logos', Building], ['gallery', 'Gallery', Images], ['policies', 'Policies', ScrollText]]],
+  ['Content', [['services', 'Services', Layers], ['posts', 'Blog', Newspaper], ['case-studies', 'Case studies', Briefcase], ['resources', 'Insights & guides', FileDown], ['testimonials', 'Testimonials', MessageSquareQuote], ['clients', 'Client logos', Building], ['gallery', 'Gallery', Images], ['policies', 'Policies', ScrollText]]],
   ['Credentials', [['accreditations', 'Accreditation', Award], ['certificates', 'Issued certificates', FileBadge]]],
   ['Site', [['media', 'Media library', Image], ['settings', 'Site settings', Settings]]],
 ];

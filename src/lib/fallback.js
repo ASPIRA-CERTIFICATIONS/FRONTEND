@@ -428,6 +428,39 @@ export const FALLBACK_SERVICES = [
       "title": "FSSAI Hygiene Rating Audit for Restaurants & Food Businesses | Aspira",
       "description": "Independent FSSAI hygiene rating audits for restaurants, hotels, bakeries, caterers and cloud kitchens. Transparent fees based on number of food handlers.",
       "keywords": "hygiene rating audit, FSSAI hygiene rating, restaurant hygiene audit, food safety audit Chennai"
+    },
+    "fees": {
+      "title": "Fee structure",
+      "intro": "Aspira Certifications Private Limited (HRAA) is committed to maintaining a fair, transparent, and non-discriminatory fee structure for all Food Business Operators (FBOs) seeking Hygiene Rating audits. Our pricing is based on the number of food handlers present in the establishment, ensuring that audit effort and resources are aligned with the scale of operations.",
+      "columns": [
+        "Food Business Type (Food Handlers)",
+        "Criteria (Man-Days)",
+        "Audit Fee (INR)"
+      ],
+      "rows": [
+        [
+          "1 – 50",
+          "0.5 Man-Day",
+          "4,000"
+        ],
+        [
+          "51 – 100",
+          "1.0 Man-Day",
+          "8,000"
+        ],
+        [
+          "100+",
+          "1.5 Man-Days",
+          "12,000"
+        ]
+      ],
+      "footnote": "(*Taxes as applicable under prevailing law)",
+      "notes": [
+        "The term “Food Handlers” includes all individuals involved in food operations, such as managers, chefs, assistant chefs, waiters, cleaners, and support staff.",
+        "In cases where the Hygiene Rating audit outcome is unsatisfactory, a re-audit may be conducted only after a minimum of three months from the previous audit date.",
+        "Payment Terms: 100% advance payment is mandatory. GST is applicable as per law.",
+        "Additional Costs: Auditor travel, boarding, and lodging expenses will be billed separately on actuals."
+      ]
     }
   },
   {
@@ -1302,6 +1335,16 @@ export const FALLBACK_ACCREDITATIONS = [
     ],
     "verifyUrl": "https://nabcb.qci.org.in/ib-159/",
     "order": 1,
+    "published": true
+  },
+  {
+    "_id": "local-acc-1",
+    "title": "QCI Recognised Hygiene Rating Audit Agency (HRAA)",
+    "body": "Quality Council of India (QCI)",
+    "shortName": "QCI",
+    "description": "Aspira Certifications Private Limited is a Hygiene Rating Audit Agency (HRAA) recognised by the Quality Council of India (QCI) to conduct Hygiene Rating Audits under the FSSAI Hygiene Rating Scheme.",
+    "scope": "Hygiene Rating Audits of food establishments under the FSSAI Hygiene Rating Scheme",
+    "order": 2,
     "published": true
   }
 ];

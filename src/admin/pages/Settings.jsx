@@ -56,9 +56,9 @@ export default function SettingsPage() {
             <Text full label="Tagline" value={s.tagline} onChange={set('tagline')} />
             <Text full label="Hero headline" value={s.heroTitle} onChange={set('heroTitle')} />
             <Area label="Hero sub-text" rows={3} value={s.heroSubtitle} onChange={set('heroSubtitle')} />
-            <ImageField label="Hero image (optional)" hint="Background photo behind the homepage hero (landscape, at least 1600 px wide)." value={s.heroImage} onChange={set('heroImage')} />
+            <ImageField label="Hero image (optional)" hint="Upload a landscape photo (at least 1600 px wide). It becomes the first photo in the homepage hero slideshow, followed by the company audit photos." value={s.heroImage} onChange={set('heroImage')} />
             <Text full label="Hero background video (optional)" hint="MP4 link, e.g. /media/hero.mp4 (place the file in Frontend/public/media) or a full https:// URL. Leave empty for the built-in clip. The hero image is shown while it loads." value={s.heroVideo} onChange={set('heroVideo')} />
-            <ImageField label="About image" hint="Used in the homepage 'Our approach' section and About page header" value={s.aboutImage} onChange={set('aboutImage')} />
+            <ImageField label="About image" hint="Upload a photo to replace the image in the homepage About section and the About page header. Leave empty (or the old stock photo) to use the company audit photos." value={s.aboutImage} onChange={set('aboutImage')} />
             {[['services', 'Services page'], ['industries', 'Industries page'], ['contact', 'Contact page'], ['blog', 'Blog page'], ['caseStudies', 'Case studies page'], ['complaints', 'Complaints & appeals page']].map(([k, label]) => (
               <ImageField key={k} label={`${label} header photo`} hint="Optional – leave empty to keep the built-in photo." value={s.pageImages?.[k] || ''} onChange={(v) => setS((o) => ({ ...o, pageImages: { ...(o.pageImages || {}), [k]: v } }))} />
             ))}

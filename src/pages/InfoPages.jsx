@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Eye, Target, MapPin, Phone, Mail, Clock, Search, ExternalLink, FileText, AlertCircle, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Eye, Target, MapPin, Phone, Mail, Clock, Search, ExternalLink, FileText, AlertCircle, CheckCircle2, ArrowRight, ShieldCheck, Scale, UtensilsCrossed, Leaf, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
 import { api, fileUrl } from '../lib/api';
 import Seo, { breadcrumbSchema, orgSchema } from '../components/Seo';
-import { PageHero, Reveal, SectionHead, Seal, CheckList } from '../components/ui';
-import { WhyChoose, IndustriesGrid, AccreditationSection, CtaBand, ServiceCard, CustomerTable, WhyAspira } from '../components/Sections';
+import { PageHero, Reveal, SectionHead, Seal, CheckList, BADGE_SRC, NABCB_VERIFY_URL } from '../components/ui';
+import { WhyChoose, IndustriesGrid, CtaBand, ServiceCard, CustomerTable, WhyAspira, QCI_FALLBACK } from '../components/Sections';
+import { PageIntro } from './Company';
 import EnquiryFormDefault, { INTENTS } from '../components/EnquiryForm';
 import { waLink } from '../lib/whatsapp';
-import { photo } from '../lib/companyPhotos';
+import { photo, customImage } from '../lib/companyPhotos';
 
 const ABOUT_PHOTOS = ['03', '07', '06', '10'].map(photo);
 
@@ -21,7 +22,7 @@ export function About() {
   return (
     <>
       <Seo title="About Us" description={settings.aboutShort} jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])} />
-      <PageHero crumbs={[{ label: 'About' }]} image={photo('01').image} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
+      <PageHero crumbs={[{ label: 'About' }]} image={customImage(settings.aboutImage) || photo('01').image} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
       <section className="section">
         <div className="container split split--top">
           <Reveal>
@@ -86,59 +87,135 @@ export function About() {
 }
 
 /* ============================ ACCREDITATIONS ============================ */
+const CERT_LABELS = ['Accreditation certificate', 'Schedule I – Scope of accreditation', 'Schedule II – Office under accreditation'];
+
 export function Accreditations() {
   const { accreditations, settings } = useSite();
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
-  const others = accreditations.filter((a) => a !== nabcb);
+  const qci = accreditations.find((a) => a.shortName === 'QCI') || QCI_FALLBACK;
+  const certs = (nabcb?.certificateFiles || []).filter(Boolean);
+  const [open, setOpen] = useState(-1);
+  useEffect(() => {
+    if (open < 0) return undefined;
+    const k = (e) => {
+      if (e.key === 'Escape') setOpen(-1);
+      if (e.key === 'ArrowRight') setOpen((i) => (i + 1) % certs.length);
+      if (e.key === 'ArrowLeft') setOpen((i) => (i - 1 + certs.length) % certs.length);
+    };
+    window.addEventListener('keydown', k);
+    return () => window.removeEventListener('keydown', k);
+  }, [open, certs.length]);
+
   return (
     <>
-      <Seo title="NABCB Accreditation – Reg. No. IB 159" description="Aspira Certifications Private Limited is accredited by NABCB as a Type ‘A’ Inspection Body (ISO/IEC 17020:2012), Reg. No. IB 159, for green audits for educational institutions (IAF Scope 28)." jsonLd={[orgSchema(settings, accreditations), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Accreditation', path: '/accreditations' }])]} />
-      <PageHero
-        crumbs={[{ label: 'Accreditation' }]}
+      <Seo title="Accreditations – NABCB (IB 159) & QCI" description="Aspira Certifications is a NABCB-accredited Type ‘A’ Inspection Body (Reg. No. IB 159) for green audits of educational institutions, and a QCI-recognised Hygiene Rating Audit Agency (HRAA)." jsonLd={[orgSchema(settings, accreditations), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Accreditation', path: '/accreditations' }])]} />
+      <PageIntro
         eyebrow="Accreditation"
-        title={<>NABCB-accredited <em className="accent">Inspection Body</em></>}
-        intro="We are a NABCB-accredited Inspection Body (Reg. No. IB 159) for green audits for educational institutions (IAF Scope 28). You can verify our accreditation directly on the NABCB website."
-        doc="cert"
-        primary={{ to: '/services/green-audits#enquire', label: 'Book an accredited Green Audit', wa: 'Hello Aspira, I would like to book a NABCB-accredited Green Audit for our institution.' }}
-        accrText="NABCB accredited for green audits · IB 159"
+        title={<>Accreditations &amp; <em className="accent">recognitions</em></>}
+        lead="Accreditations are a mark of credibility, impartiality, and adherence to international standards. Our accredited audits give you confidence that processes are rigorously evaluated, reliable, and globally recognised."
+        crumbs={[{ label: 'Accreditation' }]}
       />
-      <section className="section">
-        <div className="container">
-          <AccreditationSection />
-        </div>
-      </section>
-      <section className="section section--white">
-        <div className="container split split--top">
-          <Reveal>
-            <span className="eyebrow">About NABCB</span>
-            <h2>What NABCB accreditation means</h2>
-          </Reveal>
-          <Reveal className="prose" delay={0.06}>
-            <p>The National Accreditation Board for Certification Bodies (NABCB) is India’s national accreditation authority under the Quality Council of India. It assesses certification, inspection and verification bodies to confirm they operate with competence, impartiality and internationally accepted practices.</p>
-            <p>For you, NABCB accreditation is assurance that the audit you rely on is carried out to recognised international standards — giving your institution or organisation confidence in the results and strengthening trust with regulators and stakeholders.</p>
-            <div className="note"><AlertCircle size={18} /> <span>Our accreditation applies to the scope stated above — green audits of educational institutions. Our other services are delivered as independent third-party assessments with the same impartial approach.</span></div>
-          </Reveal>
-        </div>
-      </section>
-      {others.length > 0 && (
-        <section className="section">
-          <div className="container accr-cards">
-            {others.map((a) => (
-              <Reveal key={a._id} className="accr-card">
-                <div>
-                  <span className="eyebrow">{a.shortName}</span>
-                  <h2 style={{ fontSize: 'var(--fs-xl)' }}>{a.title}</h2>
-                  {a.description && <p style={{ color: 'var(--muted)' }}>{a.description}</p>}
-                  {a.registrationNo && <p><b>Registration no.:</b> {a.registrationNo}</p>}
-                  {a.scope && <p><b>Scope:</b> {a.scope}</p>}
+
+      {/* ---------- NABCB ---------- */}
+      {nabcb && (
+        <section className="section acc2-sec" id="nabcb">
+          <div className="container">
+            <Reveal className="acc2">
+              <div className="acc2__info">
+                <div className="acc2__title">
+                  <span className="acc2__ic acc2__ic--img"><img src={BADGE_SRC} alt="" width="52" height="56" /></span>
+                  <div><h2>NABCB Accreditation</h2><span>National Accreditation Board for Certification Bodies</span></div>
                 </div>
-                <div>{a.logo && <img src={fileUrl(a.logo)} alt={`${a.shortName} logo`} style={{ maxWidth: 180 }} loading="lazy" />}</div>
-              </Reveal>
-            ))}
+                <p>The National Accreditation Board for Certification Bodies (NABCB) is India’s national accreditation authority under the Quality Council of India (QCI). Recognised internationally through multilateral arrangements, NABCB ensures that certification, inspection, and verification bodies operate with competence, impartiality, and globally accepted best practices.</p>
+                <p>Aspira Certifications Private Limited is a NABCB-accredited Inspection Body listed under registration number <b>{nabcb.registrationNo}</b>.</p>
+                <dl className="acc2__facts">
+                  <div><dt>Registration no.</dt><dd>{nabcb.registrationNo}</dd></div>
+                  <div><dt>Accredited against</dt><dd>{nabcb.standard}</dd></div>
+                  <div className="acc2__facts-wide"><dt>Scope of accreditation</dt><dd>{nabcb.scope}</dd></div>
+                </dl>
+                <div className="acc2__actions">
+                  <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="btn btn--sm"><ExternalLink size={15} /> Verify on NABCB</a>
+                  <Link to="/services/green-audits" className="btn btn--ghost btn--sm">Green audits <ArrowRight size={15} /></Link>
+                </div>
+              </div>
+              {certs.length > 0 && (
+                <div className="acc2__docs">
+                  <span className="acc2__docs-label"><FileText size={15} /> Accreditation certificate · {certs.length} pages</span>
+                  <div className="acc2__sheets">
+                    {certs.map((f, i) => (
+                      <button key={f} type="button" className="acc2__sheet" onClick={() => setOpen(i)} aria-label={`View ${CERT_LABELS[i] || `page ${i + 1}`}`}>
+                        <img src={fileUrl(f)} alt={`NABCB accreditation certificate IB 159 – ${CERT_LABELS[i] || `page ${i + 1}`}`} loading="lazy" width="725" height="1024" />
+                        <span>{CERT_LABELS[i] || `Page ${i + 1}`}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </Reveal>
           </div>
         </section>
       )}
-      <CtaBand title="Book an accredited green audit" text="NABCB-accredited green audits for schools, colleges and universities." service="Green Audits" />
+
+      {/* ---------- QCI ---------- */}
+      <section className="section section--white acc2-sec" id="qci">
+        <div className="container">
+          <Reveal className="acc2 acc2--qci">
+            <div className="acc2__info">
+              <div className="acc2__title">
+                <span className="acc2__ic"><ShieldCheck size={26} /></span>
+                <div><h2>QCI Recognition</h2><span>Quality Council of India</span></div>
+              </div>
+              <p>{qci.description}</p>
+              <p>We provide independent and impartial Hygiene Rating Audits for restaurants, hotels, catering services, sweet shops, cafeterias, bakeries, food courts, and cloud kitchens across India.</p>
+              <ul className="acc2__list">
+                <li><CheckCircle2 size={17} /> Hygiene Rating Audit Agency (HRAA) recognised by QCI</li>
+                <li><CheckCircle2 size={17} /> Audits under the FSSAI Hygiene Rating Scheme</li>
+                <li><CheckCircle2 size={17} /> Compliance with Schedule 4 of the FSS (Licensing and Registration of Food Businesses) Regulations</li>
+                <li><CheckCircle2 size={17} /> Auditors trained and qualified as per FSSAI &amp; QCI guidelines</li>
+              </ul>
+              <div className="acc2__actions">
+                <Link to="/services/hygiene-rating-audits" className="btn btn--sm">Hygiene rating audits <ArrowRight size={15} /></Link>
+              </div>
+            </div>
+            <div className="acc2__panel">
+              <span className="acc2__docs-label"><FileText size={15} /> Recognition details</span>
+              <dl>
+                <div><dt>Recognised by</dt><dd>{qci.body || 'Quality Council of India (QCI)'}</dd></div>
+                <div><dt>Recognised as</dt><dd>Hygiene Rating Audit Agency (HRAA)</dd></div>
+                <div><dt>Scheme</dt><dd>FSSAI Hygiene Rating Scheme</dd></div>
+                <div><dt>Scope</dt><dd>{qci.scope}</dd></div>
+                {qci.registrationNo && <div><dt>Recognition no.</dt><dd>{qci.registrationNo}</dd></div>}
+              </dl>
+              {qci.logo && <img src={fileUrl(qci.logo)} alt="QCI" className="acc2__logo" loading="lazy" />}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------- standards ---------- */}
+      <section className="section">
+        <div className="container">
+          <SectionHead center eyebrow="Standards" title={<>The standards behind <em className="accent">our audits</em></>} />
+          <div className="acc2-std">
+            <Reveal className="acc2-std__card"><span><Scale size={22} /></span><h3>ISO/IEC 17020:2012</h3><p>Conformity assessment requirements for inspection bodies – competence, impartiality and consistency in our inspection processes.</p></Reveal>
+            <Reveal className="acc2-std__card" delay={0.06}><span><UtensilsCrossed size={22} /></span><h3>FSSAI Hygiene Rating Scheme</h3><p>Hygiene rating audits of food establishments against Schedule 4 of the FSS (Licensing &amp; Registration of Food Businesses) Regulations.</p></Reveal>
+            <Reveal className="acc2-std__card" delay={0.12}><span><Leaf size={22} /></span><h3>NBC 2016 Part 11</h3><p>Green audits of educational institutions against the National Building Code of India 2016, Part 11 – Approach to Sustainability, as per NAAC advisory.</p></Reveal>
+          </div>
+        </div>
+      </section>
+
+      {open >= 0 && (
+        <div className="acc2-lb" role="dialog" aria-modal="true" aria-label="Accreditation certificate" onClick={() => setOpen(-1)}>
+          <button type="button" className="acc2-lb__x" aria-label="Close" onClick={() => setOpen(-1)}><X size={22} /></button>
+          {certs.length > 1 && <button type="button" className="acc2-lb__nav acc2-lb__nav--l" aria-label="Previous page" onClick={(e) => { e.stopPropagation(); setOpen((i) => (i - 1 + certs.length) % certs.length); }}><ChevronLeft size={26} /></button>}
+          <figure onClick={(e) => e.stopPropagation()}>
+            <img src={fileUrl(certs[open])} alt={CERT_LABELS[open] || ''} />
+            <figcaption>{CERT_LABELS[open] || `Page ${open + 1}`} · {open + 1} / {certs.length}</figcaption>
+          </figure>
+          {certs.length > 1 && <button type="button" className="acc2-lb__nav acc2-lb__nav--r" aria-label="Next page" onClick={(e) => { e.stopPropagation(); setOpen((i) => (i + 1) % certs.length); }}><ChevronRight size={26} /></button>}
+        </div>
+      )}
+      <CtaBand title="Planning an audit or inspection?" text="Speak to our team about scope, timelines and fees. We respond to every enquiry." />
     </>
   );
 }
@@ -179,7 +256,9 @@ export function Contact() {
   const { settings } = useSite();
   const c = settings.contact || {};
   const [params, setParams] = useSearchParams();
-  const intent = INTENTS[params.get('intent')] ? params.get('intent') : 'quote';
+  // Contact offers two options only: request a quote or talk to our experts
+  const CONTACT_INTENTS = ['quote', 'expert'];
+  const intent = CONTACT_INTENTS.includes(params.get('intent')) ? params.get('intent') : 'quote';
   const aud = AUDIENCES.find((x) => x.key === ({ green: 'institution', hygiene: 'restaurant' }[params.get('for')] || params.get('for'))) || AUDIENCES[2];
   const set = (k, v) => {
     const next = new URLSearchParams(params);
@@ -188,13 +267,13 @@ export function Contact() {
   };
   return (
     <>
-      <Seo title="Contact Us – Book an Audit or Request a Quote" description={`Book an audit, request a quote or talk to Aspira's experts. Call ${c.phones?.[0] || ''} or email ${c.emails?.[0] || ''}.`} jsonLd={[orgSchema(settings, []), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]} />
-      <PageHero crumbs={[{ label: 'Contact' }]} pageKey="contact" image="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=70" eyebrow="Contact" title={<>Let's talk about your <em className="accent">audit</em></>} intro="Book an audit, request a quote or speak to our experts — we respond to every enquiry." primary={{ href: '#enquiry', label: 'Send an enquiry' }} />
+      <Seo title="Contact Us – Request a Quote" description={`Request a quote or talk to Aspira's experts. Call ${c.phones?.[0] || ''} or email ${c.emails?.[0] || ''}.`} jsonLd={[orgSchema(settings, []), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]} />
+      <PageHero crumbs={[{ label: 'Contact' }]} pageKey="contact" image="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=70" eyebrow="Contact" title={<>Let's talk about your <em className="accent">audit</em></>} intro="Request a quote or speak to our experts — we respond to every enquiry." primary={{ href: '#enquiry', label: 'Send an enquiry' }} />
       <section className="section" id="enquiry">
         <div className="container contact-grid">
           <div className="contact-list">
             <div className="intent-tabs" role="tablist" aria-label="What would you like to do?">
-              {Object.entries(INTENTS).map(([k, v]) => (
+              {CONTACT_INTENTS.map((k) => [k, INTENTS[k]]).map(([k, v]) => (
                 <button key={k} role="tab" aria-selected={intent === k} onClick={() => set('intent', k)}>{v.label}</button>
               ))}
             </div>
@@ -258,8 +337,8 @@ export function CertificateStatus() {
   const d = state.data;
   return (
     <>
-      <Seo title="Certificate Status" description="Verify the status of a certificate or inspection report issued by Aspira Certifications." />
-      <PageHero crumbs={[{ label: 'Certificate Status' }]} doc="cert" primary={{ href: '#cert-no', label: 'Verify a certificate' }} eyebrow="Verify" title={<>Check a certificate's <em className="accent">status</em></>} intro="Enter the certificate or report number exactly as printed to confirm it was issued by Aspira and is currently valid." />
+      <Seo title="Verify a Certificate" description="Check whether a certificate or inspection report was genuinely issued by Aspira Certifications, and see its current status." />
+      <PageHero crumbs={[{ label: 'Verify a certificate' }]} doc="cert" primary={{ href: '#cert-no', label: 'Verify a certificate' }} eyebrow="Verify a certificate" title={<>Was this certificate issued <em className="accent">by Aspira?</em></>} intro="If an organisation has shown you an Aspira certificate or inspection report, enter its number exactly as printed to confirm that it was genuinely issued by Aspira Certifications and check its current status." />
       <section className="section">
         <div className="container verify">
           <form className="verify__form" onSubmit={onSubmit} role="search">

@@ -11,7 +11,6 @@ const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
 const info = () => import('./pages/InfoPages');
 const About = lazy(() => info().then((m) => ({ default: m.About })));
 const Accreditations = lazy(() => info().then((m) => ({ default: m.Accreditations })));
-const Industries = lazy(() => info().then((m) => ({ default: m.Industries })));
 const Contact = lazy(() => info().then((m) => ({ default: m.Contact })));
 const CertificateStatus = lazy(() => info().then((m) => ({ default: m.CertificateStatus })));
 const Complaints = lazy(() => info().then((m) => ({ default: m.Complaints })));
@@ -27,6 +26,7 @@ const Careers = lazy(() => company().then((m) => ({ default: m.Careers })));
 const Gallery = lazy(() => company().then((m) => ({ default: m.Gallery })));
 const Policies = lazy(() => company().then((m) => ({ default: m.Policies })));
 const PolicyDetail = lazy(() => company().then((m) => ({ default: m.PolicyDetail })));
+const TestimonialsPage = lazy(() => import('./pages/Testimonials'));
 const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 export default function App() {
@@ -41,7 +41,8 @@ export default function App() {
             <Route path="services" element={<Services />} />
             <Route path="services/:slug" element={<ServiceDetail />} />
             <Route path="accreditations" element={<Accreditations />} />
-            <Route path="industries" element={<Industries />} />
+            <Route path="industries" element={<Navigate to="/services" replace />} />
+            <Route path="testimonials" element={<TestimonialsPage />} />
             <Route path="contact" element={<Contact />} />
             {Object.entries(LEGACY_REDIRECTS).map(([from, to]) => (
               <Route key={from} path={from.slice(1)} element={<Navigate to={to} replace />} />

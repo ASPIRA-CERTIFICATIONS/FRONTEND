@@ -27,6 +27,7 @@ const SECTIONS = [
   ['benefits', 'Benefits'],
   ['scope', 'Scope'],
   ['standards', 'Standards'],
+  ['fees', 'Fees'],
   ['process', 'Process'],
   ['photos', 'Photos'],
   ['faq', 'FAQs'],
@@ -65,6 +66,7 @@ export default function ServiceDetail() {
     standards: !!s?.standards?.length && !isGreen,
     process: !!s?.process?.length || isGreen,
     photos: isGreen,
+    fees: !!s?.fees?.rows?.length,
     faq: !!s?.faqs?.length,
     enquire: true,
   };
@@ -105,7 +107,7 @@ export default function ServiceDetail() {
         intro={s.shortDescription}
         image={isGreen ? photo('01').image : s.image || undefined}
         primary={{ href: '#enquire', label: cta, wa: waMsg }}
-        accrText={inScope && nabcb ? `NABCB accredited for green audits · ${nabcb.registrationNo}` : undefined}
+        accrText={inScope && nabcb ? `NABCB accredited for green audits · ${nabcb.registrationNo}` : s.slug === 'hygiene-rating-audits' ? 'QCI-recognised Hygiene Rating Audit Agency (HRAA)' : undefined}
         cards={
           <>
             {inScope && nabcb ? (
@@ -257,6 +259,36 @@ export default function ServiceDetail() {
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ================= FEES (published fee table, e.g. hygiene rating audits) ================= */}
+      {has.fees && (
+        <section className="section section--white svc-sec" id="fees">
+          <div className="container fees">
+            <div className="fees__head">
+              <span className="eyebrow">Fees</span>
+              <h2>{s.fees.title || 'Fee structure'}</h2>
+              {s.fees.intro && <p>{s.fees.intro}</p>}
+            </div>
+            <Reveal className="fees__table-wrap">
+              <table className="fees__table">
+                <thead><tr>{(s.fees.columns || []).map((c) => <th key={c} scope="col">{c}</th>)}</tr></thead>
+                <tbody>
+                  {s.fees.rows.map((r, i) => (
+                    <tr key={i}>{r.map((c, k) => (k === 0 ? <th key={k} scope="row">{c}</th> : <td key={k} className={k === r.length - 1 ? 'fees__amt' : ''}>{k === r.length - 1 ? <>₹ {c}</> : c}</td>))}</tr>
+                  ))}
+                </tbody>
+              </table>
+              {s.fees.footnote && <p className="fees__foot">{s.fees.footnote}</p>}
+            </Reveal>
+            {s.fees.notes?.length > 0 && (
+              <div className="fees__notes">
+                <h3>Note</h3>
+                <ul>{s.fees.notes.map((n, i) => <li key={i}><CheckCircle2 size={16} /> <span>{n}</span></li>)}</ul>
+              </div>
+            )}
           </div>
         </section>
       )}
