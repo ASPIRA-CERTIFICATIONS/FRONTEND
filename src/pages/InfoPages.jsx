@@ -120,7 +120,7 @@ export function Accreditations() {
       {nabcb && (
         <section className="section acc2-sec" id="nabcb">
           <div className="container">
-            <Reveal className="acc2">
+            <Reveal className="acc2 acc2--stack">
               <div className="acc2__info">
                 <div className="acc2__title">
                   <span className="acc2__ic acc2__ic--img"><img src={BADGE_SRC} alt="" width="52" height="56" /></span>
@@ -138,20 +138,23 @@ export function Accreditations() {
                   <Link to="/services/green-audits" className="btn btn--ghost btn--sm">Green audits <ArrowRight size={15} /></Link>
                 </div>
               </div>
-              {certs.length > 0 && (
-                <div className="acc2__docs">
-                  <span className="acc2__docs-label"><FileText size={15} /> Accreditation certificate · {certs.length} pages</span>
-                  <div className="acc2__sheets">
-                    {certs.map((f, i) => (
-                      <button key={f} type="button" className="acc2__sheet" onClick={() => setOpen(i)} aria-label={`View ${CERT_LABELS[i] || `page ${i + 1}`}`}>
-                        <img src={fileUrl(f)} alt={`NABCB accreditation certificate IB 159 – ${CERT_LABELS[i] || `page ${i + 1}`}`} loading="lazy" width="725" height="1024" />
-                        <span>{CERT_LABELS[i] || `Page ${i + 1}`}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </Reveal>
+            {certs.length > 0 && (
+              <Reveal className="acc2-certs" delay={0.06}>
+                <div className="acc2-certs__head">
+                  <span className="acc2__docs-label"><FileText size={15} /> Accreditation certificate</span>
+                  <p>Certificate No. {nabcb.registrationNo} with its two schedules. Click a page to view it in full.</p>
+                </div>
+                <div className="acc2-certs__row">
+                  {certs.map((f, i) => (
+                    <button key={f} type="button" className="acc2-cert" onClick={() => setOpen(i)} aria-label={`View ${CERT_LABELS[i] || `page ${i + 1}`}`}>
+                      <span className="acc2-cert__paper"><img src={fileUrl(f)} alt={`NABCB accreditation certificate IB 159 – ${CERT_LABELS[i] || `page ${i + 1}`}`} loading="lazy" width="725" height="1024" /></span>
+                      <span className="acc2-cert__cap"><b>{String(i + 1).padStart(2, '0')}</b>{CERT_LABELS[i] || `Page ${i + 1}`}</span>
+                    </button>
+                  ))}
+                </div>
+              </Reveal>
+            )}
           </div>
         </section>
       )}
@@ -338,7 +341,20 @@ export function CertificateStatus() {
   return (
     <>
       <Seo title="Verify a Certificate" description="Check whether a certificate or inspection report was genuinely issued by Aspira Certifications, and see its current status." />
-      <PageHero crumbs={[{ label: 'Verify a certificate' }]} doc="cert" primary={{ href: '#cert-no', label: 'Verify a certificate' }} eyebrow="Verify a certificate" title={<>Was this certificate issued <em className="accent">by Aspira?</em></>} intro="If an organisation has shown you an Aspira certificate or inspection report, enter its number exactly as printed to confirm that it was genuinely issued by Aspira Certifications and check its current status." />
+      <PageHero
+        crumbs={[{ label: 'Verify a certificate' }]}
+        media={
+          <div className="vfy-steps">
+            <span className="vfy-steps__badge"><ShieldCheck size={26} /></span>
+            <h2>How to verify</h2>
+            <ol>
+              <li><b>1</b><span><strong>Find the number</strong>Look for the certificate or report number printed on the Aspira document.</span></li>
+              <li><b>2</b><span><strong>Enter it below</strong>Type the number exactly as printed, including any slashes.</span></li>
+              <li><b>3</b><span><strong>See the result</strong>We confirm whether Aspira issued it, who it was issued to and its current status.</span></li>
+            </ol>
+          </div>
+        }
+        primary={{ href: '#cert-no', label: 'Verify a certificate' }} eyebrow="Verify a certificate" title={<>Was this certificate issued <em className="accent">by Aspira?</em></>} intro="If an organisation has shown you an Aspira certificate or inspection report, enter its number exactly as printed to confirm that it was genuinely issued by Aspira Certifications and check its current status." />
       <section className="section">
         <div className="container verify">
           <form className="verify__form" onSubmit={onSubmit} role="search">

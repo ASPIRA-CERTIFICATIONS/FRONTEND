@@ -89,13 +89,13 @@ export function useCertificateImage() {
  * and a single image (or the accreditation certificate). `cards` is accepted for
  * compatibility but no longer rendered, to keep the header uncluttered.
  */
-export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageKey, actions = true, primary, children, accrText }) {
+export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageKey, actions = true, primary, children, accrText, media }) {
   const { settings } = useSite();
   const wa = settings.contact?.whatsapp;
   const certImg = useCertificateImage();
   if (doc === 'cert') doc = certImg;
   const custom = pageKey ? settings.pageImages?.[pageKey] : '';
-  const img = doc ? null : fileUrl(unsplashW(custom || image || DEFAULT_HERO_IMG, 1200));
+  const img = doc || media ? null : fileUrl(unsplashW(custom || image || DEFAULT_HERO_IMG, 1200));
   const p = primary || { to: '/contact?intent=booking#enquiry', label: 'Book an audit' };
   return (
     <section className={`ph ${doc ? 'ph--doc' : ''}`}>
@@ -127,7 +127,8 @@ export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageK
           )}
           {accrText && <p className="ph__note"><img src={BADGE_SRC} alt="" width="22" height="24" /> {accrText}</p>}
         </div>
-        <div className="ph__media" aria-hidden="true">
+        <div className={`ph__media ${media ? 'ph__media--custom' : ''}`} aria-hidden={media ? undefined : 'true'}>
+          {media}
           {img && <img src={img} alt="" fetchpriority="high" width="1200" height="900" />}
           {doc && <img className="ph__doc" src={doc} alt="" width="560" height="790" />}
         </div>

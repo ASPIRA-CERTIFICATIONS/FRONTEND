@@ -214,7 +214,7 @@ export default function ServiceDetail() {
       {has.scope && (
         <section className="section section--white svc-sec" id="scope">
           <div className="container svc-scope-wrap">
-            <div className="svc-scope-side">
+            <div className={`svc-scope-side ${s.scope.length <= 5 ? 'svc-scope-side--few' : ''}`}>
               <span className="eyebrow">Scope of audit</span>
               <h2>What we assess</h2>
               <p className="muted-p">Every engagement is scoped to your site. A typical {s.title.toLowerCase().replace(/s$/, '')} covers:</p>
