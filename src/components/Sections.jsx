@@ -198,7 +198,7 @@ export function AccreditationSection({ showWhy = true, compactHead = false }) {
 export const AccreditationBand = () => <AccreditationSection showWhy={false} />;
 
 /** Accreditation panel on service pages – honest about scope */
-export function ServiceAccreditation({ slug }) {
+export function ServiceAccreditation({ slug, copy = {} }) {
   const { accreditations } = useSite();
   // NABCB covers green audits only; QCI recognition covers hygiene rating audits only
   if (slug === 'green-audits') {
@@ -208,9 +208,9 @@ export function ServiceAccreditation({ slug }) {
       <div className="svc-accr svc-accr--in">
         <img src={BADGE_SRC} alt={`NABCB Accredited Inspection Body – Reg. No. ${a.registrationNo}`} width="64" height="70" loading="lazy" />
         <div>
-          <b>This service is within our NABCB scope of accreditation</b>
-          <p>Aspira is accredited by NABCB as a Type ‘A’ Inspection Body (Reg. No. {a.registrationNo}) for green audits of educational institutions.</p>
-          <Link to="/accreditations" className="link-arrow">Accreditation details <ArrowRight size={14} /></Link>
+          <b>{copy.accrTitle || 'This service is within our NABCB scope of accreditation'}</b>
+          <p>{copy.accrText || `Aspira is accredited by NABCB as a Type ‘A’ Inspection Body (Reg. No. ${a.registrationNo}) for green audits of educational institutions.`}</p>
+          <Link to="/accreditations#nabcb" className="link-arrow">{copy.accrLink || 'Accreditation details'} <ArrowRight size={14} /></Link>
         </div>
       </div>
     );
@@ -221,9 +221,9 @@ export function ServiceAccreditation({ slug }) {
       <div className="svc-accr svc-accr--in svc-accr--qci">
         <span className="svc-accr__seal" aria-hidden="true"><ShieldCheck size={30} /></span>
         <div>
-          <b>QCI-recognised Hygiene Rating Audit Agency (HRAA)</b>
-          <p>{q.description}</p>
-          <Link to="/accreditations#qci" className="link-arrow">Recognition details <ArrowRight size={14} /></Link>
+          <b>{copy.accrTitle || 'QCI-recognised Hygiene Rating Audit Agency (HRAA)'}</b>
+          <p>{copy.accrText || q.description}</p>
+          <Link to="/accreditations#qci" className="link-arrow">{copy.accrLink || 'Recognition details'} <ArrowRight size={14} /></Link>
         </div>
       </div>
     );

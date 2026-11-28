@@ -34,7 +34,7 @@ export function About() {
   return (
     <>
       <Seo title="About Us" description={settings.aboutShort} jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])} />
-      <PageHero crumbs={[{ label: 'About' }]} image={customImage(settings.aboutImage) || photo('01').image} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
+      <PageHero crumbs={[{ label: 'About' }]} primary={{ to: '/contact?intent=quote#enquiry', label: 'Get an audit quote' }} image={customImage(settings.aboutImage) || photo('01').image} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
       {H('story') && (
         <section className="section">
           <div className="container split split--top">

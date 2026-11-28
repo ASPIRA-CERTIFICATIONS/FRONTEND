@@ -9,13 +9,14 @@ const abs = (u) => (!u ? '' : /^https?:/.test(u) ? u : `${SITE_URL}${u.startsWit
  * Per-page SEO: title, description, canonical, Open Graph, Twitter, JSON-LD.
  * `jsonLd` may be an object or an array of schema.org objects.
  */
-export default function Seo({ title, description, image, type = 'website', noindex = false, jsonLd, path }) {
+export default function Seo({ title, description, image, type = 'website', noindex = false, jsonLd, path, keywords }) {
   const { settings } = useSite();
   const { pathname } = useLocation();
   const seo = settings.seo || {};
   const company = settings.companyName || 'Aspira Certifications';
+  // a title that already names the brand ("… | Aspira", from the content doc) is used as written
   const fullTitle = title
-    ? (seo.titleTemplate || `%s | ${company}`).replace('%s', title)
+    ? (/\|\s*Aspira\b/i.test(title) ? title : (seo.titleTemplate || `%s | ${company}`).replace('%s', title))
     : seo.defaultTitle || `${company} – Green, Hygiene & Safety Audits`;
   const desc = description || seo.defaultDescription || '';
   const canonical = `${SITE_URL}${path ?? pathname}`.replace(/(?<!:)\/+$/, '') || SITE_URL;
@@ -26,6 +27,7 @@ export default function Seo({ title, description, image, type = 'website', noind
     <Helmet prioritizeSeoTags>
       <title>{fullTitle}</title>
       {desc && <meta name="description" content={desc} />}
+      {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={canonical || SITE_URL + '/'} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
       <meta property="og:site_name" content={company} />

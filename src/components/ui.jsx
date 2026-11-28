@@ -109,7 +109,7 @@ function PageHeroInner({ eyebrow, title, intro, crumbs = [], image, doc, pageKey
   if (doc === 'cert') doc = certImg;
   const custom = pageKey ? settings.pageImages?.[pageKey] : '';
   const img = doc || media ? null : fileUrl(unsplashW(custom || image || DEFAULT_HERO_IMG, 1200));
-  const p = primary || { to: '/contact?intent=booking#enquiry', label: 'Book an audit' };
+  const p = primary || { to: '/contact?intent=quote#enquiry', label: 'Request an audit quote' };
   return (
     <section className={`ph ${doc ? 'ph--doc' : ''}`}>
       <div className="container ph__grid">

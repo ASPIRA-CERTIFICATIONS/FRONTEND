@@ -125,7 +125,7 @@ function Header() {
           </nav>
 
           <div className="header__cta">
-            <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--sm hdr-book">Book an audit <ArrowRight size={15} /></Link>
+            <Link to="/contact?intent=quote#enquiry" className="btn btn--green btn--sm hdr-book">Request an audit quote <ArrowRight size={15} /></Link>
             <button className="burger" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu size={22} /></button>
           </div>
         </div>
@@ -169,7 +169,7 @@ function Header() {
           <Link to="/complaints-and-appeals">Complaints & Appeals</Link>
           <Link to="/contact">Contact</Link>
           <div className="drawer__foot">
-            <Link to="/contact?intent=booking#enquiry" className="btn btn--green">Book an audit <ArrowRight size={16} /></Link>
+            <Link to="/contact?intent=quote#enquiry" className="btn btn--green">Request an audit quote <ArrowRight size={16} /></Link>
             {settings.contact?.whatsapp && <a href={waLink(settings.contact.whatsapp)} className="btn btn--wa" target="_blank" rel="noopener noreferrer"><MessageCircle size={16} /> WhatsApp us</a>}
             {c.phones?.[0] && <a href={tel(c.phones[0])} className="btn btn--ghost"><Phone size={16} /> {c.phones[0]}</a>}
           </div>

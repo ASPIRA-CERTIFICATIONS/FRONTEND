@@ -27,7 +27,11 @@ export const INTENTS = {
   consultation: { type: 'consultation', label: 'Get a Consultation' },
 };
 
-const EMPTY = { name: '', organization: '', segment: '', phone: '', email: '', location: '', service: '', message: '', website: '' };
+const EMPTY = { name: '', organization: '', segment: '', phone: '', email: '', location: '', service: '', message: '', website: '', extra: {} };
+// Placeholders, button and notes as written in the client's content doc
+const PH = { name: 'e.g. Priya Raman', organization: 'College, restaurant or company name', phone: '98XXX XXXXX', email: 'you@organisation.com', location: 'e.g. Chennai', message: "Campus size, number of outlets or sites, and any deadline you're working to" };
+const DEFAULT_SUCCESS = 'Thank you. Our team will contact you shortly to discuss your audit.';
+const PRIVACY = 'We use your details only to respond to your enquiry. No spam, ever.';
 
 /** Indian mobile: 10 digits starting 6-9, optional +91 / 91 / 0 prefix */
 export const isMobile = (v) => {
@@ -38,10 +42,11 @@ export const isMobile = (v) => {
 };
 export const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v || '').trim());
 
-function validate(v, variant) {
+function validate(v, variant, cfg) {
   const e = {};
   if (v.name.trim().length < 2) e.name = 'Please enter your name';
-  if (variant !== 'default' && v.organization.trim().length < 2) e.organization = `Please enter the ${VARIANTS[variant].orgLabel.toLowerCase()}`;
+  const orgLabel = cfg?.orgLabel || VARIANTS[variant].orgLabel;
+  if ((cfg?.orgLabel || variant !== 'default') && v.organization.trim().length < 2) e.organization = `Please enter the ${orgLabel.toLowerCase()}`;
   if (!v.phone.trim()) e.phone = 'Please enter your mobile number';
   else if (!isMobile(v.phone)) e.phone = 'Enter a valid 10-digit Indian mobile number';
   if (!isEmail(v.email)) e.email = 'Please enter a valid email address';
@@ -52,6 +57,7 @@ function validate(v, variant) {
 /**
  * Enquiry form – saves to MongoDB via POST /api/enquiries.
  * Props: service, serviceSlug, category, variant ('default'|'institution'|'restaurant'), intent, title, subtitle, submitLabel
+ * config (from the service's page copy): { orgLabel, selects: [{ label, options, optional }], service, hideService, messagePlaceholder, success }
  */
 export default function EnquiryForm({
   service = '',
@@ -66,11 +72,13 @@ export default function EnquiryForm({
   compact = false,
   messageLabel = 'Message',
   lockService = false,
+  config,
 }) {
+  const cfg = config && typeof config === 'object' ? config : null;
   const { services, settings } = useSite();
   const { pathname } = useLocation();
   const v = VARIANTS[variant] || VARIANTS.default;
-  const [values, setValues] = useState({ ...EMPTY, service });
+  const [values, setValues] = useState({ ...EMPTY, service: cfg?.service || service });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ state: 'idle' });
   const sending = useRef(false);
@@ -84,7 +92,7 @@ export default function EnquiryForm({
   async function onSubmit(e) {
     e.preventDefault();
     if (sending.current) return; // prevents double submission
-    const errs = validate(values, variant);
+    const errs = validate(values, variant, cfg);
     setErrors(errs);
     if (Object.keys(errs).length) {
       const first = document.querySelector(`#f-${Object.keys(errs)[0]}-${variant}`);
@@ -95,10 +103,15 @@ export default function EnquiryForm({
     setStatus({ state: 'sending' });
     try {
       const chosen = services.find((s) => s.title === values.service);
+      const { extra, ...rest } = values;
+      // the service's own questions (type of site, number of sites…) go with the message
+      const answers = (cfg?.selects || []).map((q, i) => (extra[i] ? `${q.label.replace(/\s*\(optional\)/i, '')}: ${extra[i]}` : '')).filter(Boolean);
       const res = await api('/enquiries', {
         method: 'POST',
         body: {
-          ...values,
+          ...rest,
+          segment: cfg?.selects?.length ? extra[0] || '' : rest.segment,
+          message: [answers.join('\n'), rest.message].filter(Boolean).join('\n\n'),
           type: type || INTENTS[intent]?.type || (values.service ? 'service' : 'general'),
           channel: 'form',
           serviceSlug: serviceSlug || chosen?.slug || '',
@@ -107,7 +120,7 @@ export default function EnquiryForm({
         },
       });
       setStatus({ state: 'done', reference: res.reference, duplicate: res.duplicate });
-      setValues({ ...EMPTY, service });
+      setValues({ ...EMPTY, service: cfg?.service || service });
     } catch (err) {
       if (err.details) {
         const map = {};
@@ -132,9 +145,9 @@ export default function EnquiryForm({
       <div className="form-card">
         <div className="success-card" role="status">
           <span className="tick-lg"><Check size={30} strokeWidth={2.5} /></span>
-          <h3>{status.duplicate ? 'We already have your enquiry' : 'Thank you — enquiry received'}</h3>
+          <h3>{status.duplicate ? 'We already have your enquiry' : 'Enquiry received'}</h3>
           <p>
-            {status.duplicate ? 'You submitted this a few minutes ago, so we haven’t created a duplicate. ' : 'Our team will contact you shortly. '}
+            {status.duplicate ? 'You submitted this a few minutes ago, so we haven’t created a duplicate. ' : `${cfg?.success || DEFAULT_SUCCESS} `}
             Your reference number is <code>{status.reference}</code>.
           </p>
           <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -165,10 +178,23 @@ export default function EnquiryForm({
       {subtitle && <p>{subtitle}</p>}
       <form className="form" onSubmit={onSubmit} noValidate>
         <div className="form__row">
-          {field('name', 'Your name', { autoComplete: 'name' }, true)}
-          {field('organization', v.orgLabel, { autoComplete: 'organization' }, variant !== 'default')}
+          {field('name', 'Your name', { autoComplete: 'name', placeholder: PH.name }, true)}
+          {field('organization', cfg?.orgLabel || v.orgLabel, { autoComplete: 'organization', placeholder: PH.organization }, !!cfg?.orgLabel || variant !== 'default')}
         </div>
-        {v.segmentLabel && (
+        {cfg?.selects?.length > 0 && (
+          <div className={cfg.selects.length > 1 ? 'form__row' : ''}>
+            {cfg.selects.map((q, i) => (
+              <div className="field" key={q.label}>
+                <label htmlFor={id(`x${i}`)}>{q.label}</label>
+                <select id={id(`x${i}`)} value={values.extra[i] || ''} onChange={(e) => setValues((x) => ({ ...x, extra: { ...x.extra, [i]: e.target.value } }))}>
+                  <option value="">Select</option>
+                  {q.options.map((o) => <option key={o}>{o}</option>)}
+                </select>
+              </div>
+            ))}
+          </div>
+        )}
+        {!cfg?.selects?.length && v.segmentLabel && (
           <div className="field">
             <label htmlFor={id('segment')}>{v.segmentLabel}</label>
             <select id={id('segment')} value={values.segment} onChange={set('segment')}>
@@ -178,12 +204,12 @@ export default function EnquiryForm({
           </div>
         )}
         <div className="form__row">
-          {field('phone', 'Mobile number', { type: 'tel', autoComplete: 'tel', inputMode: 'tel', placeholder: '98XXX XXXXX' }, true)}
-          {field('email', 'Email', { type: 'email', autoComplete: 'email' }, true)}
+          {field('phone', 'Mobile number', { type: 'tel', autoComplete: 'tel', inputMode: 'tel', placeholder: PH.phone }, true)}
+          {field('email', 'Email', { type: 'email', autoComplete: 'email', placeholder: PH.email }, true)}
         </div>
         <div className="form__row">
-          {field('location', 'City / location', { autoComplete: 'address-level2' }, true)}
-          {lockService ? (
+          {field('location', 'City / location', { autoComplete: 'address-level2', placeholder: PH.location }, true)}
+          {cfg?.hideService ? <span /> : lockService || cfg?.service ? (
             <div className="field">
               <label htmlFor={id('service')}>Service required</label>
               <input id={id('service')} value={values.service} readOnly />
@@ -201,7 +227,7 @@ export default function EnquiryForm({
         </div>
         <div className="field">
           <label htmlFor={id('message')}>{messageLabel}</label>
-          <textarea id={id('message')} value={values.message} onChange={set('message')} rows={compact ? 2 : 3} maxLength={4000} />
+          <textarea id={id('message')} value={values.message} onChange={set('message')} rows={compact ? 2 : 3} maxLength={4000} placeholder={cfg?.messagePlaceholder || (type === 'complaint' ? '' : PH.message)} />
         </div>
         <div className="hp" aria-hidden="true">
           <label htmlFor={id('website')}>Website</label>
@@ -210,7 +236,7 @@ export default function EnquiryForm({
         {status.state === 'error' && <div className="alert alert--err" role="alert"><AlertCircle size={18} /> {status.message}</div>}
         <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <button type="submit" className="btn btn--green" disabled={status.state === 'sending'}>
-            {status.state === 'sending' ? 'Sending…' : <>{submitLabel || INTENTS[intent]?.label || 'Submit enquiry'} <Send size={15} /></>}
+            {status.state === 'sending' ? 'Sending…' : <>{submitLabel || (intent === 'expert' ? INTENTS.expert.label : type === 'complaint' ? 'Submit' : 'Request a quote')} <Send size={15} /></>}
           </button>
           {wa && (
             <a className="btn btn--ghost btn--sm" href={waLink(wa, `Hello Aspira, I would like to enquire about ${values.service || service || 'your audit services'}.`)} target="_blank" rel="noopener noreferrer">
@@ -218,7 +244,7 @@ export default function EnquiryForm({
             </a>
           )}
         </div>
-        <p className="form__note">We use your details only to respond to this enquiry.</p>
+        <p className="form__note">{PRIVACY}</p>
       </form>
     </div>
   );

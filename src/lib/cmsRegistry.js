@@ -59,12 +59,12 @@ export const CMS_PAGES = [
         key: 'hero',
         label: 'Hero',
         fields: ['eyebrow', 'heading', 'intro', 'buttons'],
-        defaults: ({ settings = {} }) => ({ eyebrow: settings.tagline || 'Audits · Inspections · Assessments', heading: settings.heroTitle || 'Audits & inspections you can rely on', intro: settings.heroSubtitle || '', buttons: [{ label: 'Book an audit', href: '/contact?intent=booking#enquiry' }] }),
+        defaults: ({ settings = {} }) => ({ eyebrow: settings.tagline || 'Audits · Inspections · Assessments', heading: settings.heroTitle || 'Audits & inspections you can rely on', intro: settings.heroSubtitle || '', buttons: [{ label: 'Request an audit quote', href: '/contact?intent=quote#enquiry' }] }),
         note: 'Wrap words in *stars* to show them in green (if there are no stars, the last two words are green). Background photos: Admin → Settings → Hero image.',
         hideable: false,
       },
       { key: 'commitments', label: 'Hero card – our commitments', fields: ['heading', 'items'], itemFields: ['title', 'text'], itemLabel: 'Commitment', defaults: () => ({ heading: 'Our commitments', items: [{ title: 'Impartial', text: 'No consultancy, training or internal audits for the clients we inspect.' }, { title: 'Independent', text: 'Type ‘A’ inspection body – free from commercial or financial influence.' }, { title: 'Confidential', text: 'Client information protected in line with ISO/IEC 17020.' }, { title: 'Evidence-based', text: 'Every finding rests on objective, verifiable evidence.' }] }) },
-      { key: 'facts', label: 'Key facts strip', fields: ['items'], itemFields: ['title', 'text'], itemLabel: 'Fact (value + label)', defaults: ({ services = [] }) => ({ items: [{ title: String(services.length || 11), text: 'Audit & inspection services' }, { title: '8', text: 'Sectors served' }, { title: 'Type ‘A’', text: 'Independent inspection body' }, { title: 'ISO/IEC 17020', text: 'Inspection standard' }] }), note: 'Numbers count up automatically.' },
+      { key: 'facts', label: 'Strip below the hero (How an Aspira audit works)', fields: ['heading', 'items'], itemFields: ['title', 'text'], itemLabel: 'Item (value + label)', defaults: ({ services = [] }) => ({ heading: '', items: [{ title: String(services.length || 11), text: 'Audit & inspection services' }, { title: '8', text: 'Sectors served' }, { title: 'Type ‘A’', text: 'Independent inspection body' }, { title: 'ISO/IEC 17020', text: 'Inspection standard' }] }), note: 'Numbers count up automatically.' },
       head('about', 'About Aspira', 'About Aspira', 'Independent audits you can rely on', '', {
         fields: ['body', 'image', 'imageAlt', 'items', 'buttons'],
         itemFields: ['title', 'text'],
@@ -137,7 +137,7 @@ export const CMS_PAGES = [
     sections: [
       intro('Careers', 'Work with Aspira Certifications', "We are an independent, NABCB-accredited inspection body based in Chennai. If you'd like to be part of our team, see our current openings or send us your resume."),
       { key: 'openings', label: 'Current openings', fields: ['heading', 'body'], defaults: () => ({ heading: 'Current openings', body: "There are no open positions right now.\n\nYou're welcome to send your resume below – we'll keep it on file and contact you when a suitable role opens." }), note: 'The text is shown when there are no open jobs. Jobs are added in Admin → Careers.' },
-      { key: 'apply', label: 'Send your resume', fields: ['heading', 'items'], itemFields: ['title'], itemLabel: 'Step', defaults: () => ({ heading: 'Send your resume', items: [{ title: 'Submit your details and resume using this form.' }, { title: 'We review every application we receive.' }, { title: 'We contact you if your profile matches a current or upcoming role.' }] }) },
+      { key: 'apply', label: 'Send your resume', fields: ['heading', 'items', 'intro'], itemFields: ['title'], itemLabel: 'Step', defaults: () => ({ heading: 'Send your resume', intro: '', items: [{ title: 'Submit your details and resume using this form.' }, { title: 'We review every application we receive.' }, { title: 'We contact you if your profile matches a current or upcoming role.' }] }) },
     ],
   },
   { slug: 'policies', label: 'Policies', path: '/policies', sections: [intro('Policies', 'Our policies', 'How we work as an independent inspection body – and how we treat the information you share with us.')] },

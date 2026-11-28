@@ -301,6 +301,7 @@ export function Careers() {
             <ol className="q-steps">
               {(ap.items || []).filter((x) => x.title).map((x, i) => <li key={i}>{x.title}</li>)}
             </ol>
+            {ap.intro && <p className="muted" style={{ margin: '0 0 1rem' }}>{ap.intro.split(/(\S+@\S+\.\w+)/).map((t, i) => (/@/.test(t) ? <a key={i} href={`mailto:${t}`}>{t}</a> : t))}</p>}
             {email && <p className="q-note"><Mail size={15} /> <span>Prefer email? Send your resume to<br /><a href={`mailto:${email}?subject=Job application`}>{email}</a></span></p>}
           </div>
           <ApplicationForm jobs={jobs} selected={selected} setSelected={setSelected} email={email} />

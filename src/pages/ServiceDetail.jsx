@@ -84,7 +84,7 @@ export default function ServiceDetail() {
   const parent = s.parentSlug ? services.find((x) => x.slug === s.parentSlug) : null;
   const inScope = s.slug === 'green-audits';
   const waMsg = s.whatsappMessage || `Hello Aspira, I would like to enquire about ${s.title}.`;
-  const cta = s.ctaLabel || 'Book this audit';
+  const cta = s.ctaLabel || 'Request an audit quote';
   const cp = s.copy || {}; // page headings & short texts from the client's content doc
   const childByTitle = Object.fromEntries((s.children || []).map((ch) => [ch.title.toLowerCase().replace(/s$/, ''), ch]));
   const gallery = (s.gallery || []).filter(Boolean);
@@ -97,7 +97,7 @@ export default function ServiceDetail() {
 
   return (
     <>
-      <Seo title={s.seo?.title ? undefined : s.title} description={s.seo?.description || s.shortDescription} image={s.image} jsonLd={ld} />
+      <Seo title={s.seo?.title || s.title} description={s.seo?.description || s.shortDescription} image={s.image} jsonLd={ld} />
       {s.seo?.title && (
         <Helmet>
           <title>{s.seo.title}</title>
@@ -154,7 +154,7 @@ export default function ServiceDetail() {
             <h2>{cp.overviewTitle || `About our ${s.title.toLowerCase()}`}</h2>
             {!cp.heroTitle && s.audience && <p className="audience-line"><strong>Who it’s for:</strong> {s.audience.replace(/^For /, '')}</p>}
             <Paras text={s.intro} qHeads />
-            <ServiceAccreditation slug={s.slug} />
+            <ServiceAccreditation slug={s.slug} copy={cp} />
           </Reveal>
           <Reveal className="svc-overview__media" delay={0.08}>
             {isGreen && <img src={photo('04').image} alt="Aspira green audit team inspecting campus green cover" loading="lazy" width={photo('04').width} height={photo('04').height} className="svc-own-photo" />}
@@ -201,7 +201,7 @@ export default function ServiceDetail() {
         <section className="section svc-sec svc-benefits-sec" id="benefits">
           <div className="container">
             <div className="svc-head svc-head--split">
-              <div><span className="eyebrow">Purpose & benefits</span><h2>{cp.benefitsTitle || 'Why it matters'}</h2></div>
+              <div><span className="eyebrow">{cp.benefitsEyebrow || 'Purpose & benefits'}</span><h2>{cp.benefitsTitle || 'Why it matters'}</h2></div>
               {s.purpose && <p>{s.purpose}</p>}
             </div>
             {s.benefits?.length > 0 && (
@@ -268,7 +268,7 @@ export default function ServiceDetail() {
       {has.standards && (
         <section className="section svc-sec" id="standards">
           <div className="container">
-            <div className={`svc-head ${cp.standardsIntro ? 'svc-head--split' : ''}`}><div><span className="eyebrow">Standards & regulations</span><h2>{cp.standardsTitle || 'Standards we work to'}</h2></div>{cp.standardsIntro && <p>{cp.standardsIntro}</p>}</div>
+            <div className={`svc-head ${cp.standardsIntro ? 'svc-head--split' : ''}`}><div><span className="eyebrow">{cp.standardsEyebrow || 'Standards & regulations'}</span><h2>{cp.standardsTitle || 'Standards we work to'}</h2></div>{cp.standardsIntro && <p>{cp.standardsIntro}</p>}</div>
             <div className="svc-standards">
               {s.standards.map((st, i) => (
                 <Reveal key={i} delay={(i % 3) * 0.05} className="svc-standard">
@@ -297,7 +297,7 @@ export default function ServiceDetail() {
                 <thead><tr>{(s.fees.columns || []).map((c) => <th key={c} scope="col">{c}</th>)}</tr></thead>
                 <tbody>
                   {s.fees.rows.map((r, i) => (
-                    <tr key={i}>{r.map((c, k) => (k === 0 ? <th key={k} scope="row">{c}</th> : <td key={k} className={k === r.length - 1 ? 'fees__amt' : ''}>{k === r.length - 1 ? <>₹ {c}</> : c}</td>))}</tr>
+                    <tr key={i}>{r.map((c, k) => (k === 0 ? <th key={k} scope="row">{c}</th> : <td key={k} className={k === r.length - 1 ? 'fees__amt' : ''}>{k === r.length - 1 && !String(c).includes('₹') ? <>₹ {c}</> : c}</td>))}</tr>
                   ))}
                 </tbody>
               </table>
@@ -326,7 +326,7 @@ export default function ServiceDetail() {
               </>
             ) : (
               <>
-                <div className="svc-head svc-head--center"><span className="eyebrow">Audit process</span><h2>{cp.processTitle || 'How the audit works'}</h2>{cp.processIntro && <p>{cp.processIntro}</p>}</div>
+                <div className="svc-head svc-head--center"><span className="eyebrow">{cp.processEyebrow || 'Audit process'}</span><h2>{cp.processTitle || 'How the audit works'}</h2>{cp.processIntro && <p>{cp.processIntro}</p>}</div>
                 <ol className="svc-process">
                   {s.process.map((p, i) => (
                     <Reveal as="li" key={i} delay={i * 0.06}>
@@ -369,7 +369,7 @@ export default function ServiceDetail() {
       {has.enquire && <section className="section svc-sec" id="enquire">
         <div className="container svc-enquire">
           <Reveal className="svc-why">
-            <span className="eyebrow">{cp.whyTitle && /^Planning/i.test(cp.whyTitle) ? 'Get a quote' : 'Why choose Aspira'}</span>
+            <span className="eyebrow">{cp.whyEyebrow || 'Why choose Aspira'}</span>
             <h2>{cp.whyTitle || (s.formType === 'institution' ? 'Trusted by institutions preparing for NAAC' : s.formType === 'restaurant' ? 'A hygiene audit that helps your restaurant improve' : 'Independent audits you can rely on')}</h2>
             {cp.whyIntro && <p className="muted-p">{cp.whyIntro}</p>}
             {s.whyChoose?.length > 0 && (
@@ -392,8 +392,8 @@ export default function ServiceDetail() {
               category={s.category}
               variant={s.formType || 'default'}
               lockService
-              intent="booking"
-              submitLabel={cta}
+              intent="quote"
+              config={cp.form}
             />
           </Reveal>
         </div>

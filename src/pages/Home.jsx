@@ -209,7 +209,11 @@ export default function Home() {
 
   return (
     <div className="mg">
-      <Seo jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
+      <Seo
+        title="Green Audit & FSSAI Hygiene Rating Audit Agency | Aspira"
+        description="NABCB-accredited green audits for colleges (NAAC, NIRF, QS) and FSSAI hygiene rating audits for food businesses. ISO/IEC 17020 Type A inspection body, India. Get a quote."
+        keywords="green audit for colleges, NAAC green audit, NABCB accredited green audit agency, FSSAI hygiene rating audit, hygiene rating audit agency"
+        jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
 
       {/* ---------- ACCREDITATION BANNER ---------- */}
       {H('banner') && <div className="accr-banner pbanner" role="note">
@@ -262,13 +266,14 @@ export default function Home() {
       {/* ---------- KEY FACTS: floating card overlapping the hero ---------- */}
       {H('facts') && (facts.items || []).length > 0 && (
       <div className="mg-wrap kf-wrap">
-        <dl className="kf" aria-label="Aspira at a glance">
+        {facts.heading && <p className="kf__title">{facts.heading}</p>}
+        <dl className="kf" aria-label={facts.heading || 'Aspira at a glance'}>
           {(facts.items || []).filter((x) => x.title).slice(0, 4).map((x, k) => {
             const I = factIcons[k % 4];
             return (
               <div className="kf__item" style={{ '--i': k }} key={k}>
                 <span className="kf__ic"><I size={22} strokeWidth={1.8} /></span>
-                <div><dd>{/^\d+$/.test(x.title) ? <CountUp to={Number(x.title)} /> : x.title}</dd><dt>{x.text}</dt></div>
+                <div><dd>{/^[1-9]\d*$/.test(x.title) ? <CountUp to={Number(x.title)} /> : x.title}</dd><dt>{x.text}</dt></div>
               </div>
             );
           })}
@@ -331,7 +336,7 @@ export default function Home() {
                     ) : (
                       s.shortDescription && <p className="sv-card__desc">{s.shortDescription}</p>
                     )}
-                    <span className="sv-card__go">Explore service <ArrowRight size={16} /></span>
+                    <span className="sv-card__go">Explore {s.title.toLowerCase()} <ArrowRight size={16} /></span>
                   </div>
                 </Reveal>
               );
@@ -350,7 +355,7 @@ export default function Home() {
         <div className="mg-wrap">
           <Head kicker={enq.eyebrow} title={enq.heading} text={enq.intro} />
           <div className="mg-enq__card">
-            <EnquiryForm variant="default" title="" submitLabel="Send enquiry" intent="booking" />
+            <EnquiryForm variant="default" title="" intent="quote" />
           </div>
         </div>
       </section>}

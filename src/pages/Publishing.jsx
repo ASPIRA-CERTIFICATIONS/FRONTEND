@@ -64,7 +64,7 @@ export function Blog() {
   return (
     <>
       <Seo title="Blog – Green Audits, Hygiene Rating & Safety Guides" description="Practical guides on green audits for educational institutions, FSSAI hygiene rating for restaurants, accreditation and workplace safety." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])} />
-      <PageHero crumbs={[{ label: 'Blog' }]} pageKey="blog" image="https://images.unsplash.com/photo-1583373834259-46cc92173cb7?auto=format&fit=crop&w=1600&q=70" eyebrow="Insights" title={<>Guides for institutions & <em className="accent">food businesses</em></>} intro="Practical articles on green audits, hygiene rating, accreditation and safety — written by the Aspira team." />
+      <PageHero crumbs={[{ label: 'Blog' }]} pageKey="blog" primary={{ to: '/contact?intent=expert#enquiry', label: 'Talk to an auditor' }} image="https://images.unsplash.com/photo-1583373834259-46cc92173cb7?auto=format&fit=crop&w=1600&q=70" eyebrow="Insights" title={<>Guides for institutions & <em className="accent">food businesses</em></>} intro="Practical articles on green audits, hygiene rating, accreditation and safety — written by the Aspira team." />
       <section className="section">
         <div className="container">
           {cats.length > 2 && (
@@ -303,7 +303,7 @@ export function Resources() {
   return (
     <>
       <Seo title="Insights & Guides" description="Learning resources and technical guides on green audits, hygiene rating and safety audits from Aspira Certifications." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Insights & guides', path: '/resources' }])} />
-      <PageHero crumbs={[{ label: 'Insights & guides' }]} pageKey="resources" primary={{ href: '#downloads', label: 'Browse resources' }} eyebrow="Insights & guides" title={<>Learning resources <em className="accent">for audits</em></>} intro="Technical guides, checklists and reference material to help you prepare for green, hygiene and safety audits." />
+      <PageHero crumbs={[{ label: 'Insights & guides' }]} pageKey="resources" primary={{ href: '#downloads', label: 'Explore resources' }} eyebrow="Insights & guides" title={<>Learning resources <em className="accent">for audits</em></>} intro="Technical guides, checklists and reference material to help you prepare for green, hygiene and safety audits." />
       <section className="section">
         <div className="container">
           {cats.length > 2 && (

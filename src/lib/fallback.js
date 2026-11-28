@@ -338,7 +338,31 @@ export const FALLBACK_SERVICES = [
         "Energy & renewables",
         "Green cover & biodiversity"
       ],
-      "scopeBadge": "Assessed on site by Aspira auditors"
+      "scopeBadge": "Assessed on site by Aspira auditors",
+      "whyEyebrow": "Our approach",
+      "accrTitle": "Within our NABCB scope of accreditation",
+      "accrText": "Aspira Certifications Private Limited is accredited by NABCB as an inspection body (Reg. No. IB 159) for green audits of educational institutions.",
+      "accrLink": "View our NABCB accreditation details",
+      "form": {
+        "orgLabel": "Institution name",
+        "selects": [
+          {
+            "label": "Type of institution",
+            "options": [
+              "School",
+              "Arts & science college",
+              "Engineering & technology college",
+              "Medical, nursing & allied health college",
+              "Management institute",
+              "University or deemed university",
+              "Polytechnic",
+              "Other"
+            ]
+          }
+        ],
+        "messagePlaceholder": "Number of campuses, approximate campus area and any accreditation deadline",
+        "success": "Thank you. Our green audit team will contact you shortly to discuss your campus."
+      }
     }
   },
   {
@@ -462,36 +486,35 @@ export const FALLBACK_SERVICES = [
       "keywords": "hygiene rating audit, FSSAI hygiene rating, restaurant hygiene audit, food safety audit Chennai"
     },
     "fees": {
-      "title": "Fee structure",
-      "intro": "Aspira Certifications Private Limited (HRAA) is committed to maintaining a fair, transparent, and non-discriminatory fee structure for all Food Business Operators (FBOs) seeking Hygiene Rating audits. Our pricing is based on the number of food handlers present in the establishment, ensuring that audit effort and resources are aligned with the scale of operations.",
+      "title": "How much does a hygiene rating audit cost?",
       "columns": [
-        "Food Business Type (Food Handlers)",
-        "Criteria (Man-Days)",
-        "Audit Fee (INR)"
+        "Number of food handlers",
+        "Audit duration",
+        "Audit fee (INR)"
       ],
       "rows": [
         [
-          "1 – 50",
-          "0.5 Man-Day",
-          "4,000"
+          "1–50",
+          "0.5 man-day",
+          "₹4,000"
         ],
         [
-          "51 – 100",
-          "1.0 Man-Day",
-          "8,000"
+          "51–100",
+          "1.0 man-day",
+          "₹8,000"
         ],
         [
           "100+",
-          "1.5 Man-Days",
-          "12,000"
+          "1.5 man-days",
+          "₹12,000"
         ]
       ],
-      "footnote": "(*Taxes as applicable under prevailing law)",
+      "footnote": "Taxes as applicable under prevailing law.",
       "notes": [
-        "The term “Food Handlers” includes all individuals involved in food operations, such as managers, chefs, assistant chefs, waiters, cleaners, and support staff.",
-        "In cases where the Hygiene Rating audit outcome is unsatisfactory, a re-audit may be conducted only after a minimum of three months from the previous audit date.",
-        "Payment Terms: 100% advance payment is mandatory. GST is applicable as per law.",
-        "Additional Costs: Auditor travel, boarding, and lodging expenses will be billed separately on actuals."
+        "Food handlers include everyone involved in food operations, such as managers, chefs, assistant chefs, waiters, cleaners and support staff.",
+        "If the audit outcome is unsatisfactory, a re-audit can be conducted only after at least three months from the previous audit date.",
+        "Payment terms: 100% advance payment is required. GST applies as per law.",
+        "Auditor travel, boarding and lodging are billed separately at actual cost."
       ]
     },
     "copy": {
@@ -522,7 +545,27 @@ export const FALLBACK_SERVICES = [
         "Kitchen & premises hygiene",
         "Food storage & handling",
         "Pest control & staff hygiene"
-      ]
+      ],
+      "whyEyebrow": "Our approach",
+      "accrTitle": "Recognised by the Quality Council of India",
+      "accrText": "Aspira Certifications Private Limited is a Hygiene Rating Audit Agency (HRAA) recognised by the Quality Council of India (QCI) to conduct hygiene rating audits under the FSSAI Hygiene Rating Scheme.",
+      "accrLink": "View our recognition details",
+      "form": {
+        "orgLabel": "Restaurant / food business name",
+        "selects": [
+          {
+            "label": "Number of food handlers",
+            "options": [
+              "1–50",
+              "51–100",
+              "100+"
+            ]
+          }
+        ],
+        "service": "Hygiene rating audit",
+        "messagePlaceholder": "Number of outlets, preferred audit dates or questions about the portal",
+        "success": "Thank you. Our hygiene rating team will contact you shortly to plan your audit."
+      }
     }
   },
   {
@@ -666,7 +709,52 @@ export const FALLBACK_SERVICES = [
         "Fire & electrical safety",
         "Construction & warehouses",
         "Workplace safety"
-      ]
+      ],
+      "whyEyebrow": "Our approach",
+      "form": {
+        "orgLabel": "Organisation name",
+        "selects": [
+          {
+            "label": "Type of site",
+            "options": [
+              "Manufacturing & industrial plants",
+              "Construction & infrastructure projects",
+              "Warehouses & logistics hubs",
+              "Commercial buildings",
+              "Shopping malls & retail spaces",
+              "Offices & corporate campuses",
+              "Hotels & hospitality properties",
+              "Restaurants & commercial kitchens",
+              "Hospitals & healthcare facilities",
+              "Residential high-rises & apartments",
+              "Educational institutions",
+              "Other"
+            ]
+          },
+          {
+            "label": "Type of safety audit required",
+            "options": [
+              "Workplace safety audit",
+              "Construction safety audit",
+              "Electrical safety audit",
+              "Fire safety audit",
+              "Warehouse safety audit",
+              "Not sure yet"
+            ]
+          },
+          {
+            "label": "Number of sites",
+            "options": [
+              "1",
+              "2–5",
+              "6 or more"
+            ]
+          }
+        ],
+        "hideService": true,
+        "messagePlaceholder": "Site size, number of buildings, or any licence or inspection deadline",
+        "success": "Thank you. Our safety audit team will contact you shortly to discuss your sites."
+      }
     }
   },
   {
@@ -822,7 +910,47 @@ export const FALLBACK_SERVICES = [
       "formTitle": "Request a quote",
       "faqTitle": "Workplace safety audit FAQs",
       "faqIntro": "Can't find your answer? Ask our team directly.",
-      "industriesTitle": "Who we audit"
+      "industriesTitle": "Who we audit",
+      "whyEyebrow": "Get a quote",
+      "form": {
+        "orgLabel": "Organisation name",
+        "selects": [
+          {
+            "label": "Type of workplace",
+            "options": [
+              "Factory or industrial plant",
+              "Office or corporate campus",
+              "Warehouse or logistics centre",
+              "Hospital or healthcare facility",
+              "School, college or university",
+              "Retail store or commercial space",
+              "Hotel",
+              "Government office",
+              "Other"
+            ]
+          },
+          {
+            "label": "Number of employees on site",
+            "options": [
+              "1–50",
+              "51–200",
+              "201–500",
+              "500+"
+            ]
+          },
+          {
+            "label": "Also interested in (optional)",
+            "options": [
+              "Fire safety audit",
+              "Electrical safety audit",
+              "Warehouse safety audit",
+              "Construction safety audit"
+            ],
+            "optional": true
+          }
+        ],
+        "messagePlaceholder": "Number of shifts or buildings, or any upcoming inspection or customer audit"
+      }
     }
   },
   {
@@ -925,6 +1053,10 @@ export const FALLBACK_SERVICES = [
       {
         "title": "Construction safety audit report",
         "description": "Findings are set out by work front and contractor, so responsibility for each issue is clear."
+      },
+      {
+        "title": "Next-stage audit",
+        "description": "Book a follow-up audit as the project moves into its next phase, from substructure to superstructure and finishing."
       }
     ],
     "whyChoose": [
@@ -1308,7 +1440,8 @@ export const FALLBACK_SERVICES = [
       "processIntro": "From the first call to the follow-up visit, here is what to expect from an Aspira fire safety audit.",
       "faqTitle": "Fire safety audit questions, answered",
       "faqIntro": "Can't find your answer? Message our fire safety audit team directly.",
-      "industriesTitle": "Facilities we audit"
+      "industriesTitle": "Facilities we audit",
+      "processEyebrow": "Fire safety audit process"
     }
   },
   {
@@ -1463,7 +1596,8 @@ export const FALLBACK_SERVICES = [
       "processIntro": "Here's how an Aspira warehouse safety audit runs, planned around your picking, loading and dispatch.",
       "faqTitle": "Warehouse safety audit FAQs",
       "faqIntro": "Have a question about audits for your warehouse? Message our safety audit team directly.",
-      "industriesTitle": "Who we audit"
+      "industriesTitle": "Who we audit",
+      "benefitsEyebrow": "Benefits"
     }
   },
   {
@@ -1620,7 +1754,8 @@ export const FALLBACK_SERVICES = [
         "Electrical load & consumption",
         "Lighting, HVAC & equipment",
         "Solar & renewable potential"
-      ]
+      ],
+      "benefitsEyebrow": "Benefits"
     }
   },
   {
@@ -1779,7 +1914,8 @@ export const FALLBACK_SERVICES = [
         "Water use & metering",
         "Leaks & losses",
         "Rainwater harvesting & reuse"
-      ]
+      ],
+      "benefitsEyebrow": "Benefits"
     }
   },
   {
@@ -1871,7 +2007,7 @@ export const FALLBACK_SERVICES = [
       },
       {
         "title": "Quote & scheduling",
-        "description": "Once you approve the quote, we agree on a visit date and list the drawings, bills and policies we'll need."
+        "description": "Once you approve the quote, we agree a visit date and list the drawings, bills and policies we'll need."
       },
       {
         "title": "Document & data review",
@@ -1948,7 +2084,10 @@ export const FALLBACK_SERVICES = [
         "Site & materials",
         "Resource efficiency",
         "Indoor air quality & comfort"
-      ]
+      ],
+      "processEyebrow": "Assessment process",
+      "standardsEyebrow": "Rating systems & standards",
+      "benefitsEyebrow": "Benefits"
     }
   }
 ];

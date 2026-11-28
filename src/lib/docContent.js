@@ -137,6 +137,32 @@ export const DOC_CONTENT = {
     "cta": {
       "heading": "Preparing for NAAC, an FSSAI rating or a safety inspection?",
       "intro": "Talk to our team about the right audit for your campus, kitchen or site, wherever you are."
+    },
+    "facts": {
+      "heading": "How an Aspira Audit works",
+      "items": [
+        {
+          "title": "01",
+          "text": "Share your audit requirement"
+        },
+        {
+          "title": "02",
+          "text": "Get a scoped audit quote"
+        },
+        {
+          "title": "03",
+          "text": "On-site inspection by experts"
+        },
+        {
+          "title": "04",
+          "text": "Submission-ready audit report"
+        }
+      ]
+    },
+    "insights": {
+      "eyebrow": "Insights",
+      "heading": "Expert insights on sustainability, hygiene and safety",
+      "intro": "Ideas for greener, safer and more hygienic organisations"
     }
   },
   "about": {
@@ -185,6 +211,63 @@ export const DOC_CONTENT = {
         {
           "title": "Innovation for growth",
           "text": "Modern tools and fresh thinking that make audits easier for you."
+        }
+      ]
+    },
+    "why": {
+      "intro": "Every commitment below is backed by written policies, signed by our leadership and open for anyone to read.",
+      "buttons": [
+        {
+          "label": "Read our policies",
+          "href": "/policies"
+        },
+        {
+          "label": "About Aspira Certifications",
+          "href": "/about"
+        }
+      ],
+      "items": [
+        {
+          "title": "Globally benchmarked",
+          "text": "Our inspection system follows ISO/IEC 17020, the international standard for inspection bodies."
+        },
+        {
+          "title": "Findings you can act on",
+          "text": "Every observation is explained in plain words, so your team knows exactly where you stand."
+        },
+        {
+          "title": "Consistent across every site",
+          "text": "The same audit quality at every campus, outlet or site, in India and abroad."
+        },
+        {
+          "title": "Planned around your day",
+          "text": "Site visits scheduled around your classes, service hours and shifts."
+        },
+        {
+          "title": "One partner for every audit",
+          "text": "Green, hygiene, safety, energy and water audits from one accountable team."
+        },
+        {
+          "title": "We audit ourselves too",
+          "text": "Our own systems, auditors and processes are reviewed and improved continually."
+        }
+      ]
+    },
+    "pillars": {
+      "eyebrow": "What our audits cover",
+      "heading": "People. Processes. *Planet.*",
+      "items": [
+        {
+          "title": "People",
+          "text": "Safety and hygiene audits that protect everyone on site."
+        },
+        {
+          "title": "Processes",
+          "text": "Compliance checks on how your systems work day to day."
+        },
+        {
+          "title": "Planet",
+          "text": "Green, energy and water audits that track your footprint."
         }
       ]
     }
@@ -246,7 +329,7 @@ export const DOC_CONTENT = {
       "body": "We're not hiring right now, but we're always glad to meet people who care about safer, greener workplaces. Send us your resume and we'll reach out when a role that suits you opens up."
     },
     "apply": {
-      "heading": "Send your resume",
+      "heading": "Send us your resume",
       "items": [
         {
           "title": "Share your details and resume using this form."
@@ -257,7 +340,8 @@ export const DOC_CONTENT = {
         {
           "title": "Shortlisted candidates get a call to talk through the role and next steps."
         }
-      ]
+      ],
+      "intro": "Prefer email? Send your resume to info@aspiracertifications.com"
     }
   },
   "policies": {
@@ -265,6 +349,13 @@ export const DOC_CONTENT = {
       "eyebrow": "Our policies",
       "heading": "Policies behind every Aspira audit",
       "intro": "Read how we run our inspections, look after your information and respond if something goes wrong."
+    }
+  },
+  "resources": {
+    "intro": {
+      "eyebrow": "Resources",
+      "heading": "Resources to understand green, hygiene and *safety audits*",
+      "intro": "Explainers, fact sheets and reference notes on how green audits, FSSAI hygiene rating audits and safety audits work, what each one looks at and why it matters."
     }
   },
   "blog": {
