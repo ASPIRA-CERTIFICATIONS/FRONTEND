@@ -19,16 +19,23 @@ export function rich(text) {
 }
 export const plain = (text) => String(text || '').replace(/\*([^*\n]+)\*/g, '$1');
 
-export function Paras({ text, className = '', first }) {
+export function Paras({ text, className = '', first, qHeads = false }) {
   if (!text) return null;
   const blocks = String(text).split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
-  return blocks.map((b, i) => {
+  const out = [];
+  blocks.forEach((b, i) => {
     const lines = b.split('\n');
-    if (lines.every((l) => /^[-•*]\s+/.test(l))) {
-      return <ul key={i} className={`cms-ul ${className}`}>{lines.map((l, k) => <li key={k}>{rich(l.replace(/^[-•*]\s+/, ''))}</li>)}</ul>;
-    }
-    return <p key={i} className={`${className} ${i === 0 && first ? first : ''}`.trim()}>{lines.map((l, k) => <Fragment key={k}>{k > 0 && <br />}{rich(l)}</Fragment>)}</p>;
+    if (qHeads && lines.length === 1 && /\?$/.test(b) && b.length < 100) { out.push(<h3 key={`h${i}`} className="cms-qh">{rich(b)}</h3>); return; }
+    const isB = (l) => /^[-•*]\s+/.test(l);
+    // a block may start with a sentence and continue with "- " list lines
+    let k = 0;
+    const lead = [];
+    while (k < lines.length && !isB(lines[k])) lead.push(lines[k++]);
+    if (lead.length) out.push(<p key={`p${i}`} className={`${className} ${i === 0 && first ? first : ''}`.trim()}>{lead.map((l, j) => <Fragment key={j}>{j > 0 && <br />}{rich(l)}</Fragment>)}</p>);
+    const items = lines.slice(k).filter(isB);
+    if (items.length) out.push(<ul key={`u${i}`} className={`cms-ul ${className}`}>{items.map((l, j) => <li key={j}>{rich(l.replace(/^[-•*]\s+/, ''))}</li>)}</ul>);
   });
+  return out;
 }
 
 /* ---------- preview mode (admins viewing unpublished drafts) ---------- */

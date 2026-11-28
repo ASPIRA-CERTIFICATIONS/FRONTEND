@@ -1,7 +1,7 @@
 /**
  * Website copy from the client's Google Doc "website content_Aspira".
  * Used as the built-in text of each section (shown even without a backend).
- * Anything saved in Admin → Pages overrides it. Keep in sync with Backend/src/seed/cms-doc-content.js.
+ * Anything saved in Admin → Pages overrides it. Generated from Backend/src/seed/cms-doc-content.js.
  */
 export const DOC_CONTENT = {
   "home": {
@@ -187,6 +187,91 @@ export const DOC_CONTENT = {
           "text": "Modern tools and fresh thinking that make audits easier for you."
         }
       ]
+    }
+  },
+  "accreditations": {
+    "intro": {
+      "eyebrow": "Accreditation",
+      "heading": "Accreditations & *Recognitions*",
+      "intro": "Accreditation is independent confirmation that an inspection body is competent to carry out specific audits. It is granted only after a national accreditation body has assessed the body's people, methods and records. For you, both mean an audit report you can check, rely on and stand behind when regulators or ranking bodies ask."
+    },
+    "nabcb": {
+      "eyebrow": "National Accreditation Board for Certification Bodies",
+      "heading": "NABCB Accreditation",
+      "intro": "What is NABCB accreditation?",
+      "body": "The National Accreditation Board for Certification Bodies (NABCB) is India's national accreditation body and a constituent board of the Quality Council of India (QCI). It accredits certification, inspection and validation/verification bodies against international ISO standards.\n\nFor an inspection body, NABCB accreditation means its auditors, methods and records have been assessed against ISO/IEC 17020, and they are reassessed at regular intervals. As regulators and ranking frameworks increasingly expect audits from accredited agencies, NABCB accreditation is how institutions tell a qualified inspection body apart from an unqualified one."
+    },
+    "qci": {
+      "eyebrow": "Quality Council of India",
+      "heading": "QCI Recognition",
+      "intro": "What is a QCI-recognised Hygiene Rating Audit Agency?",
+      "body": "A Hygiene Rating Audit Agency (HRAA) is an audit body that the Quality Council of India (QCI) has recognised, together with the Food Safety and Standards Authority of India (FSSAI), to carry out audits under the FSSAI Hygiene Rating Scheme. It checks how well a food business follows FSSAI's hygiene and food safety requirements.",
+      "items": [
+        {
+          "title": "Recognised under a joint QCI and FSSAI scheme"
+        },
+        {
+          "title": "Auditors trained and qualified to FSSAI and QCI requirements"
+        },
+        {
+          "title": "Audits follow FSSAI's official hygiene rating checklist"
+        },
+        {
+          "title": "Ratings and certificates issued through FSSAI's hygiene rating portal"
+        }
+      ],
+      "buttons": [
+        {
+          "label": "Hygiene rating audits",
+          "href": "/services/hygiene-rating-audits"
+        }
+      ]
+    }
+  },
+  "gallery": {
+    "intro": {
+      "eyebrow": "Gallery",
+      "heading": "Aspira in action",
+      "intro": "Real moments from Aspira's on-site audits and inspections."
+    }
+  },
+  "careers": {
+    "intro": {
+      "eyebrow": "Careers",
+      "heading": "Build a career in audits and inspections",
+      "intro": "Aspira Certifications is a Chennai-based, NABCB-accredited inspection body working with organisations in India and worldwide. Join a team that learns on real sites, from campuses to commercial kitchens, and grows with every audit."
+    },
+    "openings": {
+      "heading": "Current openings",
+      "body": "We're not hiring right now, but we're always glad to meet people who care about safer, greener workplaces. Send us your resume and we'll reach out when a role that suits you opens up."
+    },
+    "apply": {
+      "heading": "Send your resume",
+      "items": [
+        {
+          "title": "Share your details and resume using this form."
+        },
+        {
+          "title": "We read every application personally."
+        },
+        {
+          "title": "Shortlisted candidates get a call to talk through the role and next steps."
+        }
+      ]
+    }
+  },
+  "policies": {
+    "intro": {
+      "eyebrow": "Our policies",
+      "heading": "Policies behind every Aspira audit",
+      "intro": "Read how we run our inspections, look after your information and respond if something goes wrong."
+    }
+  },
+  "blog": {
+    "intro": {
+      "eyebrow": "Insights",
+      "heading": "Insights for greener, safer and more *hygienic spaces*",
+      "intro": "Articles on green audits, sustainability, food safety, workplace safety and the regulations shaping them, from the Aspira team."
     }
   }
 };

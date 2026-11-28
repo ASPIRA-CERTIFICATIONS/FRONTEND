@@ -54,8 +54,13 @@ export function Blog() {
   const { data, loading, error } = useFetch('/posts');
   const posts = data || (apiDown(error) ? FALLBACK_POSTS : []);
   const [cat, setCat] = useState('All');
-  const cats = useMemo(() => ['All', ...new Set(posts.map((p) => p.category).filter(Boolean))], [posts]);
-  const list = posts.filter((p) => cat === 'All' || p.category === cat);
+  // "Safety audits" tab is always offered (client doc); it collects every safety-related article
+  const cats = useMemo(() => {
+    const c = [...new Set(posts.map((p) => p.category).filter(Boolean))];
+    if (!c.some((x) => /safety/i.test(x))) c.push('Safety audits');
+    return ['All', ...c];
+  }, [posts]);
+  const list = posts.filter((p) => cat === 'All' || p.category === cat || (cat === 'Safety audits' && /safety/i.test(`${p.category} ${p.title}`)));
   return (
     <>
       <Seo title="Blog – Green Audits, Hygiene Rating & Safety Guides" description="Practical guides on green audits for educational institutions, FSSAI hygiene rating for restaurants, accreditation and workplace safety." jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])} />
@@ -70,7 +75,7 @@ export function Blog() {
           {loading && !posts.length ? <Loader /> : list.length ? (
             <div className="post-grid">{list.map((p) => <PostCard key={p.slug} p={p} />)}</div>
           ) : (
-            <div className="empty">No articles published yet.</div>
+            <div className="empty">{cat === 'All' ? 'No articles published yet.' : 'No articles in this category yet.'}</div>
           )}
         </div>
       </section>

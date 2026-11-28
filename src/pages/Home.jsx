@@ -316,7 +316,7 @@ export default function Home() {
           <Head kicker={svc.eyebrow} title={svc.heading} text={svc.intro} />
           <div className="sv-grid">
             {parents.map((s, i) => {
-              const points = (s.scope || []).slice(0, 3).map(short);
+              const points = s.copy?.cardPoints?.length ? s.copy.cardPoints : (s.scope || []).slice(0, 3).map(short);
               return (
                 <Reveal key={s.slug} delay={i * 60} as={Link} to={`/services/${s.slug}`} className="sv-card">
                   <div className="sv-card__img">
@@ -325,7 +325,7 @@ export default function Home() {
                   </div>
                   <div className="sv-card__body">
                     <h3>{s.title}</h3>
-                    {s.audience && <p className="sv-card__for">{s.audience}</p>}
+                    {(s.copy?.cardText || s.audience) && <p className="sv-card__for">{s.copy?.cardText || s.audience}</p>}
                     {points.length > 0 ? (
                       <ul className="sv-card__list">{points.map((x) => <li key={x}><Check size={15} strokeWidth={2.5} />{x}</li>)}</ul>
                     ) : (

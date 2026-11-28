@@ -1,4 +1,4 @@
-import { usePageCtx, rich } from '../lib/cms';
+import { usePageCtx, rich, Paras } from '../lib/cms';
 import { CmsSlot } from '../components/Cms';
 /**
  * Careers, Gallery and Policies.
@@ -253,6 +253,9 @@ export function Careers() {
   const [selected, setSelected] = useState(null);
   const formRef = useRef(null);
   const email = settings.contact?.emails?.[0];
+  const pg = usePageCtx();
+  const ops = pg ? pg.s('openings') : {};
+  const ap = pg ? pg.s('apply') : {};
 
   const apply = (job) => {
     setSelected(job);
@@ -276,15 +279,14 @@ export function Careers() {
       <section className="q-sec">
         <div className="q-wrap">
           <div className="q-head">
-            <h2>Current openings</h2>
+            <h2>{rich(ops.heading)}</h2>
             {jobs.length > 0 && <span className="q-count">{jobs.length} open {jobs.length === 1 ? 'role' : 'roles'}</span>}
           </div>
           {res.loading ? (
             <Loader />
           ) : jobs.length === 0 ? (
             <div className="q-empty">
-              <p>There are no open positions right now.</p>
-              <p className="muted">You're welcome to send your resume below – we'll keep it on file and contact you when a suitable role opens.</p>
+              <Paras text={ops.body} />
             </div>
           ) : (
             <ul className="q-jobs">{jobs.map((j) => <JobRow key={j._id} job={j} onApply={apply} />)}</ul>
@@ -295,11 +297,9 @@ export function Careers() {
       <section className="q-sec q-sec--alt" ref={formRef} id="apply">
         <div className="q-wrap q-split">
           <div className="q-split__aside">
-            <h2>{selected ? `Apply for ${selected.title}` : 'Send your resume'}</h2>
+            <h2>{selected ? `Apply for ${selected.title}` : rich(ap.heading)}</h2>
             <ol className="q-steps">
-              <li><b>Submit</b> your details and resume using this form.</li>
-              <li><b>We review</b> every application we receive.</li>
-              <li><b>We contact you</b> if your profile matches a current or upcoming role.</li>
+              {(ap.items || []).filter((x) => x.title).map((x, i) => <li key={i}>{x.title}</li>)}
             </ol>
             {email && <p className="q-note"><Mail size={15} /> <span>Prefer email? Send your resume to<br /><a href={`mailto:${email}?subject=Job application`}>{email}</a></span></p>}
           </div>
@@ -400,7 +400,7 @@ export function Gallery() {
 /* ============================== POLICIES ============================== */
 
 const FIXED_POLICIES = [
-  { slug: 'complaints-and-appeals', to: '/complaints-and-appeals', title: 'Complaints & Appeals', summary: 'How to raise a complaint or appeal a decision, and how we handle it.' },
+  { slug: 'complaints-and-appeals', to: '/complaints-and-appeals', title: 'Complaints & Appeals', summary: 'How to raise a concern or appeal a decision, and what happens next.' },
 ];
 
 export function Policies() {

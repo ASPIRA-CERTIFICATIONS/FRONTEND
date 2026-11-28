@@ -180,21 +180,23 @@ export const FALLBACK_SERVICES = [
     "featured": true,
     "status": "published",
     "audience": "For schools, colleges, universities and all educational institutions",
-    "ctaLabel": "Book a Green Audit for Your Institution",
+    "ctaLabel": "Get a green audit quote",
     "formType": "institution",
     "whatsappMessage": "Hello Aspira, I would like to book a Green Audit for our educational institution. Please share the details.",
-    "shortDescription": "NABCB-accredited green audits for schools, colleges and universities — independent campus sustainability assessments that support NAAC and ranking documentation.",
-    "intro": "Aspira's green audits are designed exclusively for educational institutions — schools, colleges, universities and other campuses. Our auditors inspect campus operations and infrastructure to help your institution become eco-friendly, energy-efficient and NAAC accreditation-ready.\n\nAspira Certifications Private Limited is accredited by NABCB as an Inspection Body (Reg. No. IB 159) for green audits for educational institutions (IAF Scope 28). The scope of accreditation covers in-service green audits of educational institutions against the National Building Code of India 2016, Part 11 (Approach to Sustainability), as per NAAC advisory.",
-    "purpose": "Under NAAC Criterion 7, metric 7.1.6 asks institutions to show that quality audits on environment and energy are regularly undertaken — through green or environment audits, energy audits, clean and green campus recognitions and beyond-campus activities — supported by the audit reports and a certificate from the auditing agency. An independent, accredited green audit gives your institution credible evidence for this metric and a clear plan to reduce energy, water and waste on campus.",
+    "shortDescription": "Documented evidence of your campus's green practices, ready for accreditation.",
+    "intro": "A green audit is an independent, on-site assessment of how a campus affects the environment and how responsibly it uses its resources.\n\nAspira's green audits are built for educational institutions. Our auditors visit your campus, review its operations and infrastructure, and record findings your IQAC can use for NAAC accreditation, ranking submissions and year-on-year sustainability planning.\n\nInstitutions are increasingly asked to show that their green audit came from a properly accredited agency. With Aspira, that proof is one click away.",
+    "purpose": "NAAC and leading ranking frameworks look for evidence that an institution's environmental and energy practices are reviewed regularly, supported by audit reports and a certificate from the auditing agency. Aspira's green audit gives you that record, along with a clear picture of where energy, water and waste could be better managed.",
     "scope": [
-      "Water usage – consumption, conservation, rainwater harvesting and recharge",
-      "Electricity consumption – energy use, efficiency and savings",
-      "Solar & renewable energy – solar installations and clean-energy adoption",
-      "Waste management – segregation, recycling and safe disposal",
-      "Tree plantation & green cover – campus greenery and biodiversity",
-      "Environmental practices – eco-friendly policies, awareness and compliance",
-      "Air quality – indoor and outdoor air monitoring",
-      "Campus hygiene – sanitation and cleanliness"
+      "Water management – Consumption, conservation, rainwater harvesting and recharge",
+      "Energy use – Electricity consumption, efficiency and savings potential",
+      "Solar & renewable energy – Solar installations and clean-energy adoption",
+      "Waste management – Segregation, recycling, e-waste and biomedical waste disposal",
+      "Green cover & biodiversity – Tree plantation, green spaces and campus biodiversity",
+      "Air quality & noise – Indoor and outdoor air quality and noise levels",
+      "Soil quality – Soil health across gardens, lawns and open grounds",
+      "Carbon footprint – Emissions from campus energy, transport and operations",
+      "Environmental practices – Green policies, awareness programmes and compliance",
+      "Campus hygiene – Sanitation, washrooms and overall cleanliness"
     ],
     "standards": [
       {
@@ -215,13 +217,13 @@ export const FALLBACK_SERVICES = [
       }
     ],
     "benefits": [
-      "Shows your institution is environmentally friendly",
-      "Reduced energy, water and waste use",
-      "Stronger green campus initiatives",
-      "Support for regulatory and sustainability compliance",
-      "Better positioning in accreditation and ranking frameworks (NAAC, NBA, NIRF and others)",
-      "Recognised credibility through NABCB accreditation",
-      "Clear, accurate inspection reports"
+      "Verified evidence of your green practices",
+      "Insight into energy, water and waste use",
+      "Sharper priorities for green campus initiatives",
+      "Support for NAAC, NBA, NIRF, QS Sustainability and UI GreenMetric submissions",
+      "Better visibility of environmental compliance",
+      "Greater awareness among students and staff",
+      "Aspira reports written for IQAC teams and assessors"
     ],
     "process": [
       {
@@ -263,39 +265,80 @@ export const FALLBACK_SERVICES = [
       "Polytechnics & other educational institutions"
     ],
     "whyChoose": [
-      "NABCB-accredited Inspection Body for green audits of educational institutions (Reg. No. IB 159)",
-      "Independent, impartial audits carried out by experienced professionals",
-      "Assessments aligned with national and global standards",
-      "Tailored audits focused on practical, measurable improvement",
-      "Clear, accurate inspection reports you can act on",
-      "Client information handled with strict confidentiality"
+      "Green, environment and energy audits in a single engagement",
+      "Auditors familiar with IQAC workflows and accreditation visits",
+      "On-site measurements taken by our own audit team",
+      "Opening and closing meetings that keep your committee informed",
+      "Findings walked through with your team before the report",
+      "Your institution's data handled with care and discretion"
     ],
     "faqs": [
       {
-        "question": "Who are your green audits for?",
-        "answer": "Our green audits are designed for educational institutions — schools, colleges, universities and other educational campuses."
+        "question": "Is a green audit required for NAAC accreditation?",
+        "answer": "NAAC expects institutions to show that their environment and energy practices are audited regularly. A green audit from an accredited agency is one of the clearest ways to show this."
       },
       {
-        "question": "Which NAAC metric does a green audit relate to?",
-        "answer": "NAAC metric 7.1.6 (Criterion 7) asks whether quality audits on environment and energy are regularly undertaken, confirmed through green/environment audits, energy audits, clean and green campus recognitions and beyond-campus activities. Institutions typically submit the audit reports and the certificate from the auditing agency as evidence."
+        "question": "Who can conduct a green audit for a college or university?",
+        "answer": "Choose an inspection body that is accredited specifically for green audits of educational institutions. Accreditation shows that the agency's competence has been independently assessed."
       },
       {
-        "question": "Is Aspira accredited for green audits?",
-        "answer": "Yes. Aspira Certifications Private Limited is accredited by the National Accreditation Board for Certification Bodies (NABCB) as an Inspection Body, Reg. No. IB 159, for green audits for educational institutions (IAF Scope 28)."
+        "question": "Is Aspira accredited, and how can we check?",
+        "answer": "Yes. Aspira Certifications Private Limited is accredited by the National Accreditation Board for Certification Bodies (NABCB) under Reg. No. IB 159. Search for this number in NABCB's directory of accredited inspection bodies."
       },
       {
-        "question": "What areas does a green audit cover?",
-        "answer": "Overall sustainability, environmental compliance, energy, waste management, soil and water quality, air quality and campus hygiene."
+        "question": "Is a green audit the same as an energy audit?",
+        "answer": "No. An energy audit looks only at electricity use and efficiency. A green audit looks at your campus's overall environmental performance, with energy as one part of it."
       },
       {
-        "question": "Does a green audit help with NAAC?",
-        "answer": "Yes. The audit supports NAAC criteria and also helps with frameworks such as NBA, NIRF, QS Sustainability, THE Impact and UI GreenMetric."
+        "question": "What happens during a green audit visit?",
+        "answer": "An Aspira green audit begins with an opening meeting with your team, followed by a campus walkthrough, on-site measurements and a review of records. It ends with a closing meeting, followed by your audit report and certificate."
+      },
+      {
+        "question": "What should we prepare before the audit?",
+        "answer": "Keep recent records of energy, water and waste ready, along with your environmental policies and details of green initiatives. We share a document list once your audit scope is confirmed."
+      },
+      {
+        "question": "How often should an institution do a green audit?",
+        "answer": "It depends on your accreditation and ranking cycles. Many institutions repeat their green audit every academic year, so they always have a current record to submit."
+      },
+      {
+        "question": "How much does a green audit cost?",
+        "answer": "The cost depends on your campus size, the number of campuses and the audit scope. Share your details with us for a quote tailored to your institution."
+      },
+      {
+        "question": "Can Aspira audit institutions outside India?",
+        "answer": "Yes. Aspira conducts green audits for educational institutions in India and worldwide."
       }
     ],
     "seo": {
-      "title": "Green Audit for Colleges & Universities | NABCB Accredited | Aspira",
-      "description": "NABCB-accredited green audits (Reg. No. IB 159) for colleges, universities and schools. Energy, waste, water, air and hygiene audits that support NAAC readiness.",
+      "title": "Green Audit for Colleges & Universities | Aspira",
+      "description": "NABCB-accredited green audits for schools, colleges and universities, supporting NAAC, NBA, NIRF, QS Sustainability, THE Impact and UI GreenMetric.",
       "keywords": "green audit, green audit for colleges, NAAC green audit, environment audit, NABCB inspection body"
+    },
+    "copy": {
+      "heroTitle": "Green audits that support your accreditation and rankings",
+      "heroIntro": "Aspira Certifications conducts NABCB-accredited green audits of how your campus manages energy, water, waste, air quality and hygiene, with documented findings that support NAAC, NBA, NIRF, QS Sustainability, and UI GreenMetric.",
+      "heroEyebrow": "FOR SCHOOLS, COLLEGES & UNIVERSITIES",
+      "overviewTitle": "What is a green audit?",
+      "benefitsTitle": "Why does a college need a green audit?",
+      "scopeTitle": "What does a green audit cover?",
+      "scopeIntro": "Every green audit is scoped to your campus. A typical Aspira green audit covers:",
+      "scopeNote": "Not sure what your campus needs? We'll confirm the scope with you before the audit.",
+      "photosTitle": "Green audits in the field",
+      "photosIntro": "From the opening meeting to on-site measurements and the closing review, this is what a green audit with Aspira looks like.",
+      "whyTitle": "Why choose Aspira for your green audit?",
+      "formTitle": "Request a green audit quote",
+      "formIntro": "Share a few details and we'll confirm the right scope for your campus.",
+      "faqTitle": "Green audit FAQs",
+      "faqIntro": "Can't find your answer? Ask our team directly.",
+      "industriesTitle": "Who we audit",
+      "cardText": "Documented evidence of your campus's green practices, ready for accreditation.",
+      "cardPoints": [
+        "Waste & water management",
+        "Energy & renewables",
+        "Green cover & biodiversity"
+      ],
+      "scopeBadge": "Assessed on site by Aspira auditors"
     }
   },
   {
@@ -314,41 +357,29 @@ export const FALLBACK_SERVICES = [
     "featured": true,
     "status": "published",
     "audience": "For restaurants, hotels, canteens and food businesses",
-    "ctaLabel": "Get Your Restaurant Audited",
+    "ctaLabel": "Get a hygiene rating audit quote",
     "formType": "restaurant",
     "whatsappMessage": "Hello Aspira, I would like a Hygiene Rating Audit for my restaurant / food business. Please share the details and fees.",
-    "shortDescription": "Independent hygiene rating audits for restaurants, hotels, canteens and food businesses under the FSSAI Hygiene Rating Scheme — build customer confidence with a visible rating.",
-    "intro": "Aspira provides independent and impartial hygiene rating audits for restaurants, hotels, canteens and other food businesses under the FSSAI Hygiene Rating Scheme. Our auditors check kitchen cleanliness, food storage and handling practices, pest control, sanitation and drinking-water hygiene to evaluate whether your outlet follows food safety standards. We work with food businesses of every size, from small eateries and canteens to large restaurants and hotel kitchens.\n\nUnder the scheme, an FSSAI-recognised third-party audit agency assesses your outlet against a hygiene checklist and the outlet is rated on a scale of 1 to 5 (shown as smileys), where 5 indicates excellent compliance. The hygiene rating certificate is displayed prominently at your premises so customers can see your standards before they order.",
-    "purpose": "Diners increasingly choose where to eat based on visible hygiene. A hygiene rating audit shows exactly where your kitchen, storage, staff hygiene and cleaning practices stand, gives your team a clear improvement checklist, and lets you display a rating that builds customer confidence — in the restaurant and on food-delivery platforms.",
+    "shortDescription": "An independent check of your kitchen, rated on FSSAI's 1–5 smiley scale.",
+    "intro": "An FSSAI hygiene rating audit is an independent, on-site check of how well a food business follows FSSAI's hygiene and food safety requirements.\n\nAspira's hygiene rating audits are built for food businesses of every size, from small eateries and canteens to large hotel kitchens. Our auditors spend time at your outlet watching how your team works on a normal day, from the moment raw material arrives to the point food reaches your customer, and record what they see clearly and fairly.\n\nOnce the audit report is approved, your outlet is issued a hygiene rating certificate that reflects its level of compliance, to display where customers can see it. Because the rating is based on what auditors observe on the day of the audit, it shows how your kitchen performs in practice, not just on paper.",
+    "purpose": "Diners judge a food business by the one thing they can't see: its kitchen. An Aspira FSSAI hygiene rating audit gives your outlet an independent view of how its kitchen, storage, staff hygiene and cleaning practices measure up, and a rating you can display at your counter, on your menu and on your website.",
     "scope": [
-      "Kitchen cleanliness – food preparation areas, equipment and surfaces",
-      "Food storage – raw and cooked food storage, temperature and segregation",
-      "Food handling practices – preparation, cooking and serving",
-      "Pest control – prevention measures and pest-control records",
-      "Sanitation – cleaning schedules, washing facilities and waste disposal",
-      "Drinking water hygiene – safe water for drinking and food preparation",
-      "Food safety standards – compliance with FSSAI hygiene rating requirements",
-      "Infrastructure compliance – premises, ventilation, lighting and drainage"
+      "Licence & display – FSSAI licence or registration and Food Safety Display Board",
+      "Premises & facilities – Layout, lighting, ventilation, drainage and handwashing points",
+      "Food storage – Raw and cooked food storage, temperature and segregation",
+      "Food handling & cooking – Preparation, cooking, cooling, reheating and serving",
+      "Personal hygiene – Food handlers' health checks, cleanliness and protective clothing",
+      "Cleaning & sanitation – Cleaning schedules, washing facilities and waste disposal",
+      "Pest control – Prevention measures and pest-control records",
+      "Drinking water hygiene – Safe water for drinking and food preparation",
+      "Training & records – Food handler training, supplier records and complaint handling"
     ],
-    "standards": [
-      {
-        "name": "FSSAI Hygiene Rating Scheme",
-        "description": ""
-      },
-      {
-        "name": "Schedule 4, FSS (Licensing & Registration of Food Businesses) Regulations",
-        "description": "General hygienic and sanitary practices to be followed by food business operators."
-      },
-      {
-        "name": "Auditor competence",
-        "description": "Auditors trained and qualified as per FSSAI & QCI guidelines."
-      }
-    ],
+    "standards": [],
     "benefits": [
-      "Builds consumer trust through transparent hygiene practices",
-      "Strengthens brand reputation and attracts customers",
-      "Demonstrates compliance during FSSAI inspections",
-      "Improves visibility on Swiggy, Zomato and other delivery platforms"
+      "Give diners a visible FSSAI hygiene rating to choose you by",
+      "Walk into food safety inspections knowing where your kitchen stands",
+      "Show customers your team's food safety and hygiene efforts",
+      "Stand out on Swiggy, Zomato and other food delivery apps"
     ],
     "industries": [
       "Restaurants",
@@ -359,74 +390,75 @@ export const FALLBACK_SERVICES = [
       "Cloud kitchens",
       "Bakeries & sweet shops",
       "Catering services",
-      "Food courts & cafeterias"
+      "Food courts & cafeterias",
+      "Meat retail shops"
     ],
     "process": [
       {
-        "title": "Apply for the audit",
-        "description": "Your restaurant, hotel, canteen or food business applies through our website, phone or WhatsApp."
+        "title": "Apply on the portal",
+        "description": "Apply on FSSAI's hygiene rating portal and select Aspira as your audit agency. Need help with the application? Call or WhatsApp us and we'll guide you."
       },
       {
-        "title": "Auditor visits your outlet",
-        "description": "An Aspira auditor visits your premises on the scheduled date."
+        "title": "Audit scheduled",
+        "description": "Aspira updates your audit details on the portal, fixes the audit date and assigns a qualified hygiene rating auditor to your outlet."
       },
       {
-        "title": "Kitchen & practices inspected",
-        "description": "Kitchen cleanliness, food storage and handling, pest control, sanitation and drinking-water hygiene are inspected."
+        "title": "On-site audit",
+        "description": "Our auditor visits on the scheduled date and observes your kitchen, staff and records while your team is at work."
       },
       {
-        "title": "Assessment",
-        "description": "Your outlet is assessed against the applicable FSSAI Hygiene Rating requirements and checklist."
+        "title": "Report review",
+        "description": "The auditor submits the report to Aspira, and we review and approve it as your recognised audit agency."
       },
       {
-        "title": "Report & rating outcome",
-        "description": "You receive the audit report and the applicable hygiene rating process is completed."
+        "title": "Rating certificate",
+        "description": "Once the report is approved, we download your hygiene rating certificate from the portal and send it to you."
       }
     ],
     "whyChoose": [
-      "Independent, impartial audits carried out by experienced professionals",
-      "Assessments aligned with national and global standards",
-      "Tailored audits focused on practical, measurable improvement",
-      "Clear, accurate inspection reports you can act on",
-      "Client information handled with strict confidentiality"
+      "QCI-recognised agency, so your rating is issued through FSSAI's official portal",
+      "Auditors trained and qualified as per FSSAI and QCI guidelines",
+      "Published fees based on your number of food handlers, with no hidden charges",
+      "Guidance at every step of your hygiene rating portal application",
+      "One agency for every outlet, whether you run one kitchen or many"
     ],
     "faqs": [
       {
-        "question": "Which food businesses can get a hygiene rating audit?",
-        "answer": "Restaurants, hotels, canteens, cafes, food outlets, cloud kitchens, bakeries, sweet shops, caterers and food courts — of every size."
+        "question": "How is a hygiene rating different from an FSSAI licence?",
+        "answer": "Your FSSAI licence or registration lets you operate legally. Your hygiene rating goes further, showing customers how well your outlet follows food hygiene and safety practices. You need a valid licence or registration before your outlet can be rated."
       },
       {
-        "question": "What does the auditor check?",
-        "answer": "Kitchen cleanliness, food storage and food handling practices, pest control, sanitation and drinking-water hygiene, assessed against the applicable FSSAI hygiene rating requirements."
+        "question": "Can we rate our own outlet?",
+        "answer": "No. FSSAI has removed the self-inspection option from its hygiene rating portal, so every rating must now come from a recognised audit agency."
       },
       {
-        "question": "How is the hygiene rating shown?",
-        "answer": "Outlets are rated on a scale of 1 to 5, shown as smileys, where 5 indicates excellent compliance. The certificate is displayed prominently in the customer-facing area of your premises."
+        "question": "Who can conduct FSSAI hygiene rating audits?",
+        "answer": "Only Hygiene Rating Audit Agencies (HRAAs) recognised under the scheme. FSSAI publishes the list of recognised agencies, and Aspira Certifications is one of them."
       },
       {
-        "question": "What do we need before the audit?",
-        "answer": "Your food business should be licensed or registered with FSSAI. It helps to carry out a self-assessment against the hygiene rating checklist and fix gaps before the audit."
+        "question": "What are critical requirements in a hygiene rating audit?",
+        "answer": "FSSAI marks some requirements as critical to food safety. If an outlet doesn't meet any one of them, it is treated as non-compliant, whatever its overall score."
       },
       {
-        "question": "How much does a hygiene rating audit cost?",
-        "answer": "Fees depend on the number of food handlers (managers, chefs, assistant chefs, waiters, cleaners and support staff): 1–50 handlers – ₹4,000 (0.5 man-day); 51–100 – ₹8,000 (1 man-day); above 100 – ₹12,000 (1.5 man-days). Taxes are extra. Travel, boarding and lodging are billed at actuals."
+        "question": "What information is on the hygiene rating certificate?",
+        "answer": "The certificate shows your outlet's rating, establishment details and a QR code, so anyone can confirm the rating is genuine."
       },
       {
-        "question": "What are the payment terms?",
-        "answer": "100% advance payment, with GST applicable as per law."
+        "question": "What records should we keep ready for the audit?",
+        "answer": "Keep food handlers' medical fitness certificates, pest control records, water test reports, cleaning schedules and staff training records ready for the auditor."
       },
       {
-        "question": "Can we be re-audited if the result is unsatisfactory?",
-        "answer": "Yes. A re-audit can be scheduled after a minimum of three months from the previous audit."
+        "question": "How can we improve our hygiene rating?",
+        "answer": "Address the gaps identified in your audit report, then book a re-audit with a recognised agency to have your outlet rated again."
       },
       {
-        "question": "How do I appeal a hygiene rating decision?",
-        "answer": "Appeals can be submitted in writing or online and receive a unique reference number. See our Complaints & Appeals page for the full escalation process."
+        "question": "How do we appeal a hygiene rating decision?",
+        "answer": "You can raise an appeal with Aspira under our Complaints & Appeals procedure. See our Complaints & Appeals page for how to submit it and what happens next."
       }
     ],
     "seo": {
-      "title": "FSSAI Hygiene Rating Audit for Restaurants & Food Businesses | Aspira",
-      "description": "Independent FSSAI hygiene rating audits for restaurants, hotels, bakeries, caterers and cloud kitchens. Transparent fees based on number of food handlers.",
+      "title": "FSSAI Hygiene Rating Audit Agency | QCI-Recognised | Aspira",
+      "description": "QCI-recognised Hygiene Rating Audit Agency conducting FSSAI hygiene rating audits for restaurants, hotels, bakeries, cloud kitchens and food businesses.",
       "keywords": "hygiene rating audit, FSSAI hygiene rating, restaurant hygiene audit, food safety audit Chennai"
     },
     "fees": {
@@ -461,6 +493,36 @@ export const FALLBACK_SERVICES = [
         "Payment Terms: 100% advance payment is mandatory. GST is applicable as per law.",
         "Additional Costs: Auditor travel, boarding, and lodging expenses will be billed separately on actuals."
       ]
+    },
+    "copy": {
+      "heroTitle": "FSSAI hygiene rating audits that show customers your standards",
+      "heroIntro": "Aspira Certifications conducts FSSAI hygiene rating audits across India. Our auditors assess your kitchen, food handling and premises, and rate your outlet on FSSAI's 1–5 smiley scale.",
+      "heroEyebrow": "FOR RESTAURANTS, HOTELS, BAKERIES & FOOD BUSINESSES",
+      "benefitsTitle": "Why get an FSSAI hygiene rating?",
+      "scopeTitle": "What does a hygiene rating audit check?",
+      "scopeIntro": "Every Aspira hygiene rating audit follows the FSSAI Hygiene Rating Scheme. Here's what our auditors look at:",
+      "scopeNote": "Running more than one outlet? We'll plan hygiene rating audits across all your locations.",
+      "feesTitle": "How much does a hygiene rating audit cost?",
+      "feesIntro": "Aspira Certifications Private Limited (HRAA) keeps a fair, transparent and non-discriminatory fee structure for every food business that books a hygiene rating audit. Your fee depends on the number of food handlers at your outlet, so the audit time and cost match the size of your operation.",
+      "feesNotes": [
+        "Food handlers include everyone involved in food operations, such as managers, chefs, assistant chefs, waiters, cleaners and support staff.",
+        "If the audit outcome is unsatisfactory, a re-audit can be conducted only after at least three months from the previous audit date.",
+        "Payment terms: 100% advance payment is required. GST applies as per law.",
+        "Auditor travel, boarding and lodging are billed separately at actual cost."
+      ],
+      "processTitle": "How does a hygiene rating audit work?",
+      "whyTitle": "Why choose Aspira for your hygiene rating audit?",
+      "formTitle": "Request a hygiene rating audit quote",
+      "formIntro": "Share a few details and we'll help you get started.",
+      "faqTitle": "Hygiene rating FAQs",
+      "faqIntro": "Can't find your answer? Ask our team directly.",
+      "industriesTitle": "Who we audit",
+      "cardText": "An independent check of your kitchen, rated on FSSAI's 1–5 smiley scale.",
+      "cardPoints": [
+        "Kitchen & premises hygiene",
+        "Food storage & handling",
+        "Pest control & staff hygiene"
+      ]
     }
   },
   {
@@ -473,7 +535,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1712640379137-6d2532f887a7?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1697163253622-91902b24a271?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book a Safety Audit",
+    "ctaLabel": "Get a safety audit quote",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Safety Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1742112125567-3e8967bad60f?auto=format&fit=crop&w=1600&q=70",
     "category": "Safety",
@@ -481,92 +543,130 @@ export const FALLBACK_SERVICES = [
     "order": 3,
     "featured": true,
     "status": "published",
-    "shortDescription": "Third-party workplace, construction, fire, electrical and warehouse safety audits that strengthen safety culture and reduce operational risk.",
-    "intro": "Aspira's safety audits take a systematic approach that combines compliance, behaviour and risk elements, and end with practical, improvement-focused recommendations. We audit industrial, commercial and infrastructure operations, from single sites to multi-site organisations.",
-    "purpose": "Independent safety audits identify hazards before they cause harm, verify compliance with legal and industry requirements and help build a stronger safety culture.",
+    "shortDescription": "Find fire, electrical and site risks before they become incidents.",
+    "intro": "A safety audit is an independent, on-site examination of how well a workplace identifies and controls risks to people, property and operations.\n\nAspira's safety audits look at three things together: the condition of your site, the safety systems you have in place and how people actually work day to day. Whether you run one site or many, our auditors apply the same approach at every location, so your findings stay consistent and easy to compare.\n\nOrganisations usually commission a third-party safety audit when renewing a fire licence, preparing for a statutory inspection, responding to an insurer or client requirement, or reporting on ESG commitments. An independent audit gives you a documented, objective record of where each site stands at that moment.",
+    "purpose": "An Aspira safety audit gives leadership an outside view of risks that daily routines can hide, from blocked exits and overloaded circuits to unsafe scaffolding and stacking. Those observations become findings your teams can prioritise.",
     "scope": [
-      "Workplace safety – working conditions, ergonomics, machine safety, chemical storage",
-      "Construction safety – scaffolding, fall protection, PPE, equipment, contractor management",
-      "Electrical safety – installations, wiring, load balancing, earthing and grounding",
-      "Fire safety – detection, exits, suppression, evacuation planning, fire load",
-      "Warehouse safety – racking, material handling, MHE & forklifts, traffic routes"
+      "Workplace safety audit – Working conditions, ergonomics, machine safety, chemical storage and emergency response",
+      "Construction safety audit – Scaffolding, fall protection, PPE, site equipment and contractor management",
+      "Electrical safety audit – Installations, wiring, load balancing, earthing and shock protection",
+      "Fire safety audit – Detection systems, exits, suppression equipment, evacuation planning and fire load",
+      "Warehouse safety audit – Racking, forklifts and other material handling equipment, traffic routes and layout"
     ],
-    "standards": [
-      {
-        "name": "Legal and industry requirements",
-        "description": "Statutory fire safety requirements, national electrical standards and applicable occupational safety requirements."
-      },
-      {
-        "name": "Globally recognised safety principles",
-        "description": "Assessments aligned with global safety expectations, ESG frameworks and governance needs."
-      }
-    ],
+    "standards": [],
     "benefits": [
-      "Stronger safety culture and lower incident rates",
-      "Fewer operational risks and accidents",
-      "Reduced fire vulnerabilities and prevention of electrical hazards",
-      "Safer workflows and uninterrupted operations",
-      "Consistency across single-site and multi-site operations",
-      "Alignment with global safety expectations, ESG frameworks and governance needs"
+      "Early warning on hidden fire and electrical risks",
+      "A clearer view of risks to workers, contractors and visitors",
+      "Auditors with sector-specific experience across industry, construction and logistics",
+      "Findings your leadership team can act on and track",
+      "A baseline to measure safety progress over time"
     ],
     "industries": [
-      "Industrial operations",
-      "Commercial facilities",
-      "Infrastructure projects",
-      "Construction companies",
-      "Logistics & storage operations"
+      "Manufacturing & industrial plants",
+      "Construction & infrastructure projects",
+      "Warehouses & logistics hubs",
+      "Commercial buildings",
+      "Shopping malls & retail spaces",
+      "Offices & corporate campuses",
+      "Hotels & hospitality properties",
+      "Restaurants & commercial kitchens",
+      "Hospitals & healthcare facilities",
+      "Residential high-rises & apartments",
+      "Educational institutions"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Tell us about your sites and the safety areas you want audited. We confirm the scope and the locations to be covered."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Proposal & scheduling",
+        "description": "You receive a clear proposal. Once you accept it, we fix the audit date and share a list of documents to keep ready."
       },
       {
         "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "description": "Our auditors review your safety records, permits and earlier audit reports before the site visit."
       },
       {
         "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "description": "Auditors walk your site, observe work in progress and speak with your team across every area in the agreed scope."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Audit report",
+        "description": "You receive a clear report with findings for each area audited, supported by what our auditors observed on site."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Follow-up inspection",
+        "description": "Once you've addressed the findings, we can return to verify the changes on site."
       }
     ],
     "whyChoose": [
-      "Independent, impartial audits carried out by experienced professionals",
-      "Assessments aligned with national and global standards",
-      "Tailored audits focused on practical, measurable improvement",
-      "Clear, accurate inspection reports you can act on",
-      "Client information handled with strict confidentiality"
+      "Findings backed by site observations, photographs and on-site measurements",
+      "Fire, electrical, construction, warehouse and workplace safety in a single engagement",
+      "Audits carried out by Aspira's own auditors, never subcontracted",
+      "No ties to equipment suppliers or safety contractors, so every finding stays objective",
+      "Reports written for leadership teams, insurers and regulatory review"
     ],
     "faqs": [
       {
-        "question": "What types of safety audits do you offer?",
-        "answer": "Workplace, construction, electrical, fire and warehouse safety audits."
+        "question": "How is a third-party safety audit different from an internal inspection?",
+        "answer": "An internal inspection is done by your own staff, who know the site well but may overlook familiar risks. A third-party safety audit brings in outside auditors with no prior involvement at your site, giving you a fresh, documented view of where it stands."
       },
       {
-        "question": "Can you audit multiple sites?",
-        "answer": "Yes. Our audits are designed to give consistent results across single-site and multi-site operations."
+        "question": "Is a third-party safety audit mandatory?",
+        "answer": "It depends on your industry, state and type of building. Some sites need periodic third-party audits for licences, approvals or client contracts, while others commission them as good practice. Share your details and we'll help you understand what applies to your site."
       },
       {
-        "question": "What do we receive after the audit?",
-        "answer": "A clear report with findings and practical, improvement-focused recommendations."
+        "question": "How often should a safety audit be carried out?",
+        "answer": "Most organisations audit at least once a year, and again after major changes such as an expansion, new equipment, a change of use or an incident. Higher-risk sites often audit more frequently."
+      },
+      {
+        "question": "What affects the cost of a safety audit?",
+        "answer": "Cost depends on the size of your site, the number of buildings or locations, the safety audit types you choose and travel to the site. We share a clear proposal once your scope is confirmed."
+      },
+      {
+        "question": "Will the audit disrupt our daily operations?",
+        "answer": "Our auditors work alongside your normal operations. We plan the visit with your team so that critical areas can be inspected with minimal disruption to work."
+      },
+      {
+        "question": "What should we prepare before the audit?",
+        "answer": "Keep site layout drawings, maintenance records for fire and electrical systems, safety permits, training records and incident logs ready. We share a full document list when we schedule your audit."
+      },
+      {
+        "question": "Who from our team should be involved?",
+        "answer": "Ideally your safety officer, facility or maintenance head and a site supervisor. They can guide auditors around the site and answer questions on day-to-day practices."
+      },
+      {
+        "question": "Can we start with one type of safety audit and add others later?",
+        "answer": "Yes. Many clients begin with a fire or electrical safety audit and add construction, warehouse or workplace safety audits as their needs grow."
       }
     ],
     "seo": {
-      "title": "Third-Party Safety Audits – Workplace, Fire, Electrical, Construction | Aspira",
-      "description": "Independent safety audits for workplaces, construction sites, warehouses, electrical systems and fire safety. Practical recommendations to reduce risk.",
+      "title": "Third-Party Safety Audits | Fire, Electrical & More | Aspira",
+      "description": "Third-party workplace, construction, fire, electrical and warehouse safety audits for builders, factories, warehouses, offices, hotels and institutions.",
       "keywords": "safety audit, third party safety audit, workplace safety audit, fire safety audit, electrical safety audit"
+    },
+    "copy": {
+      "heroTitle": "Third-party safety audits for every site you run",
+      "heroIntro": "Aspira Certifications conducts third-party workplace, construction, fire, electrical and warehouse safety audits. Our auditors identify hazards and compliance gaps on site, giving you clear findings to act on before an incident or inspection.",
+      "heroEyebrow": "FOR BUILDERS, FACTORIES, WAREHOUSES, OFFICES, HOTELS & INSTITUTIONS",
+      "overviewTitle": "What is a safety audit?",
+      "benefitsTitle": "What are the benefits of a safety audit?",
+      "scopeTitle": "What does a safety audit cover?",
+      "scopeIntro": "Every safety audit is scoped to your site. Choose one area or combine several in a single visit:",
+      "processTitle": "How does a safety audit work?",
+      "whyTitle": "Why choose Aspira for your safety audit?",
+      "formTitle": "Request a safety audit quote",
+      "formIntro": "Share a few details and we'll come back with the scope and fees.",
+      "faqTitle": "Safety audit FAQs",
+      "faqIntro": "Can't find your answer? Ask our team directly.",
+      "industriesTitle": "Who we audit",
+      "cardText": "Find fire, electrical and site risks before they become incidents.",
+      "cardPoints": [
+        "Fire & electrical safety",
+        "Construction & warehouses",
+        "Workplace safety"
+      ]
     }
   },
   {
@@ -578,7 +678,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1748027869634-fc2e545cfb0c?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1646082276009-bb35409086ed?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book a Workplace Safety Audit",
+    "ctaLabel": "Get a workplace safety audit quote",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Workplace Safety Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1598299803204-b73796f43289?auto=format&fit=crop&w=1600&q=70",
     "category": "Safety",
@@ -587,58 +687,81 @@ export const FALLBACK_SERVICES = [
     "order": 4,
     "status": "published",
     "shortDescription": "Assess working conditions, ergonomics, machine safety, chemical storage, hazard identification and emergency response.",
-    "intro": "Our workplace safety audits examine how safely your people work every day — from working conditions and ergonomics to machine safety, chemical storage and the way hazards are identified and controlled.",
-    "purpose": "To identify workplace hazards, verify that occupational health and safety (OHS) processes are working, and help build a stronger safety culture.",
+    "intro": "A workplace safety audit is a structured, on-site review of the hazards employees face at work and how well an organisation controls them.\n\nAspira's workplace safety audits are designed for any place where people work, from factory floors and workshops to offices, hospitals and retail stores. Our auditors walk through work areas, talk to employees and supervisors, and review how safety responsibilities are assigned and followed in practice.\n\nWorkplace risks change as teams grow, equipment is added or layouts are rearranged. A periodic workplace safety audit helps you catch the gaps that build up quietly over time, such as missing machine guards, poorly designed workstations or emergency exits that no longer suit your headcount.",
+    "purpose": "Beyond fire and electrical risks, a workplace safety audit looks at everyday health exposures such as noise, chemicals and poor posture, which are easy to overlook until they affect your people.",
     "scope": [
-      "Working conditions",
-      "Ergonomics",
-      "Machine safety",
-      "Chemical storage",
-      "Hazard identification practices",
-      "Emergency response systems",
-      "OHS processes"
+      "Working conditions – Lighting, ventilation, noise, housekeeping and welfare facilities",
+      "Ergonomics – Workstation design, manual handling and repetitive tasks",
+      "Machine safety – Guarding, interlocks, lockout practices and safe operation",
+      "Chemical safety – Storage, labelling, handling and exposure controls",
+      "Hazard identification & risk assessment – How hazards are spotted, rated and controlled across your operations",
+      "Personal protective equipment (PPE) – Selection, availability and correct use of protective gear",
+      "Emergency preparedness – Emergency plans, first aid, evacuation drills and fire response coordination",
+      "Occupational health & safety practices – Safety policies, training, incident reporting and statutory records"
     ],
     "standards": [
       {
-        "name": "Legal and industry OHS requirements",
-        "description": "Assessment aligned with applicable occupational health and safety requirements and globally recognised safety principles."
+        "name": "IS 14489",
+        "description": "Code of practice on occupational safety and health audit"
+      },
+      {
+        "name": "Factories Act, 1948 and state factory rules",
+        "description": "Health, safety and welfare duties for factories and industrial units"
+      },
+      {
+        "name": "Occupational Safety, Health and Working Conditions Code, 2020",
+        "description": "India's consolidated labour code on workplace safety and health"
+      },
+      {
+        "name": "ISO 45001",
+        "description": "International framework for occupational health and safety management"
+      },
+      {
+        "name": "National Building Code (NBC) of India",
+        "description": "Fire and life safety requirements for occupied buildings"
       }
     ],
     "benefits": [
-      "Stronger safety culture",
-      "Lower incident rates",
-      "Fewer operational risks",
-      "Safer workflows and uninterrupted operations"
+      "A clear picture of the health risks your employees face every day",
+      "Sharper priorities for PPE, ergonomics and workstation design",
+      "Better preparedness for labour and factory inspections",
+      "Confidence as occupational safety laws in India evolve",
+      "Supporting evidence for ESG disclosures and customer safety reviews",
+      "A visible signal to employees that their safety matters"
     ],
     "industries": [
-      "Industrial operations",
-      "Commercial facilities",
-      "Offices & workplaces"
+      "Factories & industrial plants",
+      "Offices & corporate campuses",
+      "Warehouses & logistics centres",
+      "Hospitals & healthcare facilities",
+      "Schools, colleges & universities",
+      "Retail stores & commercial spaces",
+      "Hotels & hospitality properties"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Tell us about your workplace, headcount and the activities on site. We agree which work areas and processes the audit will cover."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Proposal & scheduling",
+        "description": "You receive a clear proposal. Once you approve it, we confirm the audit date and send a short list of records to prepare."
       },
       {
-        "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "title": "Records review",
+        "description": "Our auditors go through your safety policies, risk assessments, training records and incident logs before the site visit."
       },
       {
         "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "description": "Auditors inspect each agreed area, watch tasks as they happen, and check equipment, PPE and emergency arrangements."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Workplace safety audit report",
+        "description": "You receive findings organised by work area, so each team knows exactly where to start."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Follow-up visit",
+        "description": "An optional follow-up visit to confirm that corrective actions are in place."
       }
     ],
     "whyChoose": [
@@ -650,13 +773,56 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "What does a workplace safety audit cover?",
-        "answer": "Working conditions, ergonomics, machine safety, chemical storage, hazard identification, emergency response systems and OHS processes."
+        "question": "How is a workplace safety audit different from a fire safety audit?",
+        "answer": "A fire safety audit focuses on fire risks, detection, exits and evacuation. A workplace safety audit looks at the wider picture of how people work every day, including machines, chemicals, posture, PPE and emergency readiness. Many sites book both together."
+      },
+      {
+        "question": "Is a workplace safety audit useful for offices and other low-risk workplaces?",
+        "answer": "Yes. Offices still carry real risks, such as poor workstation set-up, blocked exits, overloaded sockets and unclear emergency roles. A workplace safety audit brings these to light before they affect your people."
+      },
+      {
+        "question": "Is a workplace safety audit relevant for hospitals, schools and colleges?",
+        "answer": "Yes. Hospitals face risks such as patient handling, sharps and medical gases, while schools and colleges have laboratories, workshops and large crowds. Aspira's workplace safety audits are shaped around each setting's specific hazards."
+      },
+      {
+        "question": "Does the audit cover contractors and temporary workers?",
+        "answer": "Yes. Wherever contractors or temporary staff work alongside your employees, auditors look at how they are briefed, equipped and supervised on site."
+      },
+      {
+        "question": "How is a workplace safety audit different from a government inspection?",
+        "answer": "A government inspection checks whether you meet the law and can lead to notices or penalties. A third-party workplace safety audit is commissioned by you, to understand where your workplace stands and what to address before any official inspection."
+      },
+      {
+        "question": "Can a workplace safety audit help before ISO 45001 certification?",
+        "answer": "Many organisations use a workplace safety audit as an independent starting point before pursuing occupational health and safety certification such as ISO 45001. The audit shows where current practices stand, so your team knows what to work on."
+      },
+      {
+        "question": "What happens if auditors spot a serious hazard during the visit?",
+        "answer": "If our auditors see an immediate danger to people, they raise it with your site lead on the spot rather than waiting for the report, so it can be dealt with straight away."
       }
     ],
     "seo": {
-      "title": "Workplace Safety Audit | Aspira Certifications",
-      "description": "Independent workplace safety audits covering ergonomics, machine safety, chemical storage, hazard identification and emergency response."
+      "title": "Workplace Safety Audit | Occupational Health & Safety | Aspira",
+      "description": "Third-party workplace safety audits covering hazards, occupational health and safety, ergonomics and emergency preparedness for factories, offices and hospitals."
+    },
+    "copy": {
+      "heroTitle": "Workplace safety audits that find hidden risks to your people",
+      "heroIntro": "Aspira Certifications conducts third-party workplace safety audits covering hazard identification, occupational health and safety practices, ergonomics, emergency preparedness and compliance documentation, so you can see clearly where your workplace stands.",
+      "heroEyebrow": "FOR FACTORIES, OFFICES, HOSPITALS, SCHOOLS & COMMERCIAL WORKPLACES",
+      "overviewTitle": "What is a workplace safety audit?",
+      "benefitsTitle": "What are the benefits of a workplace safety audit?",
+      "scopeTitle": "What does a workplace safety audit cover?",
+      "scopeIntro": "We tailor each workplace safety audit to your operations. A typical audit covers:",
+      "scopeNote": "Running offices, a production floor and a warehouse on one site? Combine your workplace safety audit with fire, electrical or warehouse safety audits in a single visit.",
+      "standardsTitle": "Which standards does a workplace safety audit follow?",
+      "standardsIntro": "Aspira's workplace safety audits are benchmarked against the Indian laws, codes and international frameworks that govern occupational health and safety.",
+      "processTitle": "How does a workplace safety audit work?",
+      "whyTitle": "Planning a workplace safety audit?",
+      "whyIntro": "Share a few details about your site and our team will come back with a proposal covering the audit scope, number of audit days and fees. Prefer to talk it through first? Call or WhatsApp us.",
+      "formTitle": "Request a quote",
+      "faqTitle": "Workplace safety audit FAQs",
+      "faqIntro": "Can't find your answer? Ask our team directly.",
+      "industriesTitle": "Who we audit"
     }
   },
   {
@@ -668,7 +834,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1774599730788-a74cd9253b56?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1742112125567-3e8967bad60f?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book a Construction Safety Audit",
+    "ctaLabel": "Get a construction safety audit quote",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Construction Safety Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1659353586512-bcc4c7182d01?auto=format&fit=crop&w=1600&q=70",
     "category": "Safety",
@@ -677,58 +843,88 @@ export const FALLBACK_SERVICES = [
     "order": 5,
     "status": "published",
     "shortDescription": "For builders, contractors and construction companies – audits of workers’ safety, scaffolding, helmets and PPE, safety equipment and site electrical safety.",
-    "intro": "Our construction safety audits are compliance-driven audits for project sites, designed to reduce accidents and keep your site ready for inspection.",
-    "purpose": "To reduce accidents, improve site readiness and support regulatory compliance on construction projects.",
+    "intro": "A construction safety audit is an independent, on-site review of how safely a building or infrastructure project is being carried out, from site set-up to finishing works.\n\nAspira's construction safety audits look at the site as it is being built: the temporary structures, machinery, power supply and work practices that change week to week. Our auditors review contractor and sub-contractor activities together, so you get one clear picture of the whole site, not separate snapshots.\n\nFalls from height are among the leading causes of construction fatalities in India, and many site accidents trace back to temporary arrangements that were never checked. Auditing at key stages such as excavation, structural work and finishing helps you spot these risks while there's still time to act.",
+    "purpose": "On a construction project, safety findings matter beyond the site itself. They shape client confidence, contract compliance and your reputation when bidding for the next project.",
     "scope": [
-      "Workers’ safety practices on site",
-      "Scaffolding integrity",
-      "Helmets and personal protective equipment (PPE)",
-      "Safety equipment and fall-protection systems",
-      "Site electrical safety",
-      "Equipment safety",
-      "Contractor management"
+      "Scaffolding & work at height – Scaffold erection, guard rails, harnesses and fall protection",
+      "Excavation & trenching – Shoring, edge protection, safe access and spoil placement",
+      "Lifting operations & cranes – Crane set-up, load handling, rigging and signalling",
+      "Site machinery & tools – Plant condition, guarding, maintenance and operator competence",
+      "Temporary electrical installations – Site distribution boards, cabling, earthing and shock protection",
+      "Fire prevention & hot work – Welding and cutting controls, fire extinguishers and flammable storage",
+      "PPE & worker readiness – Helmets, safety shoes, harnesses, site induction and toolbox talks",
+      "Housekeeping & material storage – Access routes, stacking, debris removal, and slip and trip hazards",
+      "Worker welfare & emergency preparedness – Drinking water, sanitation, rest areas, first aid and evacuation drills",
+      "Contractor management & site records – Permits to work, sub-contractor controls, training and statutory records",
+      "Environmental controls – Dust suppression, noise and construction waste handling"
     ],
     "standards": [
       {
-        "name": "Legal and industry requirements",
-        "description": "Assessment against applicable construction safety requirements."
+        "name": "IS 14489",
+        "description": "Code of practice on occupational safety and health audit"
+      },
+      {
+        "name": "Building and Other Construction Workers (BOCW) Act, 1996 and Rules, 1998",
+        "description": "Safety, health and welfare of construction workers"
+      },
+      {
+        "name": "National Building Code (NBC) of India",
+        "description": "Construction management, practices and safety on site"
+      },
+      {
+        "name": "IS 3696",
+        "description": "Safety code for scaffolds and ladders"
+      },
+      {
+        "name": "IS 4014",
+        "description": "Code of practice for steel tubular scaffolding"
+      },
+      {
+        "name": "IS 7969",
+        "description": "Safety code for handling and storage of building materials"
+      },
+      {
+        "name": "Factories Act, 1948 and local safety regulations",
+        "description": "Applicable where construction takes place within factory premises"
       }
     ],
     "benefits": [
-      "Fewer accidents on site",
-      "Improved site readiness",
-      "Regulatory compliance"
+      "Early sight of fall, collapse and electrocution risks on site",
+      "Evidence for clients who require periodic third-party site safety audits",
+      "Readiness for statutory site inspections",
+      "Clearer safety expectations for every contractor on site",
+      "Stronger credibility when bidding for new projects",
+      "A documented safety record that supports your reputation"
     ],
     "industries": [
-      "Builders & real estate developers",
-      "Contractors & sub-contractors",
-      "Construction companies",
-      "Infrastructure projects"
+      "Residential towers & townships",
+      "Commercial & office buildings",
+      "Industrial & factory construction",
+      "Infrastructure projects: roads, bridges, metro & utilities",
+      "Hospitals, schools & institutional buildings",
+      "Renovation, fit-out & expansion works",
+      "EPC & plant construction projects"
     ],
     "process": [
       {
-        "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "title": "Project briefing",
+        "description": "Share your project type, current stage, site location and the contractors working on site. We agree the audit scope with you."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Proposal & site visit planning",
+        "description": "You receive a clear proposal. Once you approve it, we fix the audit date while key activities are under way and confirm who will accompany our auditors."
       },
       {
-        "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "title": "Site document review",
+        "description": "Auditors review your site safety plan, work permits, lifting equipment certificates, and induction and training records."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "Site walk-down",
+        "description": "Auditors walk every active work front, from excavation and scaffolding to cranes and site electrics, watching crews as they work."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
-      },
-      {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Construction safety audit report",
+        "description": "Findings are set out by work front and contractor, so responsibility for each issue is clear."
       }
     ],
     "whyChoose": [
@@ -740,13 +936,49 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "What do you check on a construction site?",
-        "answer": "Scaffolding integrity, fall-protection systems, PPE use, equipment safety and contractor management."
+        "question": "What are the most common hazards found on construction sites?",
+        "answer": "The hazards found most often are falls from unguarded edges and openings, unsafe scaffolding, makeshift temporary electrical connections, poorly planned lifting, unsupported excavations and cluttered access routes. Most of them develop gradually as the site changes."
+      },
+      {
+        "question": "Who is responsible for safety on a construction site: the developer or the contractor?",
+        "answer": "Responsibility is usually shared. The developer or principal employer and each contractor carry duties under the law and their contracts. A construction safety audit shows how well each party's safety controls are working on the ground."
+      },
+      {
+        "question": "How is a construction safety audit different from a structural audit?",
+        "answer": "A structural audit assesses whether a building is strong and stable. A construction safety audit looks at whether work on site is being carried out safely, covering people, temporary works, machinery and site conditions while the project is under way."
+      },
+      {
+        "question": "Is a construction safety audit useful for smaller projects?",
+        "answer": "Yes. Smaller sites often run without a full-time safety officer, so risks can go unnoticed for longer. A construction safety audit gives builders and contractors an outside check at a modest scale."
+      },
+      {
+        "question": "Can we share the audit report with clients, consultants or lenders?",
+        "answer": "Yes. The construction safety audit report is yours to share. Developers and contractors often use it to show clients, project management consultants and lenders how safety is being managed on site."
+      },
+      {
+        "question": "Do you audit fire and electrical safety on construction sites?",
+        "answer": "Yes. Temporary electrical installations, hot work and fire prevention are part of every construction safety audit. For completed or occupied buildings, we also conduct dedicated fire safety audits and electrical safety audits."
       }
     ],
     "seo": {
-      "title": "Construction Site Safety Audit | Aspira Certifications",
-      "description": "Compliance-driven construction safety audits: scaffolding, fall protection, PPE, equipment safety and contractor management."
+      "title": "Construction Safety Audit | Third-Party Site Audits | Aspira",
+      "description": "Third-party construction safety audits for builders, contractors and EPC firms, covering scaffolding, work at height, excavation, lifting, PPE and site electrics."
+    },
+    "copy": {
+      "heroTitle": "Construction site safety audits for every stage of your project",
+      "heroIntro": "Aspira Certifications conducts third-party construction safety audits covering scaffolding and work at height, excavation, lifting operations, site machinery, temporary electrical installations, PPE, worker welfare and emergency readiness.",
+      "heroEyebrow": "FOR BUILDERS, CONTRACTORS, INFRASTRUCTURE DEVELOPERS & EPC FIRMS",
+      "overviewTitle": "What is a construction safety audit?",
+      "benefitsTitle": "What are the benefits of a construction safety audit?",
+      "scopeTitle": "What does a construction safety audit cover?",
+      "scopeIntro": "Each construction safety audit is planned around your project stage and site activities. A typical audit covers:",
+      "scopeNote": "Managing several sites or project phases? We can schedule construction safety audits across all of them in one engagement.",
+      "standardsTitle": "Which standards does a construction safety audit follow?",
+      "standardsIntro": "Aspira's construction safety audits are benchmarked against the Indian laws and codes that govern safety on building and infrastructure sites.",
+      "processTitle": "How does a construction safety audit work?",
+      "faqTitle": "Construction safety audit FAQs",
+      "faqIntro": "Can't find your answer? Ask our team directly.",
+      "industriesTitle": "Projects we audit"
     }
   },
   {
@@ -758,7 +990,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1780444745115-a58369e913ee?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1604177420682-0c840feb01de?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book an Electrical Safety Audit",
+    "ctaLabel": "Get an electrical safety audit quote",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Electrical Safety Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1758101755915-462eddc23f57?auto=format&fit=crop&w=1600&q=70",
     "category": "Safety",
@@ -767,56 +999,94 @@ export const FALLBACK_SERVICES = [
     "order": 6,
     "status": "published",
     "shortDescription": "Electrical safety checks for buildings, factories and commercial establishments – installations, wiring, load balancing, earthing and shock prevention.",
-    "intro": "Our electrical safety audits keep your electrical systems safe and compliant by examining installations, wiring, loads, earthing and shock-prevention controls.",
-    "purpose": "To prevent electrical hazards and confirm adherence to national electrical standards.",
+    "intro": "An electrical safety audit is an independent inspection and testing of a building's electrical installations to find faults that could cause fires, shocks or equipment failure.\n\nAspira's electrical safety audits follow power through your facility, from the incoming supply, transformers and DG sets to distribution panels, cabling, sockets and connected equipment. Our auditors combine visual inspection with testing to find loose connections, overloaded circuits, weak earthing and protection devices that may not trip when needed.\n\nElectrical faults are one of the biggest fire risks in Indian buildings. Mumbai Fire Brigade data shows that about three in four fires reported over five years were caused by electrical failures or short circuits. Most of these faults build up quietly inside panels and walls, which is why periodic electrical safety audits matter.",
+    "purpose": "Electrical fires are rarely bad luck. They are usually the end result of design, installation or maintenance gaps that went unchecked, which makes them one of the most preventable risks any facility faces.",
     "scope": [
-      "Electrical installations",
-      "Wiring systems",
-      "Load balancing",
-      "Earthing and grounding",
-      "Shock-prevention controls"
+      "Incoming supply & transformers – High- and low-tension supply, transformer yards, protection and safety clearances",
+      "Panels & switchgear – Distribution boards, breakers, busbars and overall panel condition",
+      "Wiring & cabling – Cable sizing, routing, joints, terminations and insulation condition",
+      "Load distribution & balancing – Circuit loading, phase balance and signs of overloading",
+      "Earthing & grounding – Earth pits, earth continuity and equipment bonding",
+      "Shock & fire protection devices – Residual current devices (RCDs/ELCBs), MCBs, fuses and short-circuit protection",
+      "Standby power systems – DG sets, UPS systems, batteries and changeover arrangements",
+      "Thermography & insulation testing – Thermal imaging to find hotspots, and insulation resistance checks",
+      "Lightning protection – Air terminals, down conductors and their earthing",
+      "Electrical rooms & safe work practices – Housekeeping, access control, signage, PPE, lockout and competent personnel",
+      "Records & drawings – Single-line diagrams, test reports and maintenance logs"
     ],
     "standards": [
       {
-        "name": "National electrical standards",
-        "description": "Adherence to applicable national electrical safety standards."
+        "name": "IS 732",
+        "description": "Code of practice for electrical wiring installations"
+      },
+      {
+        "name": "IS 3043",
+        "description": "Code of practice for earthing"
+      },
+      {
+        "name": "IS 5216",
+        "description": "Safety procedures and practices in electrical work"
+      },
+      {
+        "name": "IS 14489",
+        "description": "Code of practice on occupational safety and health audit"
+      },
+      {
+        "name": "Central Electricity Authority (CEA) Regulations",
+        "description": "Measures relating to safety and electric supply"
+      },
+      {
+        "name": "National Electrical Code (NEC) of India",
+        "description": "Electrical installation practice for buildings and premises"
+      },
+      {
+        "name": "National Building Code (NBC) of India",
+        "description": "Electrical and allied installations in buildings"
       }
     ],
     "benefits": [
-      "Prevention of electrical hazards",
-      "Compliance with national electrical standards",
-      "Safer, uninterrupted operations"
+      "Early sight of overheating panels, cables and connections",
+      "A clearer view of shock risks to staff, residents and visitors",
+      "Insight into the condition of transformers, DG sets and UPS systems",
+      "Maintenance priorities your electrical team can plan around",
+      "Documented evidence for fire licence renewals and statutory inspections",
+      "Assurance to share with insurers, landlords and tenants"
     ],
     "industries": [
-      "Factories & manufacturing units",
-      "Industries",
-      "Commercial buildings & establishments",
-      "Offices & institutional buildings"
+      "Manufacturing plants & process industries",
+      "IT parks & data centres",
+      "Shopping malls & retail chains",
+      "Hospitals & diagnostic centres",
+      "Hotels & hospitality properties",
+      "Residential high-rises & apartment complexes",
+      "Schools, colleges & universities",
+      "Warehouses & cold storage facilities",
+      "Government & public buildings"
     ],
     "process": [
       {
-        "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "title": "Installation briefing",
+        "description": "Tell us about your connected load, supply voltage, buildings and key equipment. We agree which installations the audit will cover."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Proposal & shutdown planning",
+        "description": "You receive a clear proposal. Once you approve it, we fix the audit date and agree any tests that need a planned shutdown or permit."
       },
       {
-        "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "title": "Drawings & records review",
+        "description": "Auditors review your single-line diagrams, earth pit test reports, maintenance logs and earlier electrical inspection reports."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "Inspection & testing",
+        "description": "Auditors inspect panels, cabling and equipment on site, and carry out tests such as thermography, insulation resistance and earthing checks."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Electrical safety audit report",
+        "description": "You receive findings for each installation, supported by test readings, so your electrical team knows exactly what to address."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Verification visit",
+        "description": "After corrective work, we can re-inspect and re-test the affected circuits and equipment."
       }
     ],
     "whyChoose": [
@@ -828,13 +1098,53 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "What is covered in an electrical safety audit?",
-        "answer": "Electrical installations, wiring systems, load balancing, earthing and grounding, and shock-prevention controls."
+        "question": "How often should an electrical safety audit be done?",
+        "answer": "Most commercial and industrial facilities benefit from an electrical safety audit at least once a year. Older installations, high-load sites and buildings that have recently added major equipment or floors often need one more frequently."
+      },
+      {
+        "question": "How is an electrical safety audit different from an Electrical Inspectorate inspection?",
+        "answer": "An inspection by the state Electrical Inspectorate is a statutory check of specific installations. A third-party electrical safety audit is commissioned by you and looks across your whole installation to understand its condition and risks, often well before an official inspection."
+      },
+      {
+        "question": "What is the difference between an electrical safety audit and an energy audit?",
+        "answer": "An electrical safety audit looks for hazards such as overheating, poor earthing and faulty protection devices. An energy audit looks at how much electricity you use and where it can be saved. Many facilities commission both together."
+      },
+      {
+        "question": "What is thermography in an electrical audit?",
+        "answer": "Thermography uses an infrared camera to show heat patterns in panels, cables and connections while they are running. Hotspots that are invisible to the eye often point to loose terminations or overloading before they fail."
+      },
+      {
+        "question": "What is earth pit testing, and why does it matter?",
+        "answer": "Earth pit testing measures how effectively your earthing system carries fault current safely into the ground. Weak earthing can leave equipment casings live during a fault, so earth pits are usually checked at least once a year."
+      },
+      {
+        "question": "Will the audit need a power shutdown?",
+        "answer": "Most inspection and thermography is carried out with systems live and under normal load. Some tests, such as insulation resistance checks, need short, planned isolation of specific circuits, which we agree with your team in advance."
+      },
+      {
+        "question": "Do you audit apartment complexes and housing societies?",
+        "answer": "Yes. Residents' associations often commission electrical safety audits of common areas, meter rooms, pump rooms, lift machine rooms and DG sets to protect residents and shared property."
       }
     ],
     "seo": {
-      "title": "Electrical Safety Audit | Aspira Certifications",
-      "description": "Electrical safety audits covering installations, wiring, load balancing, earthing and shock prevention to national standards."
+      "title": "Electrical Safety Audit | Thermography & Earthing | Aspira",
+      "description": "Third-party electrical safety audits covering wiring, panels, earthing, load, transformers, DG sets and UPS, with thermography and insulation checks."
+    },
+    "copy": {
+      "heroTitle": "Electrical safety audits that find hidden faults before they turn into fires",
+      "heroIntro": "Aspira Certifications conducts third-party electrical safety audits of wiring, panels, earthing, load distribution, transformers, DG sets and UPS systems, supported by thermography and insulation checks that reveal problems you can't see.",
+      "heroEyebrow": "FOR FACTORIES, COMMERCIAL BUILDINGS, HOSPITALS, HOTELS & INSTITUTIONS",
+      "overviewTitle": "What is an electrical safety audit?",
+      "benefitsTitle": "What are the benefits of an electrical safety audit?",
+      "scopeTitle": "What does an electrical safety audit cover?",
+      "scopeIntro": "Each electrical safety audit is planned around your installation, from a single building to a multi-plant campus. A typical audit covers:",
+      "scopeNote": "Planning a fire safety audit too? We can cover electrical and fire safety in a single visit.",
+      "standardsTitle": "Which standards does an electrical safety audit follow?",
+      "standardsIntro": "Aspira's electrical safety audits are benchmarked against the Indian standards and regulations that govern electrical installations and safe electrical work.",
+      "processTitle": "How does an electrical safety audit work?",
+      "faqTitle": "Electrical safety audit FAQs",
+      "faqIntro": "Can't find your answer? Ask our team directly.",
+      "industriesTitle": "Facilities we audit"
     }
   },
   {
@@ -846,7 +1156,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1625958936686-a9343dc35b5b?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1748027869634-fc2e545cfb0c?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book a Fire Safety Audit",
+    "ctaLabel": "Get a fire safety audit quote",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Fire Safety Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1595306394931-b35768661692?auto=format&fit=crop&w=1600&q=70",
     "category": "Safety",
@@ -855,59 +1165,95 @@ export const FALLBACK_SERVICES = [
     "order": 7,
     "status": "published",
     "shortDescription": "Checks of fire extinguishers, emergency exits, fire alarms and evacuation systems for offices, hotels, industries and institutions.",
-    "intro": "Our fire safety audits assess your overall fire-risk preparedness, from detection and suppression systems to emergency exits and evacuation planning.",
-    "purpose": "To reduce fire vulnerabilities and confirm compliance with statutory fire safety requirements.",
+    "intro": "A fire safety audit is an independent assessment of a building's fire risks and of whether its fire protection systems, escape routes and emergency plans would work in a real fire.\n\nAspira's fire safety audits look at a building the way a fire would test it: how quickly a fire would be detected, whether systems would control it, and whether everyone inside could get out safely. Our auditors check both active systems and passive measures such as fire-rated doors and compartments.\n\nA fire NOC confirms that a building met requirements when it was inspected. After that, extinguishers expire, exits get blocked, layouts change and more people move in. A building can drift out of compliance long before its next renewal, which is why periodic fire safety audits matter.",
+    "purpose": "Fire systems are rarely put to the test until the day they're needed. A fire safety audit checks your assumptions in advance: that alarms will sound, pumps will start, doors will close and people will know where to go.",
     "scope": [
-      "Fire extinguishers – type, placement and maintenance",
-      "Emergency exits and escape routes",
-      "Fire alarms and detection systems",
-      "Suppression equipment",
-      "Evacuation systems and planning",
-      "Fire load calculations",
-      "Overall fire-risk preparedness"
+      "Fire risk & hazard identification – Ignition sources, flammable materials and process risks across the building",
+      "Fire extinguishers – Type, rating, placement, refill status and maintenance tags",
+      "Fire alarm & detection systems – Smoke and heat detectors, manual call points, panels and alarm coverage",
+      "Sprinklers, hydrants & hose reels – Coverage, condition, valves and overall readiness",
+      "Fire pumps & water storage – Pump condition, auto-start readiness and fire water tank capacity",
+      "Passive fire protection – Fire-rated doors, compartmentation, shafts and fire-stopping",
+      "Exits & escape routes – Exit widths, travel distances, staircases, signage and emergency lighting",
+      "Evacuation & emergency preparedness – Evacuation plans, assembly points, mock drills and fire wardens",
+      "Fire load & special hazards – Flammable storage, LPG banks, commercial kitchens and battery rooms",
+      "High-rise fire safety – Fire lifts, refuge areas, smoke management and stair pressurisation",
+      "Fire records & documentation – Fire NOC, maintenance logs, drill records and as-built drawings"
     ],
     "standards": [
       {
-        "name": "Statutory fire safety requirements",
-        "description": "Compliance with applicable statutory fire safety requirements."
+        "name": "National Building Construction Standards",
+        "description": "Fire and life safety in buildings; replaced National Building Code of India 2016, Part 4"
+      },
+      {
+        "name": "IS 2190",
+        "description": "Selection, installation and maintenance of portable fire extinguishers"
+      },
+      {
+        "name": "IS 2189",
+        "description": "Automatic fire detection and alarm systems"
+      },
+      {
+        "name": "IS 15105",
+        "description": "Fixed automatic sprinkler systems"
+      },
+      {
+        "name": "IS 3844",
+        "description": "Internal fire hydrants and hose reels"
+      },
+      {
+        "name": "State fire service acts & building rules",
+        "description": "Including the Tamil Nadu Fire and Rescue Services Act and local fire safety rules"
+      },
+      {
+        "name": "NFPA 101 Life Safety Code",
+        "description": "For international clients and globally benchmarked sites"
       }
     ],
     "benefits": [
-      "Fewer fire vulnerabilities",
-      "Statutory compliance",
-      "Better emergency preparedness"
+      "A clear picture of whether alarms, sprinklers and fire pumps are ready to respond",
+      "Escape routes and exits checked against how the building is used today",
+      "An objective view of staff readiness for evacuation and first response",
+      "Fire load and storage risks identified before they grow",
+      "Evidence to share with tenants, clients and lenders who ask about fire safety.",
+      "Priorities your facility team can act on before the next inspection"
     ],
     "industries": [
-      "Offices & commercial buildings",
-      "Hotels",
-      "Industries & factories",
-      "Educational & other institutions",
-      "Warehouses"
+      "Industrial plants & chemical units",
+      "Warehouses & cold storage facilities",
+      "Shopping malls & multiplexes",
+      "IT parks & data centres",
+      "Office & commercial complexes",
+      "Residential high-rises & gated communities",
+      "Hospitals & nursing homes",
+      "Hotels, restaurants & banquet halls",
+      "Schools, colleges & hostels",
+      "Government & public buildings"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Tell us your building's occupancy, height and floor area. We confirm the audit scope and the blocks to cover."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Quote & scheduling",
+        "description": "You receive a clear quote. Once you accept it, we fix a visit date with your facility team and share a document checklist."
       },
       {
         "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "description": "Our auditors review your fire NOC, building drawings, and maintenance and drill records before the site visit."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "On-site fire inspection",
+        "description": "Our auditors walk every floor to check fire systems, exits and hazards, with readiness checks alongside your maintenance team."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Fire safety audit report",
+        "description": "A clear, accurate report of every finding, area by area, ready for your management to act on."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Follow-up inspection",
+        "description": "Where applicable, a follow-up visit to verify that the fire safety gaps found have been closed."
       }
     ],
     "whyChoose": [
@@ -919,13 +1265,50 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "What does a fire safety audit include?",
-        "answer": "Fire detection systems, emergency exits, suppression equipment, evacuation planning, fire load calculations and overall fire-risk preparedness."
+        "question": "What is the difference between a fire safety audit and a fire NOC?",
+        "answer": "A fire NOC is issued by the state fire department when a building's fire safety arrangements are approved. A fire safety audit is an independent, documented inspection that checks whether those arrangements are still in place and working."
+      },
+      {
+        "question": "How often should a building have a fire safety audit?",
+        "answer": "Requirements vary by state, occupancy and building height. Many buildings schedule an audit every year, and again after a renovation, a change of use, new tenants or a fire incident."
+      },
+      {
+        "question": "Which buildings need a fire safety audit?",
+        "answer": "Any building where many people gather or where fire loads are high. This includes high-rise residential and commercial buildings, hospitals, schools and colleges, hotels, malls, factories and warehouses."
+      },
+      {
+        "question": "Will a fire safety audit disrupt our daily operations?",
+        "answer": "Our auditors plan the visit with your facility team. Any checks that set off alarms or start pumps are scheduled in advance, so occupants are informed and work continues."
+      },
+      {
+        "question": "What happens if the audit finds fire safety gaps?",
+        "answer": "Every finding is reported area by area, so your team or fire contractor knows exactly what to fix. Where applicable, Aspira carries out a follow-up inspection to verify the fixes."
+      },
+      {
+        "question": "How much does a fire safety audit cost?",
+        "answer": "The cost depends on the building's floor area, height, occupancy and fire protection systems. Share these details and we'll send a clear quote for your fire safety audit."
       }
     ],
     "seo": {
-      "title": "Fire Safety Audit | Aspira Certifications",
-      "description": "Fire safety audits covering detection, exits, suppression, evacuation planning and fire load for statutory compliance."
+      "title": "Fire Safety Audit | Fire NOC Renewal Support | Aspira",
+      "description": "Third-party fire safety audits of alarms, sprinklers, hydrants, extinguishers, exits and evacuation readiness, supporting fire NOC renewals and insurers."
+    },
+    "copy": {
+      "heroTitle": "Fire safety audits that show how ready your building really is for a fire",
+      "heroIntro": "Aspira Certifications conducts third-party fire safety audits of fire alarms, sprinklers, hydrants, extinguishers, fire pumps, fire doors, escape routes and evacuation readiness, with documented findings that support fire NOC renewals and insurer reviews.",
+      "heroEyebrow": "FOR HIGH-RISES, FACTORIES, HOSPITALS, HOTELS, OFFICES & INSTITUTIONS",
+      "overviewTitle": "What is a fire safety audit?",
+      "benefitsTitle": "What are the benefits of a fire safety audit?",
+      "scopeTitle": "What does a fire safety audit cover?",
+      "scopeIntro": "Each fire safety audit is shaped by your building's occupancy, height and use. A typical audit covers:",
+      "scopeNote": "Electrical faults are one of the leading causes of building fires. Combine your fire and electrical safety audits in a single visit.",
+      "standardsTitle": "Which standards are fire safety audits benchmarked against?",
+      "standardsIntro": "Aspira's fire safety audits are benchmarked against the National Building Code Standards. They are also benchmarked against the Indian Standards for each fire protection system and the fire safety rules that apply in your state.",
+      "processTitle": "How does a fire safety audit work?",
+      "processIntro": "From the first call to the follow-up visit, here is what to expect from an Aspira fire safety audit.",
+      "faqTitle": "Fire safety audit questions, answered",
+      "faqIntro": "Can't find your answer? Message our fire safety audit team directly.",
+      "industriesTitle": "Facilities we audit"
     }
   },
   {
@@ -937,7 +1320,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1532635042-a6f6ad4745f9?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book a Warehouse Safety Audit",
+    "ctaLabel": "Book a warehouse safety audit",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Warehouse Safety Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&fit=crop&w=1600&q=70",
     "category": "Safety",
@@ -946,56 +1329,86 @@ export const FALLBACK_SERVICES = [
     "order": 8,
     "status": "published",
     "shortDescription": "Audit racking, material handling, MHE and forklift operations, traffic routes, fire safety and warehouse layout.",
-    "intro": "Our warehouse safety audits look at the systems and practices that keep storage and logistics operations safe, from racking and forklifts to traffic routes and layout.",
-    "purpose": "To reduce accidents and keep warehouse operations running safely and without interruption.",
+    "intro": "In short: A warehouse safety audit is an on-site inspection of how goods are stored, moved and protected, and how safely people work around them.\n\nWhy do warehouses need a safety audit? Warehouses rarely stand still. New racking goes up, stock gets heavier, aisles narrow and seasonal staff join during peak periods. Safety arrangements planned for the original layout often fall behind. Repeated forklift impacts on rack uprights can go unnoticed, and racking safety weakens long before anything visibly gives way.\n\nAspira's warehouse safety audits look at your operation as it runs today, not as it was designed. Our auditors check racking safety, forklift safety and material handling practices. Every finding is documented, so your operations, safety and facility teams share one clear picture of where the warehouse stands.",
+    "purpose": "A warehouse safety audit turns everyday risks into findings you can act on, for the people who work in your warehouse, the stock it holds and the clients who rely on it.",
     "scope": [
-      "Racking systems",
-      "Material handling practices",
-      "Material handling equipment (MHE) and forklift operations",
-      "Traffic routes",
-      "Fire safety",
-      "Warehouse layout"
+      "Racking systems – Load signs, upright and beam damage, anchoring, locking pins and overloading",
+      "Stacking & pallet storage – Stack heights, overhanging loads, pallet condition and shelving stability",
+      "Forklifts & material handling equipment – Equipment condition, operator training, reverse alarms and battery charging areas",
+      "Conveyors & lifting equipment – Guarding, emergency stops, lifting devices and automated systems",
+      "Traffic routes & pedestrian safety – Marked lanes, speed control, blind corners and pedestrian walkways",
+      "Loading docks – Dock edges, dock levellers, wheel chocks and trailer loading practices",
+      "Chemical & hazardous goods storage – Labelling, segregation, spill control and compatible storage",
+      "Fire safety & emergency readiness – Extinguishers, hydrants, sprinklers, exits, signage and evacuation drills",
+      "Electrical safety & lighting – Panels, cabling, temporary wiring and lighting in aisles",
+      "Housekeeping & records – Clear aisles, waste control, inspection logs and training records"
     ],
     "standards": [
       {
-        "name": "Legal and industry requirements",
-        "description": "Assessment against applicable warehouse and material-handling safety requirements."
+        "name": "Occupational Safety, Health and Working Conditions Code, 2020",
+        "description": "Safety, health and welfare duties for workplaces"
+      },
+      {
+        "name": "IS 3594",
+        "description": "Fire safety of general storage and warehousing, including cold storage"
+      },
+      {
+        "name": "National Building Construction Standards 2026, Part F",
+        "description": "Fire and life safety requirements for storage buildings"
+      },
+      {
+        "name": "EN 15635",
+        "description": "Use, inspection and maintenance of steel pallet racking"
+      },
+      {
+        "name": "ISO 3691-1",
+        "description": "Safety requirements for forklifts and other industrial trucks"
+      },
+      {
+        "name": "Manufacture, Storage and Import of Hazardous Chemical Rules, 1989",
+        "description": "Safe storage and handling of hazardous chemicals"
       }
     ],
     "benefits": [
-      "Fewer accidents",
-      "Safer material handling",
-      "Uninterrupted operations"
+      "Protect people on the floor – See where pickers, loaders and forklift drivers cross paths, and where the risk is highest.",
+      "Protect stock and assets – Spot storage, stacking and segregation gaps before they cost you damaged goods.",
+      "Be ready for statutory inspections – Face factory, labour and fire department visits with a clear view of your safety position.",
+      "Answer client safety questionnaires – Give e-commerce, pharmaceutical and 3PL (third-party logistics) clients the safety evidence they ask for.",
+      "Support insurance renewals – Answer insurers' questions on storage and fire risks with findings from an inspection body.",
+      "Plan safety spending wisely – Use findings by area to decide which fixes come first and where the budget goes."
     ],
     "industries": [
-      "Warehouses",
-      "Logistics & storage operations",
-      "Distribution centres"
+      "Distribution centres",
+      "E-commerce fulfilment warehouses",
+      "Cold storage warehouses",
+      "Pharmaceutical warehouses",
+      "Logistics & freight hubs",
+      "Manufacturing stores & godowns"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Tell us your warehouse's floor area, storage type and the equipment in use. We confirm the audit scope and the zones to cover."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Quote & scheduling",
+        "description": "Once you accept our quote, we plan the visit around your shift pattern and loading schedule, and share a document checklist."
       },
       {
         "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "description": "Our auditors review rack load charts, forklift maintenance logs, operator training and incident records before the visit."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "On-site warehouse inspection",
+        "description": "Our auditors walk every aisle, dock and storage zone while work is under way, to see how goods and people really move."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Warehouse safety audit report",
+        "description": "Findings are reported zone by zone (racking, docks, traffic routes and storage), so each team knows what's theirs to act on."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Follow-up inspection",
+        "description": "Where applicable, a return visit to verify that fixes are in place, such as repaired racking or re-marked lanes."
       }
     ],
     "whyChoose": [
@@ -1007,13 +1420,50 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "What do you check in a warehouse safety audit?",
-        "answer": "Racking systems, material handling practices, MHE and forklift operations, traffic routes, fire safety and layout."
+        "question": "How often should a warehouse have a safety audit?",
+        "answer": "Many warehouses schedule a full safety audit once a year. Plan another after racking is moved or reconfigured, after a forklift impact or incident, when new storage equipment arrives, or when the tenant changes."
+      },
+      {
+        "question": "Is a warehouse safety audit the same as a rack inspection?",
+        "answer": "No. A rack inspection looks only at the racking structure. A warehouse safety audit covers racking along with how forklifts, people and goods move around it, plus docks, storage, fire and electrical safety."
+      },
+      {
+        "question": "Is a warehouse safety audit a legal requirement in India?",
+        "answer": "Indian labour and fire safety laws require warehouse operators to keep people and stock safe. An independent warehouse safety audit is one of the clearest ways to show those duties are being met."
+      },
+      {
+        "question": "Who should commission the audit: the building owner or the tenant?",
+        "answer": "Either can. Building owners, tenants and third-party logistics (3PL) operators all commission warehouse safety audits. The scope is agreed with whoever runs the space being audited."
+      },
+      {
+        "question": "Do you audit cold storage and pharmaceutical warehouses?",
+        "answer": "Yes. Aspira audits cold storage and pharmaceutical warehouses, where low temperatures, insulated panels and specialist storage conditions bring risks of their own."
+      },
+      {
+        "question": "How much does a warehouse safety audit cost?",
+        "answer": "The cost depends on floor area, storage height, racking type, the number of loading docks and the material handling equipment in use. Share these details and we'll send a clear quote."
       }
     ],
     "seo": {
-      "title": "Warehouse Safety Audit | Aspira Certifications",
-      "description": "Warehouse safety audits covering racking, forklifts and MHE, traffic routes, fire safety and layout."
+      "title": "Warehouse Safety Audits | Racking & Forklift | Aspira",
+      "description": "Independent warehouse safety audits by Aspira Certifications covering racking, forklifts, traffic routes, loading docks, fire safety and emergency readiness."
+    },
+    "copy": {
+      "heroTitle": "Warehouse safety audits that find the risks hidden between busy aisles",
+      "heroIntro": "Aspira Certifications conducts independent warehouse safety audits covering racking and storage, forklifts and other material handling equipment, traffic routes, loading docks, fire safety and emergency readiness.",
+      "heroEyebrow": "FOR WAREHOUSES, FULFILMENT CENTRES & COLD STORAGE",
+      "overviewTitle": "What is a warehouse safety audit?",
+      "benefitsTitle": "What are the benefits of a warehouse safety audit?",
+      "scopeTitle": "What does a warehouse safety audit cover?",
+      "scopeIntro": "No two warehouses store or move goods the same way, so every audit is scoped to your site. A typical warehouse safety audit covers:",
+      "scopeNote": "Is your warehouse part of a larger factory or campus? Plan a workplace or fire safety audit for the rest of the site in the same visit.",
+      "standardsTitle": "Which standards are warehouse safety audits benchmarked against?",
+      "standardsIntro": "Aspira's warehouse safety audits are benchmarked against Indian labour and fire safety law, the Indian Standard for warehouse fire safety, and international standards for racking and forklifts.",
+      "processTitle": "How does a warehouse safety audit work?",
+      "processIntro": "Here's how an Aspira warehouse safety audit runs, planned around your picking, loading and dispatch.",
+      "faqTitle": "Warehouse safety audit FAQs",
+      "faqIntro": "Have a question about audits for your warehouse? Message our safety audit team directly.",
+      "industriesTitle": "Who we audit"
     }
   },
   {
@@ -1025,7 +1475,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1604177420682-0c840feb01de?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1780444745115-a58369e913ee?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book an Energy Audit",
+    "ctaLabel": "Book an energy audit",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Energy Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=70",
     "category": "Sustainability",
@@ -1033,62 +1483,83 @@ export const FALLBACK_SERVICES = [
     "order": 9,
     "featured": true,
     "status": "published",
-    "shortDescription": "Analyse electricity and energy consumption and get practical recommendations to reduce wastage – for industries, colleges and commercial buildings. Aligned with BEE guidelines and ISO 50001:2018.",
-    "intro": "Aspira's independent energy audits are aligned with Bureau of Energy Efficiency (BEE) guidelines and ISO 50001:2018. A structured, evidence-based approach uncovers hidden consumption patterns, benchmarks performance and documents accountability.",
-    "purpose": "To identify wastage, reduce unnecessary expenditure and set performance baselines for continuous improvement.",
+    "shortDescription": "Pinpoint where your facility wastes energy and how to reduce it.",
+    "intro": "In short: An energy audit is the verification, monitoring and analysis of how a site uses energy, to identify losses and opportunities to improve energy efficiency.\n\nYour electricity bill shows how much you paid, but not where the energy went. Behind that total are costs that rarely get questioned:\n- a contract demand (the maximum load agreed with your electricity board) set years ago\n- power factor penalties\n- motors running unloaded\n- chillers sized for a building that has since changed\n\nWhat are the types of energy audit?\n\nA preliminary or walk-through energy audit uses bills and site observations to find the biggest energy savings. A detailed energy audit studies each major system on site. Aspira conducts both industrial and building energy audits, scoped to the depth your site needs, and every finding is backed by site data and records.",
+    "purpose": "An energy audit gives you facts from your own site to plan energy savings, meet sustainability commitments and invest in upgrades with confidence.",
     "scope": [
-      "Energy use – electricity, fuel, HVAC, lighting and equipment performance",
-      "Efficiency – systems, processes and operational changes",
-      "Renewables – solar, wind and other clean energy options",
-      "Monitoring – metrics, KPIs and continuous tracking practices"
+      "Energy bills & consumption trends – Electricity and fuel bills, tariff structure and monthly load patterns",
+      "Electrical distribution & power quality – Transformers, HT/LT panels, cabling, power factor and harmonics",
+      "Motors, pumps, fans & blowers – Loading, efficiency and the scope for variable speed drives",
+      "HVAC & chillers – Chillers, air handling units, cooling towers and cold rooms",
+      "Compressed air systems – Compressor efficiency, leaks, pressure drops and controls",
+      "Boilers & thermal systems – Boilers, thermic fluid heaters, steam lines, insulation and condensate recovery",
+      "DG sets & captive power – Diesel generator loading and fuel used per unit generated",
+      "Lighting – Lux levels, fixture efficiency and lighting controls in each area",
+      "Solar & renewable energy – Rooftop and ground-mounted solar potential, and other clean energy options",
+      "Metering & monitoring – Sub-metering, energy performance indicators and tracking practices"
     ],
     "standards": [
       {
+        "name": "Energy Conservation Act, 2001",
+        "description": "India's legal framework for energy audits and energy efficiency"
+      },
+      {
         "name": "Bureau of Energy Efficiency (BEE) guidelines",
-        "description": ""
+        "description": "Energy audit and reporting guidance from India's national energy efficiency agency"
+      },
+      {
+        "name": "ISO 50002-1:2025",
+        "description": "Energy audits: general requirements"
       },
       {
         "name": "ISO 50001:2018",
-        "description": "Energy management systems."
+        "description": "Energy management systems, including the energy review and baseline they rely on"
+      },
+      {
+        "name": "Energy Conservation and Sustainable Building Code (ECSBC) 2024",
+        "description": "Energy efficiency requirements for commercial buildings; the successor to ECBC 2017"
       }
     ],
     "benefits": [
-      "Cost savings – identify wastage and reduce unnecessary expenditure",
-      "Regulatory alignment with BEE and ISO 50001 requirements",
-      "Lower carbon emissions and support for ESG goals",
-      "Improved equipment and system performance",
-      "Benchmarks and validated results for continuous improvement"
+      "Find savings system by system – See where energy is wasted and the savings available in each major system.",
+      "Prioritise energy-saving investments – Compare opportunities by estimated savings and payback, so the budget goes where it counts.",
+      "Reduce your carbon footprint – Use measured energy data as the starting point for cutting carbon emissions.",
+      "Support ESG and BRSR reporting – Back ESG, sustainability and Business Responsibility and Sustainability Reports (BRSR) with documented energy data.",
+      "Build a baseline for ISO 50001 – Set the energy baseline that an ISO 50001 energy management system tracks progress against.",
+      "Strengthen green campus and building goals – Feed energy findings into green audits for NAAC and green building ratings such as IGBC and GRIHA."
     ],
     "industries": [
-      "Industries & factories",
-      "Colleges & educational institutions",
-      "Commercial buildings",
-      "Hotels & hospitals"
+      "Factories & process industries",
+      "Colleges & universities",
+      "Hospitals & healthcare facilities",
+      "Hotels & resorts",
+      "Offices & IT parks",
+      "Malls & retail buildings"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Share your connected load, energy bills and main equipment. We confirm whether a walk-through or detailed energy audit suits your site."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Quote & scheduling",
+        "description": "Once you accept our quote, we fix the site visit and request your recent electricity and fuel bills."
       },
       {
-        "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "title": "Bill & data analysis",
+        "description": "Our auditors analyse your bills, tariff and load patterns to build an energy baseline before the visit."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "On-site energy study",
+        "description": "Our auditors study each major energy user on site and record operating data while your operations run normally."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Energy audit report",
+        "description": "Your report sets out energy use by system, the losses found and the estimated savings for each opportunity."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Follow-up review",
+        "description": "Where applicable, a follow-up visit compares energy use after changes against your baseline."
       }
     ],
     "whyChoose": [
@@ -1100,18 +1571,56 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "Which standards are your energy audits aligned with?",
-        "answer": "Bureau of Energy Efficiency (BEE) guidelines and ISO 50001:2018."
+        "question": "Is an energy audit mandatory in India?",
+        "answer": "It is mandatory for large energy-intensive industries notified as designated consumers under the Energy Conservation Act. For most other factories, campuses and commercial buildings, an energy audit is a business decision. It is usually prompted by rising bills, sustainability reporting or a planned upgrade."
       },
       {
-        "question": "What areas are examined?",
-        "answer": "Electricity, fuel, HVAC, lighting and equipment performance; efficiency of systems and processes; renewable options; and monitoring practices."
+        "question": "How often should we conduct an energy audit?",
+        "answer": "Designated consumers follow the intervals set by regulation. Other sites usually plan an energy audit every few years. Plan an extra one after a major expansion, a tariff change, new equipment or a change in operating hours."
+      },
+      {
+        "question": "How much can an energy audit save?",
+        "answer": "It depends on your site's age, equipment and operating hours. Your energy audit report estimates the savings for each opportunity, so you can see what's possible before you invest."
+      },
+      {
+        "question": "How is an energy audit different from ISO 50001 certification?",
+        "answer": "An energy audit is a detailed study of how your site uses energy at a point in time. ISO 50001 certification confirms that an ongoing energy management system is in place. The findings of an energy audit can support the energy review that ISO 50001 needs."
+      },
+      {
+        "question": "Is an energy audit the same as a green audit?",
+        "answer": "No. A green audit for colleges and universities looks at energy alongside water, waste, air quality and the wider campus environment. An energy audit goes deeper into energy alone, system by system."
+      },
+      {
+        "question": "How much does an energy audit cost?",
+        "answer": "The cost depends on your connected load, the number of major systems and whether you need a walk-through or detailed energy audit. Share these details and we'll send a clear quote."
       }
     ],
     "seo": {
-      "title": "Energy Audit Services – BEE & ISO 50001 Aligned | Aspira",
-      "description": "Independent energy audits aligned with BEE guidelines and ISO 50001:2018. Reduce energy costs, benchmark performance and support ESG goals.",
+      "title": "Energy Audits for Industries & Buildings | Aspira",
+      "description": "Energy audits by Aspira Certifications for industries, campuses and commercial buildings, covering electricity, fuel, HVAC, lighting, motors and solar potential.",
       "keywords": "energy audit, BEE energy audit, ISO 50001 energy audit, energy audit Chennai"
+    },
+    "copy": {
+      "heroTitle": "Energy audits that show where your power bill really goes",
+      "heroIntro": "Aspira Certifications conducts energy audits that measure how electricity and fuel are used across HVAC, lighting, motors, pumps and compressed air. We also assess the potential for solar and other renewable energy.",
+      "heroEyebrow": "FOR INDUSTRIES, CAMPUSES & COMMERCIAL BUILDINGS",
+      "overviewTitle": "What is an energy audit?",
+      "benefitsTitle": "What are the benefits of an energy audit?",
+      "scopeTitle": "What does an energy audit cover?",
+      "scopeIntro": "From the incoming supply to the last light fitting, an energy audit follows how energy moves through your site. A typical scope covers:",
+      "standardsTitle": "Which standards are energy audits benchmarked against?",
+      "standardsIntro": "Aspira's energy audits are benchmarked against India's energy conservation law, Bureau of Energy Efficiency guidance and the latest international energy audit standard.",
+      "processTitle": "How does an energy audit work?",
+      "processIntro": "From your first set of bills to the final report, here's how an Aspira energy audit runs.",
+      "faqTitle": "Energy audit FAQs",
+      "faqIntro": "Have a question about your site's energy use? Message our energy audit team directly.",
+      "industriesTitle": "Who we audit",
+      "cardText": "Pinpoint where your facility wastes energy and how to reduce it.",
+      "cardPoints": [
+        "Electrical load & consumption",
+        "Lighting, HVAC & equipment",
+        "Solar & renewable potential"
+      ]
     }
   },
   {
@@ -1122,76 +1631,94 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1770941326576-eb1520695ec8?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1610278764397-388d11c35ddb?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Book a Water Audit",
+    "ctaLabel": "Book a water audit",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Water Audit. Please share the details.",
     "image": "https://images.unsplash.com/photo-1610278764397-388d11c35ddb?auto=format&fit=crop&w=1600&q=70",
     "category": "Sustainability",
     "icon": "Droplets",
     "order": 10,
     "status": "published",
-    "shortDescription": "Analyse water consumption, detect leaks and reduce wastage for schools, colleges, factories and industries – aligned with CGWA guidelines and IS 10500:2012.",
-    "intro": "Aspira's water audits help industries, institutions and commercial facilities optimise water usage, reduce wastage, detect leaks and ensure compliance.",
-    "purpose": "To improve water efficiency, lower utility costs and support long-term water resilience and ESG commitments.",
+    "shortDescription": "Track how water moves through your site, from source to discharge.",
+    "intro": "A water audit quantifies how much water a site draws, consumes and discharges, to measure water consumption, find water loss and improve water conservation.\n\nMany Indian campuses and factories draw water from several sources at once: borewells, municipal supply, tankers and harvested rainwater. Often, not every source is metered. The gap between water drawn and water actually used can go unnoticed: an underground pipe leak, an overflowing sump or a cooling tower bleeding more than it should.\n\nWhat does a water balance show?\n\nIt sets total water drawn against what each area consumes, so unexplained water loss stands out in clear numbers. Aspira conducts industrial and campus water audits that build this balance for your site, and every finding is backed by meter readings, records and site observations.",
+    "purpose": "A water audit gives you the numbers to control water costs, protect your water sources and meet growing reporting expectations.",
     "scope": [
-      "Water usage assessment across operations",
-      "Leak detection and loss prevention in pipelines, storage and fixtures",
-      "Efficiency recommendations for conservation",
-      "Compliance and reporting",
-      "Monitoring and optimisation, including metrics and long-term tracking"
+      "Water sources & intake – Borewells, municipal supply, tankers and harvested rainwater, with source metering",
+      "Water balance & consumption – Use by area: process, cooling, kitchens, washrooms, gardening and domestic",
+      "Leak detection & losses – Underground pipes, valves, overflows and fixture leaks",
+      "Storage & distribution – Sumps, overhead tanks, float valves, pumps and pipelines",
+      "Process & utility water – Cooling towers, boilers, RO plants and process lines",
+      "Fixtures & domestic use – Taps, flushes, urinals and water use per person",
+      "Drinking water quality – Drinking water points and quality records against drinking water standards",
+      "Wastewater treatment & reuse – STP and ETP flows, treated water reuse and discharge",
+      "Rainwater harvesting & recharge – Rooftop collection, recharge pits and use of harvested water",
+      "Metering & performance indicators – Meter coverage, specific water consumption and tracking records"
     ],
     "standards": [
       {
-        "name": "CGWA guidelines",
-        "description": "Central Ground Water Authority, India."
+        "name": "Central Ground Water Authority (CGWA) guidelines",
+        "description": "Groundwater extraction, recharge and water-use conditions"
+      },
+      {
+        "name": "Water (Prevention and Control of Pollution) Act, 1974",
+        "description": "Wastewater treatment and discharge requirements"
       },
       {
         "name": "IS 10500:2012",
-        "description": "Drinking water specification."
+        "description": "Drinking water specification"
       },
       {
-        "name": "Local water regulations and international best practices",
-        "description": ""
+        "name": "IS 15797:2008",
+        "description": "Rooftop rainwater harvesting guidelines"
+      },
+      {
+        "name": "Central Water Commission (CWC) water audit guidelines",
+        "description": "General guidelines for water audit and water conservation"
+      },
+      {
+        "name": "ISO 46001:2019",
+        "description": "Water efficiency management systems"
       }
     ],
     "benefits": [
-      "Lower utility costs and resource waste",
-      "Improved operational efficiency",
-      "Evidence-based, transparent findings",
-      "Regulatory compliance",
-      "Support for ESG commitments and sustainability goals",
-      "Long-term water resilience and stewardship"
+      "Put a cost on lost water – See what leaks and overflows cost, including tanker and pumping charges.",
+      "Ease pressure on groundwater – Know how much you draw from borewells and where reuse or recharge could reduce it.",
+      "Plan water recycling and reuse – Find treated wastewater streams that could serve flushing, gardening or cooling.",
+      "Be ready for regulatory reviews – Keep clear water-use records for groundwater NOC conditions and pollution control board consents.",
+      "Back water disclosures with data – Give sustainability reports and water neutrality goals figures you can stand behind.",
+      "Build water-wise campuses – Give schools and colleges the water data that green audits and sustainability rankings look for."
     ],
     "industries": [
       "Schools",
       "Colleges & universities",
-      "Factories",
-      "Industries",
-      "Commercial facilities"
+      "Factories & industrial units",
+      "Food & beverage plants",
+      "Hotels & hospitals",
+      "Commercial complexes & IT parks"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Tell us your water sources, daily usage and site size. We confirm the audit scope and the areas to cover."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Quote & scheduling",
+        "description": "After you approve the quote, we agree a visit date and ask for water bills, tanker records and any meter logs."
       },
       {
-        "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "title": "Water network mapping",
+        "description": "Our auditors map your pipelines, tanks and meters from drawings and records to plan the water balance."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "On-site water survey",
+        "description": "Our auditors trace each source, tank and major user on site, checking for leaks and recording flows where meters exist."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Water audit report",
+        "description": "Your report sets out the water balance, the losses found, and the reuse and conservation opportunities for each part of your site."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Follow-up visit",
+        "description": "Where applicable, a return visit checks meter readings and leak fixes against the original water balance."
       }
     ],
     "whyChoose": [
@@ -1203,18 +1730,56 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "Who needs a water audit?",
-        "answer": "Industries, institutions and commercial facilities that want to reduce water use, detect leaks and stay compliant."
+        "question": "Is a water audit mandatory in India?",
+        "answer": "Industries drawing large volumes of groundwater must carry out regular water audits under CGWA conditions, through certified auditors. For most campuses, commercial buildings and smaller factories, a water audit is a business decision. It is usually prompted by rising water costs, tanker dependence or sustainability reporting."
       },
       {
-        "question": "Which guidelines do you follow?",
-        "answer": "CGWA guidelines, IS 10500:2012, local water regulations and international best practices."
+        "question": "How often should we carry out a water audit?",
+        "answer": "Many sites audit once a year. Plan an extra audit after an expansion, a new borewell, a sudden jump in water bills or a growing reliance on tankers."
+      },
+      {
+        "question": "How is a water audit different from water quality testing?",
+        "answer": "Water quality testing analyses samples in a laboratory. A water audit tracks how much water you draw, use, lose and reuse. It also reviews your existing water quality records alongside those quantities."
+      },
+      {
+        "question": "Can a water audit find hidden underground leaks?",
+        "answer": "A water balance shows how much water is unaccounted for and narrows down where it is being lost. If a buried leak needs to be pinpointed exactly, specialist leak detection equipment may be needed as a follow-on step."
+      },
+      {
+        "question": "What is specific water consumption?",
+        "answer": "Specific water consumption is the water used per unit of output: per tonne of product in a factory, or per person per day on a campus. It lets you compare performance over time and against similar sites."
+      },
+      {
+        "question": "How much does a water audit cost?",
+        "answer": "The cost depends on the number of water sources, daily consumption, site size and the processes involved. Share these details and we'll send a clear quote."
       }
     ],
     "seo": {
-      "title": "Water Audit Services – CGWA & IS 10500 | Aspira Certifications",
-      "description": "Water audits for industries, institutions and commercial facilities: usage assessment, leak detection, conservation and compliance.",
+      "title": "Water Audits for Campuses & Industries | Aspira",
+      "description": "Water audits by Aspira Certifications covering water sources, consumption, leak detection, drinking water quality, wastewater reuse and rainwater harvesting.",
       "keywords": "water audit, CGWA water audit, IS 10500, water audit for industries"
+    },
+    "copy": {
+      "heroTitle": "Water audits that trace your water from source to drain",
+      "heroIntro": "Aspira Certifications conducts water audits that map your water sources, measure consumption and detect leaks and losses. Each audit also reviews drinking water quality, wastewater reuse and rainwater harvesting.",
+      "heroEyebrow": "FOR SCHOOLS, COLLEGES, FACTORIES & COMMERCIAL SITES",
+      "overviewTitle": "What is a water audit?",
+      "benefitsTitle": "What are the benefits of a water audit?",
+      "scopeTitle": "What does a water audit cover?",
+      "scopeIntro": "The scope depends on your water sources, processes and site size. A typical water audit covers:",
+      "standardsTitle": "Which standards are water audits benchmarked against?",
+      "standardsIntro": "Aspira's water audits are benchmarked against India's groundwater and pollution control rules, Indian Standards for drinking water and rainwater harvesting, and the international standard for water efficiency.",
+      "processTitle": "How does a water audit work?",
+      "processIntro": "Here's how an Aspira water audit moves from your first meter reading to the final water balance.",
+      "faqTitle": "Water audit FAQs",
+      "faqIntro": "Still have a question about your water use? Our team is a message away.",
+      "industriesTitle": "Who we audit",
+      "cardText": "Track how water moves through your site, from source to discharge.",
+      "cardPoints": [
+        "Water use & metering",
+        "Leaks & losses",
+        "Rainwater harvesting & reuse"
+      ]
     }
   },
   {
@@ -1226,7 +1791,7 @@ export const FALLBACK_SERVICES = [
       "https://images.unsplash.com/photo-1517544181962-9157536e648b?auto=format&fit=crop&w=1600&q=70",
       "https://images.unsplash.com/photo-1765572810664-f2504b7b9dc4?auto=format&fit=crop&w=1600&q=70"
     ],
-    "ctaLabel": "Request a Green Building Assessment",
+    "ctaLabel": "Request a green building assessment",
     "whatsappMessage": "Hello Aspira, I would like to enquire about Green Building Assessment. Please share the details.",
     "image": "https://images.unsplash.com/photo-1765572810664-f2504b7b9dc4?auto=format&fit=crop&w=1600&q=70",
     "category": "Sustainability",
@@ -1234,61 +1799,95 @@ export const FALLBACK_SERVICES = [
     "order": 11,
     "featured": true,
     "status": "published",
-    "shortDescription": "Building performance assessments benchmarked to IGBC and GRIHA for educational, commercial and industrial facilities.",
-    "intro": "Aspira's green building assessments measure building performance, identify inefficiencies and recommend improvements for educational, commercial and industrial facilities, using benchmarks from the Indian Green Building Council (IGBC) and GRIHA.",
-    "purpose": "To improve resource efficiency, reduce environmental impact and create healthier spaces for occupants.",
+    "shortDescription": "See how your building performs on sustainability, inside and out.",
+    "intro": "A green building assessment evaluates a building's environmental performance against a green rating framework, showing how it scores today and where it falls short.\n\nA building can be designed green and still not run green. Over the years, occupancy changes, equipment ages, maintenance slips and features like rainwater harvesting or daylighting stop working as intended. Many buildings were never rated at all, yet owners still need to know how sustainable they are.\n\nIs an assessment the same as a green building rating?\n\nNo. IGBC and GRIHA award ratings through their own certification processes. Aspira's green building assessments show where your building stands against those frameworks, so you can decide on a rating, plan upgrades or report on sustainability with real evidence.",
+    "purpose": "A green building assessment helps you run a building that costs less to operate, is healthier to occupy and is easier to rate.",
     "scope": [
-      "Energy and water efficiency",
-      "Waste management – reduction, reuse and recycling",
-      "Indoor environmental quality – air, lighting and comfort",
-      "Site sustainability – land use and landscaping",
-      "Sustainable construction materials"
+      "Site & landscape – Green cover, native planting, heat-island effect and stormwater management",
+      "Energy performance – Building energy use, envelope, HVAC and lighting efficiency, and renewable energy",
+      "Water efficiency – Low-flow fixtures, rainwater harvesting, wastewater reuse and landscape irrigation",
+      "Waste management – Segregation, recycling, composting and e-waste handling",
+      "Indoor air quality – Fresh-air ventilation, CO₂ levels and indoor pollutant sources",
+      "Daylight & occupant comfort – Daylight access, glare, thermal comfort and acoustics",
+      "Sustainable materials – Recycled, locally sourced and low-emission building materials",
+      "Accessibility & amenities – Universal access, sanitation and facilities for occupants",
+      "Operations & maintenance – Facility management practices, green housekeeping and sustainability policies",
+      "Metering & performance monitoring – Energy and water sub-metering and performance tracking"
     ],
     "standards": [
       {
-        "name": "IGBC benchmarks",
-        "description": "Indian Green Building Council."
+        "name": "IGBC Green Existing Buildings O&M",
+        "description": "Indian Green Building Council rating for buildings already in operation"
+      },
+      {
+        "name": "IGBC Green Schools, Campus & Factory ratings",
+        "description": "IGBC rating programmes for educational campuses and industrial buildings"
+      },
+      {
+        "name": "IGBC Net Zero Energy & Net Zero Water",
+        "description": "IGBC ratings for buildings working towards net zero energy or water"
       },
       {
         "name": "GRIHA",
-        "description": "Green Rating for Integrated Habitat Assessment."
+        "description": "Green Rating for Integrated Habitat Assessment: a 1–5 star rating for new buildings"
+      },
+      {
+        "name": "GRIHA for Existing Buildings",
+        "description": "GRIHA's rating for the performance of buildings already in use"
+      },
+      {
+        "name": "LEED O+M",
+        "description": "US Green Building Council rating for existing building operations and maintenance"
+      },
+      {
+        "name": "BEE Star Rating for Buildings",
+        "description": "Bureau of Energy Efficiency star rating for the energy performance of operating buildings"
+      },
+      {
+        "name": "Energy Conservation and Sustainable Building Code (ECSBC) 2024",
+        "description": "Bureau of Energy Efficiency code for energy-efficient, sustainable buildings"
       }
     ],
     "benefits": [
-      "Lower operating costs through better resource management",
-      "Stronger sustainability credentials and compliance",
-      "Better building performance and occupant comfort",
-      "Visible environmental leadership for stakeholders"
+      "Know your rating readiness – See how close your building is to an IGBC or GRIHA rating before you register for one.",
+      "Prepare for green building incentives – Several states offer extra floor area or property tax rebates for rated buildings.",
+      "Lower running costs – Spot where energy, water and waste costs run higher than an efficient building's.",
+      "Healthier indoor spaces – Check daylight, ventilation, thermal comfort and indoor air for the people inside.",
+      "Attract tenants and investors – Give tenants, buyers and investors the sustainability evidence they increasingly ask for.",
+      "Prove performance after certification – Check that a rated building still performs the way it did when it was rated."
     ],
     "industries": [
-      "Educational campuses",
-      "Commercial buildings",
-      "Industrial facilities"
+      "Schools & colleges",
+      "University campuses",
+      "Office & IT buildings",
+      "Hospitals & hotels",
+      "Factories & warehouses",
+      "Malls & retail spaces"
     ],
     "process": [
       {
         "title": "Enquiry & scoping",
-        "description": "Share your requirements. We confirm the audit scope, sites, applicable standards and timelines."
+        "description": "Tell us your building type, built-up area and any rating you're aiming for. We confirm the scope and the rating system to assess against."
       },
       {
-        "title": "Proposal & planning",
-        "description": "You receive a clear proposal. Once accepted, we schedule the audit and share a document checklist."
+        "title": "Quote & scheduling",
+        "description": "Once you approve the quote, we agree on a visit date and list the drawings, bills and policies we'll need."
       },
       {
-        "title": "Document review",
-        "description": "Our auditors review your records, policies and previous reports ahead of the site visit."
+        "title": "Document & data review",
+        "description": "Our assessors review drawings, utility bills, maintenance records and existing policies against each rating category."
       },
       {
-        "title": "On-site inspection",
-        "description": "Independent, impartial assessment of your facilities, systems and practices against the agreed criteria."
+        "title": "On-site building walkthrough",
+        "description": "Our assessors walk the site, roof, plant rooms and occupied spaces to verify green features and how well they work in practice."
       },
       {
-        "title": "Report & recommendations",
-        "description": "A clear, accurate report with findings and practical, improvement-focused recommendations."
+        "title": "Green building assessment report",
+        "description": "Your report shows your building's standing against the chosen rating, category by category, and where it falls short."
       },
       {
-        "title": "Follow-up",
-        "description": "Guidance on closing gaps and, where applicable, a follow-up inspection."
+        "title": "Re-assessment",
+        "description": "Where applicable, a re-assessment after upgrades shows how your standing has changed."
       }
     ],
     "whyChoose": [
@@ -1300,18 +1899,56 @@ export const FALLBACK_SERVICES = [
     ],
     "faqs": [
       {
-        "question": "Which benchmarks do you use?",
-        "answer": "Benchmarks from the Indian Green Building Council (IGBC) and GRIHA."
+        "question": "Is green building certification mandatory in India?",
+        "answer": "Green ratings such as IGBC and GRIHA are voluntary for most buildings. Large new commercial buildings may still need to meet the national energy code where their state has notified it, so it's worth checking which rules apply to your project."
       },
       {
-        "question": "What types of buildings do you assess?",
-        "answer": "Educational, commercial and industrial facilities."
+        "question": "Can an older building get a green rating?",
+        "answer": "Yes. IGBC Green Existing Buildings O&M was built for buildings already in use. GRIHA for Existing Buildings is open to operational buildings with a built-up area over 50 sq. m."
+      },
+      {
+        "question": "How long does a green building rating last?",
+        "answer": "Most IGBC ratings are valid for three years; the IGBC Green Campus rating lasts five. GRIHA ratings are valid for five years. Renewal means showing that the building still performs, which is where an independent assessment helps."
+      },
+      {
+        "question": "IGBC or GRIHA: which should we choose?",
+        "answer": "IGBC is part of the Confederation of Indian Industry, and GRIHA was developed by The Energy and Resources Institute (TERI). The right choice depends on your building type, what tenants or funders expect, and the incentives your state offers. An assessment against both shows where your building is closer."
+      },
+      {
+        "question": "How is a green building assessment different from a green audit?",
+        "answer": "A green audit for colleges and universities supports NAAC accreditation and campus sustainability rankings. A green building assessment measures any building against green building rating systems such as IGBC and GRIHA."
+      },
+      {
+        "question": "How much does a green building assessment cost?",
+        "answer": "The cost depends on your built-up area, building type and the rating system you want to be assessed against. Share these details and we'll send a clear quote."
       }
     ],
     "seo": {
-      "title": "Green Building Assessment – IGBC & GRIHA Benchmarks | Aspira",
-      "description": "Green building assessments for educational, commercial and industrial buildings: energy, water, waste, indoor quality and materials.",
+      "title": "Green Building Assessments | IGBC & GRIHA | Aspira",
+      "description": "Green building assessments by Aspira Certifications, benchmarked against IGBC and GRIHA, covering energy, water, waste, indoor air, site and materials.",
       "keywords": "green building assessment, IGBC, GRIHA, building performance audit"
+    },
+    "copy": {
+      "heroTitle": "Green building assessments that show where your building stands on sustainability",
+      "heroIntro": "Aspira Certifications conducts green building assessments benchmarked against Indian Green Building Council (IGBC) and GRIHA rating systems. Each assessment covers energy, water, waste, indoor environmental quality, site sustainability and materials.",
+      "heroEyebrow": "FOR SCHOOLS, CAMPUSES, OFFICES & FACTORIES",
+      "overviewTitle": "What is a green building assessment?",
+      "benefitsTitle": "What are the benefits of a green building assessment?",
+      "scopeTitle": "What does a green building assessment cover?",
+      "scopeIntro": "Each assessment follows the categories that IGBC and GRIHA use to rate buildings. A typical green building assessment covers:",
+      "standardsTitle": "Which rating systems are green building assessments benchmarked against?",
+      "standardsIntro": "Aspira's green building assessments are benchmarked against India's national green building rating systems, leading international ratings and the national codes for energy-efficient buildings.",
+      "processTitle": "How does a green building assessment work?",
+      "processIntro": "Here's how an Aspira green building assessment moves from your first enquiry to a clear view of your rating readiness.",
+      "faqTitle": "Green building assessment FAQs",
+      "faqIntro": "Planning a rating, or just curious where your building stands? Ask our team directly.",
+      "industriesTitle": "Who we audit",
+      "cardText": "See how your building performs on sustainability, inside and out.",
+      "cardPoints": [
+        "Site & materials",
+        "Resource efficiency",
+        "Indoor air quality & comfort"
+      ]
     }
   }
 ];
@@ -1407,7 +2044,7 @@ export const FALLBACK_POLICIES = [
     "_id": "local-pol-0",
     "title": "Quality Policy",
     "slug": "quality-policy",
-    "summary": "Our commitment to impartial, independent and reliable inspection services.",
+    "summary": "How we plan, conduct and review every audit to get it right.",
     "content": "Aspira Certifications Private Limited is committed to delivering impartial, independent, and reliable inspection services while upholding the highest standards of integrity, professionalism, and compliance with national and international regulations.\n\nWe ensure technical competence, transparency, and ethical practices in all our assessments, striving to safeguard life, property, and the environment through rigorous quality assurance.\n\nWe work collaboratively with our clients to drive continuous improvement, business excellence, and sustainability, providing cost-effective and timely inspection services.\n\nOur commitment to ongoing enhancement of systems, processes, and resources ensures the highest level of trust, credibility, and value in our services.\n\n**The Top Management**\n\nAspira Certifications Private Limited",
     "order": 1,
     "published": true
@@ -1416,7 +2053,7 @@ export const FALLBACK_POLICIES = [
     "_id": "local-pol-1",
     "title": "Impartiality Policy",
     "slug": "impartiality-policy",
-    "summary": "How we keep every inspection decision independent and free from conflicts of interest.",
+    "summary": "How we keep personal and commercial interests out of every audit decision.",
     "content": "Aspira Certifications Private Limited is fully committed to maintaining impartiality, independence, and integrity in all its inspection and conformity assessment activities. We ensure that decisions are based solely on objective evidence, free from commercial, financial, or external influence. Our organization does not provide consultancy, training, or internal audits to clients under any assessment scheme to avoid conflicts of interest. A dedicated Impartiality Committee regularly reviews and monitors impartiality risks and ensures transparency in operations. All personnel act with integrity, declare potential conflicts, and uphold confidentiality. Continuous monitoring through audits and reviews ensures compliance with ISO/IEC 17020:2012 and PADD-QCI HRAA requirements, reinforcing trust and confidence among clients and stakeholders.\n\n**The Top Management**\n\nAspira Certifications Private Limited",
     "order": 2,
     "published": true
@@ -1425,7 +2062,7 @@ export const FALLBACK_POLICIES = [
     "_id": "local-pol-2",
     "title": "Confidentiality Policy",
     "slug": "confidentiality-policy",
-    "summary": "How we protect the information our clients, employees and stakeholders share with us.",
+    "summary": "How we look after the information clients, staff and partners share with us.",
     "content": "Aspira Certifications Private Limited is committed to maintaining the highest standards of confidentiality to protect sensitive and proprietary information of our clients, employees, and stakeholders. Our organization acknowledges that the trust placed in us depends on our ability to safeguard confidential information against unauthorized access, disclosure, and misuse.\n\nThis policy ensures compliance with ISO/IEC 17020, relevant legal requirements, and applicable data protection laws such as India’s DPDP Act 2023 where applicable. We uphold impartiality and independence by ensuring confidential information is not used in a manner that compromises audit integrity or decision-making. All personnel, including auditors and field inspectors engaged in on-site operations, must handle information with the utmost discretion and diligence to prevent any compromise that could result in reputational, legal, or financial consequences.\n\nOur confidentiality commitment extends to all forms of information received, stored, processed, and shared, irrespective of its medium—physical, digital, or verbal. We enforce strict access controls, data protection measures, and contractual agreements to uphold confidentiality in every aspect of our operations.\n\n**The Top Management**\n\nAspira Certifications Private Limited",
     "order": 3,
     "published": true

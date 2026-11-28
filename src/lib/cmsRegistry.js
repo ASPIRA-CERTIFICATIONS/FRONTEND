@@ -118,9 +118,28 @@ export const CMS_PAGES = [
       .map(([key, label]) => ({ key, label, fields: [], note: 'The text of this section is edited in Admin → Services. Here you can hide it or add new sections after it.' }))
       .concat([cta()]),
   },
-  { slug: 'accreditations', label: 'Accreditation', path: '/accreditations', sections: [intro('Accreditation', 'Accreditations & *recognitions*', 'Accreditations are a mark of credibility, impartiality, and adherence to international standards. Our accredited audits give you confidence that processes are rigorously evaluated, reliable, and globally recognised.'), { key: 'nabcb', label: 'NABCB accreditation', fields: [], note: 'Details come from Admin → Accreditations.' }, { key: 'qci', label: 'QCI recognition', fields: [], note: 'Details come from Admin → Accreditations.' }, head('standards', 'Standards', 'Standards', 'The standards behind *our audits*', '', { fields: ['items'], itemFields: ['title', 'text'], itemLabel: 'Standard', defaults: { items: [{ title: 'ISO/IEC 17020:2012', text: 'Conformity assessment requirements for inspection bodies – competence, impartiality and consistency in our inspection processes.' }, { title: 'FSSAI Hygiene Rating Scheme', text: 'Hygiene rating audits of food establishments against Schedule 4 of the FSS (Licensing & Registration of Food Businesses) Regulations.' }, { title: 'NBC 2016 Part 11', text: 'Green audits of educational institutions against the National Building Code of India 2016, Part 11 – Approach to Sustainability, as per NAAC advisory.' }] } }), cta('Planning an audit or inspection?', 'Speak to our team about scope, timelines and fees. We respond to every enquiry.')] },
+  {
+    slug: 'accreditations',
+    label: 'Accreditation',
+    path: '/accreditations',
+    sections: [
+      intro('Accreditation', 'Accreditations & *recognitions*', 'Accreditations are a mark of credibility, impartiality, and adherence to international standards.'),
+      { key: 'nabcb', label: 'NABCB accreditation', fields: ['eyebrow', 'heading', 'intro', 'body'], defaults: () => ({ eyebrow: 'National Accreditation Board for Certification Bodies', heading: 'NABCB Accreditation', intro: '', body: '' }), note: 'The certificate pages come from Admin → Accreditations. "Intro" is shown as the question heading above the text.' },
+      { key: 'qci', label: 'QCI recognition', fields: ['eyebrow', 'heading', 'intro', 'body', 'items', 'buttons'], itemFields: ['title'], itemLabel: 'Point', defaults: () => ({ eyebrow: 'Quality Council of India', heading: 'QCI Recognition', intro: '', body: '', items: [], buttons: [{ label: 'Hygiene rating audits', href: '/services/hygiene-rating-audits' }] }) },
+      cta('Planning an audit or inspection?', 'Speak to our team about scope, timelines and fees. We respond to every enquiry.'),
+    ],
+  },
   { slug: 'gallery', label: 'Gallery', path: '/gallery', sections: [intro('Gallery', 'Our work in pictures', 'Real photos from our on-site inspection audits.')] },
-  { slug: 'careers', label: 'Careers', path: '/careers', sections: [intro('Careers', 'Work with Aspira Certifications', "We are an independent, NABCB-accredited inspection body based in Chennai. If you'd like to be part of our team, see our current openings or send us your resume.")] },
+  {
+    slug: 'careers',
+    label: 'Careers',
+    path: '/careers',
+    sections: [
+      intro('Careers', 'Work with Aspira Certifications', "We are an independent, NABCB-accredited inspection body based in Chennai. If you'd like to be part of our team, see our current openings or send us your resume."),
+      { key: 'openings', label: 'Current openings', fields: ['heading', 'body'], defaults: () => ({ heading: 'Current openings', body: "There are no open positions right now.\n\nYou're welcome to send your resume below – we'll keep it on file and contact you when a suitable role opens." }), note: 'The text is shown when there are no open jobs. Jobs are added in Admin → Careers.' },
+      { key: 'apply', label: 'Send your resume', fields: ['heading', 'items'], itemFields: ['title'], itemLabel: 'Step', defaults: () => ({ heading: 'Send your resume', items: [{ title: 'Submit your details and resume using this form.' }, { title: 'We review every application we receive.' }, { title: 'We contact you if your profile matches a current or upcoming role.' }] }) },
+    ],
+  },
   { slug: 'policies', label: 'Policies', path: '/policies', sections: [intro('Policies', 'Our policies', 'How we work as an independent inspection body – and how we treat the information you share with us.')] },
   { slug: 'testimonials', label: 'Testimonials', path: '/testimonials', sections: [intro('Client testimonials', 'What our clients *say*', 'At Aspira Certifications, audits are conducted with a strong focus on credibility, rigor, and value. Our work supports organizations in strengthening compliance, improving systems, and advancing quality, safety, and sustainability practices. Here’s what organizations say about their experience working with us.'), cta()] },
   { slug: 'contact', label: 'Contact', path: '/contact', sections: [intro('Contact', "Let's talk about your *audit*", 'Request a quote or speak to our experts — we respond to every enquiry.')] },

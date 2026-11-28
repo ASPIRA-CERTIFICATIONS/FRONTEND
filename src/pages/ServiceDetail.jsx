@@ -11,7 +11,7 @@ import { Icon } from '../lib/icons';
 import { waLink } from '../lib/whatsapp';
 import Seo, { breadcrumbSchema, faqSchema, serviceSchema } from '../components/Seo';
 import { Faq, Loader, Reveal, BADGE_SRC, PageHero } from '../components/ui';
-import { usePageCtx } from '../lib/cms';
+import { usePageCtx, Paras } from '../lib/cms';
 import { CmsSlot } from '../components/Cms';
 import { Testimonials, CtaBand, ServiceAccreditation, imgSize } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
@@ -85,6 +85,8 @@ export default function ServiceDetail() {
   const inScope = s.slug === 'green-audits';
   const waMsg = s.whatsappMessage || `Hello Aspira, I would like to enquire about ${s.title}.`;
   const cta = s.ctaLabel || 'Book this audit';
+  const cp = s.copy || {}; // page headings & short texts from the client's content doc
+  const childByTitle = Object.fromEntries((s.children || []).map((ch) => [ch.title.toLowerCase().replace(/s$/, ''), ch]));
   const gallery = (s.gallery || []).filter(Boolean);
   const overviewImg = isGreen ? null : gallery[0] || s.image;
   const ld = [
@@ -107,9 +109,9 @@ export default function ServiceDetail() {
       {/* ================= HERO ================= */}
       <PageHero
         crumbs={[{ label: 'Services', to: '/services' }, ...(parent ? [{ label: parent.title, to: `/services/${parent.slug}` }] : []), { label: s.title }]}
-        eyebrow={<><Icon name={s.icon} size={14} /> {s.audience || s.category}</>}
-        title={s.title}
-        intro={s.shortDescription}
+        eyebrow={<><Icon name={s.icon} size={14} /> {cp.heroEyebrow ? cap(cp.heroEyebrow.toLowerCase()) : s.audience || s.category}</>}
+        title={cp.heroTitle || s.title}
+        intro={cp.heroIntro || s.shortDescription}
         image={isGreen ? photo('01').image : s.image || undefined}
         primary={{ href: '#enquire', label: cta, wa: waMsg }}
         accrText={inScope && nabcb ? `NABCB accredited for green audits · ${nabcb.registrationNo}` : s.slug === 'hygiene-rating-audits' ? 'QCI-recognised Hygiene Rating Audit Agency (HRAA)' : undefined}
@@ -149,9 +151,9 @@ export default function ServiceDetail() {
         <div className="container svc-overview">
           <Reveal className="svc-overview__text">
             <span className="eyebrow">Overview</span>
-            <h2>About our {s.title.toLowerCase()}</h2>
-            {s.audience && <p className="audience-line"><strong>Who it’s for:</strong> {s.audience.replace(/^For /, '')}</p>}
-            {String(s.intro || '').split(/\n{2,}/).map((p, i) => <p key={i}>{p}</p>)}
+            <h2>{cp.overviewTitle || `About our ${s.title.toLowerCase()}`}</h2>
+            {!cp.heroTitle && s.audience && <p className="audience-line"><strong>Who it’s for:</strong> {s.audience.replace(/^For /, '')}</p>}
+            <Paras text={s.intro} qHeads />
             <ServiceAccreditation slug={s.slug} />
           </Reveal>
           <Reveal className="svc-overview__media" delay={0.08}>
@@ -159,7 +161,7 @@ export default function ServiceDetail() {
             {overviewImg && <img src={imgSize(overviewImg, 900)} alt="" loading="lazy" width="900" height="700" />}
             {s.industries?.length > 0 && (
               <div className="svc-who">
-                <h3><Building size={17} /> Who we audit</h3>
+                <h3><Building size={17} /> {cp.industriesTitle || 'Who we audit'}</h3>
                 <ul>{s.industries.map((x) => <li key={x}><CheckCircle2 size={15} /> {x}</li>)}</ul>
               </div>
             )}
@@ -199,7 +201,7 @@ export default function ServiceDetail() {
         <section className="section svc-sec svc-benefits-sec" id="benefits">
           <div className="container">
             <div className="svc-head svc-head--split">
-              <div><span className="eyebrow">Purpose & benefits</span><h2>Why it matters</h2></div>
+              <div><span className="eyebrow">Purpose & benefits</span><h2>{cp.benefitsTitle || 'Why it matters'}</h2></div>
               {s.purpose && <p>{s.purpose}</p>}
             </div>
             {s.benefits?.length > 0 && (
@@ -209,7 +211,7 @@ export default function ServiceDetail() {
                   return (
                     <Reveal key={i} delay={(i % 4) * 0.05} className={`svc-benefit tone-${TONES[i % TONES.length]}`}>
                       <span className="svc-benefit__ic"><I size={20} /></span>
-                      <p>{b}</p>
+                      {(() => { const [bt, ...bd] = String(b).split(/\s–\s/); return bd.length ? <p><b>{bt}</b>{bd.join(' – ')}</p> : <p>{b}</p>; })()}
                     </Reveal>
                   );
                 })}
@@ -227,8 +229,8 @@ export default function ServiceDetail() {
           <div className="container svc-scope-wrap">
             <div className={`svc-scope-side ${s.scope.length <= 5 ? 'svc-scope-side--few' : ''}`}>
               <span className="eyebrow">Scope of audit</span>
-              <h2>What we assess</h2>
-              <p className="muted-p">Every engagement is scoped to your site. A typical {s.title.toLowerCase().replace(/s$/, '')} covers:</p>
+              <h2>{cp.scopeTitle || 'What we assess'}</h2>
+              <p className="muted-p">{cp.scopeIntro || `Every engagement is scoped to your site. A typical ${s.title.toLowerCase().replace(/s$/, '')} covers:`}</p>
               {(isGreen || isEnergy || s.image) && (
                 <figure className="svc-scope-photo">
                   {isGreen
@@ -236,21 +238,22 @@ export default function ServiceDetail() {
                     : isEnergy
                     ? <img src={photo('13').image} width={photo('13').width} height={photo('13').height} alt="Aspira auditors reviewing rooftop solar panels during an energy audit" loading="lazy" decoding="async" />
                     : <img src={imgSize(s.image, 900)} alt="" loading="lazy" width="900" height="675" />}
-                  <figcaption><b>{s.scope.length}</b> areas assessed on site</figcaption>
+                  {isGreen && <figcaption>{cp.scopeBadge || <><b>{s.scope.length}</b> areas assessed on site</>}</figcaption>}
                 </figure>
               )}
               <div className="svc-scope-cta">
-                <p>Not sure what your {isGreen ? 'campus' : 'site'} needs? We’ll confirm the scope with you before the audit.</p>
+                <p>{cp.scopeNote || `Not sure what your ${isGreen ? 'campus' : 'site'} needs? We’ll confirm the scope with you before the audit.`}</p>
                 <a href="#enquire" className="btn btn--green btn--sm">{cta} <ArrowRight size={15} /></a>
               </div>
             </div>
             <ol className={`svc-scope ${s.scope.length <= 5 ? 'svc-scope--few' : ''}`}>
               {s.scope.map((x, i) => {
                 const [head, ...rest] = String(x).split(/\s[–-]\s/);
+                const sub = childByTitle[head.toLowerCase().replace(/s$/, '')]; // safety audits: link each card to its page
                 return (
                   <Reveal as="li" key={i} delay={(i % 4) * 0.04}>
                     <span className="n">{String(i + 1).padStart(2, '0')}</span>
-                    <div><b>{head}</b>{rest.length > 0 && <span>{cap(rest.join(' – '))}</span>}</div>
+                    <div><b>{sub ? <Link to={`/services/${sub.slug}`} className="svc-scope__link">{head} <ArrowRight size={14} /></Link> : head}</b>{rest.length > 0 && <span>{cap(rest.join(' – '))}</span>}</div>
                   </Reveal>
                 );
               })}
@@ -265,7 +268,7 @@ export default function ServiceDetail() {
       {has.standards && (
         <section className="section svc-sec" id="standards">
           <div className="container">
-            <div className="svc-head"><span className="eyebrow">Applicable standards & guidelines</span><h2>Standards we work to</h2></div>
+            <div className={`svc-head ${cp.standardsIntro ? 'svc-head--split' : ''}`}><div><span className="eyebrow">Standards & regulations</span><h2>{cp.standardsTitle || 'Standards we work to'}</h2></div>{cp.standardsIntro && <p>{cp.standardsIntro}</p>}</div>
             <div className="svc-standards">
               {s.standards.map((st, i) => (
                 <Reveal key={i} delay={(i % 3) * 0.05} className="svc-standard">
@@ -286,8 +289,8 @@ export default function ServiceDetail() {
           <div className="container fees">
             <div className="fees__head">
               <span className="eyebrow">Fees</span>
-              <h2>{s.fees.title || 'Fee structure'}</h2>
-              {s.fees.intro && <p>{s.fees.intro}</p>}
+              <h2>{cp.feesTitle || s.fees.title || 'Fee structure'}</h2>
+              {(cp.feesIntro || s.fees.intro) && <p>{cp.feesIntro || s.fees.intro}</p>}
             </div>
             <Reveal className="fees__table-wrap">
               <table className="fees__table">
@@ -300,10 +303,10 @@ export default function ServiceDetail() {
               </table>
               {s.fees.footnote && <p className="fees__foot">{s.fees.footnote}</p>}
             </Reveal>
-            {s.fees.notes?.length > 0 && (
+            {(cp.feesNotes || s.fees.notes)?.length > 0 && (
               <div className="fees__notes">
-                <h3>Note</h3>
-                <ul>{s.fees.notes.map((n, i) => <li key={i}><CheckCircle2 size={16} /> <span>{n}</span></li>)}</ul>
+                <h3>Please note</h3>
+                <ul>{(cp.feesNotes || s.fees.notes).map((n, i) => <li key={i}><CheckCircle2 size={16} /> <span>{n}</span></li>)}</ul>
               </div>
             )}
           </div>
@@ -323,7 +326,7 @@ export default function ServiceDetail() {
               </>
             ) : (
               <>
-                <div className="svc-head svc-head--center"><span className="eyebrow">Audit process</span><h2>How the audit works</h2></div>
+                <div className="svc-head svc-head--center"><span className="eyebrow">Audit process</span><h2>{cp.processTitle || 'How the audit works'}</h2>{cp.processIntro && <p>{cp.processIntro}</p>}</div>
                 <ol className="svc-process">
                   {s.process.map((p, i) => (
                     <Reveal as="li" key={i} delay={i * 0.06}>
@@ -346,7 +349,7 @@ export default function ServiceDetail() {
         <section className="section section--white svc-sec" id="photos">
           <div className="container">
             <div className="svc-head svc-photos__head">
-              <div><span className="eyebrow">From our audits</span><h2>Green audits in the field</h2></div>
+              <div><span className="eyebrow">From our audits</span><h2>{cp.photosTitle || 'Green audits in the field'}</h2>{cp.photosIntro && <p className="muted-p">{cp.photosIntro}</p>}</div>
               <Link to="/gallery" className="btn btn--outline">View full gallery <ArrowRight size={16} /></Link>
             </div>
             <div className="svc-photos">
@@ -366,8 +369,9 @@ export default function ServiceDetail() {
       {has.enquire && <section className="section svc-sec" id="enquire">
         <div className="container svc-enquire">
           <Reveal className="svc-why">
-            <span className="eyebrow">Why choose Aspira</span>
-            <h2>{s.formType === 'institution' ? 'Trusted by institutions preparing for NAAC' : s.formType === 'restaurant' ? 'A hygiene audit that helps your restaurant improve' : 'Independent audits you can rely on'}</h2>
+            <span className="eyebrow">{cp.whyTitle && /^Planning/i.test(cp.whyTitle) ? 'Get a quote' : 'Why choose Aspira'}</span>
+            <h2>{cp.whyTitle || (s.formType === 'institution' ? 'Trusted by institutions preparing for NAAC' : s.formType === 'restaurant' ? 'A hygiene audit that helps your restaurant improve' : 'Independent audits you can rely on')}</h2>
+            {cp.whyIntro && <p className="muted-p">{cp.whyIntro}</p>}
             {s.whyChoose?.length > 0 && (
               <ul className="svc-why__list">{s.whyChoose.map((w) => <li key={w}><CheckCircle2 size={18} /> {w}</li>)}</ul>
             )}
@@ -381,8 +385,8 @@ export default function ServiceDetail() {
           </Reveal>
           <Reveal delay={0.08}>
             <EnquiryForm
-              title={cta}
-              subtitle={s.formType === 'institution' ? 'For schools, colleges, universities and other educational institutions.' : s.formType === 'restaurant' ? 'For restaurants, hotels, cafes and food outlets.' : "Share a few details and we'll get back to you with scope, timelines and fees."}
+              title={cp.formTitle || cta}
+              subtitle={cp.formIntro || (s.formType === 'institution' ? 'For schools, colleges, universities and other educational institutions.' : s.formType === 'restaurant' ? 'For restaurants, hotels, cafes and food outlets.' : "Share a few details and we'll get back to you with scope, timelines and fees.")}
               service={s.title}
               serviceSlug={s.slug}
               category={s.category}
@@ -403,8 +407,8 @@ export default function ServiceDetail() {
           <div className="container svc-faq">
             <div>
               <span className="eyebrow">FAQs</span>
-              <h2>Frequently asked questions</h2>
-              <p className="muted-p">Can’t find your answer? Ask us directly — we reply quickly.</p>
+              <h2>{cp.faqTitle || 'Frequently asked questions'}</h2>
+              <p className="muted-p">{cp.faqIntro || 'Can’t find your answer? Ask us directly — we reply quickly.'}</p>
               <div className="svc-faq__actions">
                 <button className="btn btn--sm" onClick={() => window.dispatchEvent(new Event('aspira:open-chat'))}><ClipboardList size={15} /> Ask in chat</button>
                 {wa && <a href={waLink(wa, waMsg)} className="btn btn--wa btn--sm" target="_blank" rel="noopener noreferrer"><MessageCircle size={15} /> WhatsApp</a>}

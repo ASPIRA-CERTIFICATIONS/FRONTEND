@@ -122,6 +122,10 @@ export function Accreditations() {
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
   const qci = accreditations.find((a) => a.shortName === 'QCI') || QCI_FALLBACK;
   const certs = (nabcb?.certificateFiles || []).filter(Boolean);
+  const pg = usePageCtx();
+  const H = (k) => !pg || !pg.hidden(k);
+  const nb = pg ? pg.s('nabcb') : {};
+  const qc = pg ? pg.s('qci') : {};
   const [open, setOpen] = useState(-1);
   useEffect(() => {
     if (open < 0) return undefined;
@@ -145,22 +149,17 @@ export function Accreditations() {
       />
 
       {/* ---------- NABCB ---------- */}
-      {nabcb && (
+      {nabcb && H('nabcb') && (
         <section className="section acc2-sec" id="nabcb">
           <div className="container">
             <Reveal className="acc2 acc2--stack">
               <div className="acc2__info">
                 <div className="acc2__title">
                   <span className="acc2__ic acc2__ic--img"><img src={BADGE_SRC} alt="" width="52" height="56" /></span>
-                  <div><h2>NABCB Accreditation</h2><span>National Accreditation Board for Certification Bodies</span></div>
+                  <div><h2>{rich(nb.heading)}</h2>{nb.eyebrow && <span>{nb.eyebrow}</span>}</div>
                 </div>
-                <p>The National Accreditation Board for Certification Bodies (NABCB) is India’s national accreditation authority under the Quality Council of India (QCI). Recognised internationally through multilateral arrangements, NABCB ensures that certification, inspection, and verification bodies operate with competence, impartiality, and globally accepted best practices.</p>
-                <p>Aspira Certifications Private Limited is a NABCB-accredited Inspection Body listed under registration number <b>{nabcb.registrationNo}</b>.</p>
-                <dl className="acc2__facts">
-                  <div><dt>Registration no.</dt><dd>{nabcb.registrationNo}</dd></div>
-                  <div><dt>Accredited against</dt><dd>{nabcb.standard}</dd></div>
-                  <div className="acc2__facts-wide"><dt>Scope of accreditation</dt><dd>{nabcb.scope}</dd></div>
-                </dl>
+                {nb.intro && <h3 className="acc2__q">{nb.intro}</h3>}
+                <Paras text={nb.body} />
                 <div className="acc2__actions">
                   <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="btn btn--sm"><ExternalLink size={15} /> Verify on NABCB</a>
                   <Link to="/services/green-audits" className="btn btn--ghost btn--sm">Green audits <ArrowRight size={15} /></Link>
@@ -171,12 +170,12 @@ export function Accreditations() {
               <Reveal className="acc2-certs" delay={0.06}>
                 <div className="acc2-certs__head">
                   <span className="acc2__docs-label"><FileText size={15} /> Accreditation certificate</span>
-                  <p>Certificate No. {nabcb.registrationNo} with its two schedules. Click a page to view it in full.</p>
+                  <p>Click a page to view it in full.</p>
                 </div>
                 <div className="acc2-certs__row">
                   {certs.map((f, i) => (
                     <button key={f} type="button" className="acc2-cert" onClick={() => setOpen(i)} aria-label={`View ${CERT_LABELS[i] || `page ${i + 1}`}`}>
-                      <span className="acc2-cert__paper"><img src={fileUrl(f)} alt={`NABCB accreditation certificate IB 159 – ${CERT_LABELS[i] || `page ${i + 1}`}`} loading="lazy" width="725" height="1024" /></span>
+                      <span className="acc2-cert__paper"><img src={fileUrl(f)} alt={i === 0 ? 'NABCB accreditation certificate for Aspira Certifications, inspection body registration IB 159' : `NABCB accreditation certificate IB 159 – ${CERT_LABELS[i] || `page ${i + 1}`}`} loading="lazy" width="725" height="1024" /></span>
                       <span className="acc2-cert__cap"><b>{String(i + 1).padStart(2, '0')}</b>{CERT_LABELS[i] || `Page ${i + 1}`}</span>
                     </button>
                   ))}
@@ -186,35 +185,36 @@ export function Accreditations() {
           </div>
         </section>
       )}
+      <CmsSlot pg={pg} after="nabcb" />
 
       {/* ---------- QCI ---------- */}
+      {H('qci') && (
       <section className="section section--white acc2-sec" id="qci">
         <div className="container">
           <Reveal className="acc2 acc2--qci">
             <div className="acc2__info">
               <div className="acc2__title">
                 <span className="acc2__ic"><ShieldCheck size={26} /></span>
-                <div><h2>QCI Recognition</h2><span>Quality Council of India</span></div>
+                <div><h2>{rich(qc.heading)}</h2>{qc.eyebrow && <span>{qc.eyebrow}</span>}</div>
               </div>
-              <p>{qci.description}</p>
-              <p>We provide independent and impartial Hygiene Rating Audits for restaurants, hotels, catering services, sweet shops, cafeterias, bakeries, food courts, and cloud kitchens across India.</p>
-              <ul className="acc2__list">
-                <li><CheckCircle2 size={17} /> Hygiene Rating Audit Agency (HRAA) recognised by QCI</li>
-                <li><CheckCircle2 size={17} /> Audits under the FSSAI Hygiene Rating Scheme</li>
-                <li><CheckCircle2 size={17} /> Compliance with Schedule 4 of the FSS (Licensing and Registration of Food Businesses) Regulations</li>
-                <li><CheckCircle2 size={17} /> Auditors trained and qualified as per FSSAI &amp; QCI guidelines</li>
-              </ul>
+              {qc.intro && <h3 className="acc2__q">{qc.intro}</h3>}
+              <Paras text={qc.body} />
+              {(qc.items || []).length > 0 && (
+                <ul className="acc2__list">
+                  {qc.items.filter((x) => x.title).map((x, i) => <li key={i}><CheckCircle2 size={17} /> {x.title}</li>)}
+                </ul>
+              )}
               <div className="acc2__actions">
-                <Link to="/services/hygiene-rating-audits" className="btn btn--sm">Hygiene rating audits <ArrowRight size={15} /></Link>
+                {(qc.buttons || []).filter((x) => x.label && x.href).slice(0, 2).map((x, i) => <Link key={i} to={x.href} className={i ? 'btn btn--ghost btn--sm' : 'btn btn--sm'}>{x.label} <ArrowRight size={15} /></Link>)}
               </div>
             </div>
             <div className="acc2__panel">
               <span className="acc2__docs-label"><FileText size={15} /> Recognition details</span>
               <dl>
-                <div><dt>Recognised by</dt><dd>{qci.body || 'Quality Council of India (QCI)'}</dd></div>
+                <div><dt>Recognised by</dt><dd>Quality Council of India (QCI)</dd></div>
                 <div><dt>Recognised as</dt><dd>Hygiene Rating Audit Agency (HRAA)</dd></div>
                 <div><dt>Scheme</dt><dd>FSSAI Hygiene Rating Scheme</dd></div>
-                <div><dt>Scope</dt><dd>{qci.scope}</dd></div>
+                <div><dt>Scope</dt><dd>Hygiene rating audits of food service establishments, bakeries and sweet shops</dd></div>
                 {qci.registrationNo && <div><dt>Recognition no.</dt><dd>{qci.registrationNo}</dd></div>}
               </dl>
               {qci.logo && <img src={fileUrl(qci.logo)} alt="QCI" className="acc2__logo" loading="lazy" />}
@@ -222,18 +222,8 @@ export function Accreditations() {
           </Reveal>
         </div>
       </section>
-
-      {/* ---------- standards ---------- */}
-      <section className="section">
-        <div className="container">
-          <SectionHead center eyebrow="Standards" title={<>The standards behind <em className="accent">our audits</em></>} />
-          <div className="acc2-std">
-            <Reveal className="acc2-std__card"><span><Scale size={22} /></span><h3>ISO/IEC 17020:2012</h3><p>Conformity assessment requirements for inspection bodies – competence, impartiality and consistency in our inspection processes.</p></Reveal>
-            <Reveal className="acc2-std__card" delay={0.06}><span><UtensilsCrossed size={22} /></span><h3>FSSAI Hygiene Rating Scheme</h3><p>Hygiene rating audits of food establishments against Schedule 4 of the FSS (Licensing &amp; Registration of Food Businesses) Regulations.</p></Reveal>
-            <Reveal className="acc2-std__card" delay={0.12}><span><Leaf size={22} /></span><h3>NBC 2016 Part 11</h3><p>Green audits of educational institutions against the National Building Code of India 2016, Part 11 – Approach to Sustainability, as per NAAC advisory.</p></Reveal>
-          </div>
-        </div>
-      </section>
+      )}
+      <CmsSlot pg={pg} after="qci" />
 
       {open >= 0 && (
         <div className="acc2-lb" role="dialog" aria-modal="true" aria-label="Accreditation certificate" onClick={() => setOpen(-1)}>
@@ -247,6 +237,7 @@ export function Accreditations() {
         </div>
       )}
       <CtaBand title="Planning an audit or inspection?" text="Speak to our team about scope, timelines and fees. We respond to every enquiry." />
+      <CmsSlot pg={pg} after="cta" />
     </>
   );
 }

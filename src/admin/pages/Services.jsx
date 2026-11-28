@@ -72,7 +72,22 @@ const EMPTY = {
   image: '', gallery: [], brochure: '', seo: { title: '', description: '', keywords: '' }, order: 100, featured: false, status: 'draft', adminNote: '',
 };
 
-const TABS = ['Basics', 'Content', 'Standards & process', 'FAQs', 'SEO'];
+const TABS = ['Basics', 'Page headings', 'Content', 'Standards & process', 'FAQs', 'SEO'];
+// Headings and short texts on the service page (from the client's content doc). Empty = built-in wording.
+const COPY_FIELDS = [
+  ['heroEyebrow', 'Hero – small heading', 'text'], ['heroTitle', 'Hero – main heading (H1)', 'text'], ['heroIntro', 'Hero – intro text', 'area'],
+  ['overviewTitle', 'Overview heading', 'text'], ['industriesTitle', '“Who we audit” box heading', 'text'],
+  ['benefitsTitle', 'Purpose & benefits heading', 'text'],
+  ['scopeTitle', 'Scope heading', 'text'], ['scopeIntro', 'Scope intro', 'area'], ['scopeNote', 'Scope box text', 'area'],
+  ['standardsTitle', 'Standards heading', 'text'], ['standardsIntro', 'Standards intro', 'area'],
+  ['feesTitle', 'Fees heading', 'text'], ['feesIntro', 'Fees intro', 'area'],
+  ['processTitle', 'Process heading', 'text'], ['processIntro', 'Process intro', 'area'],
+  ['photosTitle', 'Photos heading', 'text'], ['photosIntro', 'Photos intro', 'area'],
+  ['whyTitle', '“Why choose” heading', 'text'], ['whyIntro', '“Why choose” intro', 'area'],
+  ['formTitle', 'Enquiry form title', 'text'], ['formIntro', 'Enquiry form intro', 'area'],
+  ['faqTitle', 'FAQ heading', 'text'], ['faqIntro', 'FAQ intro', 'area'],
+  ['cardText', 'Homepage card – text', 'area'],
+];
 
 export function ServiceEditor() {
   const { id } = useParams();
@@ -158,6 +173,16 @@ export function ServiceEditor() {
             <FileList label="Photo gallery (shown on the service page)" hint="2–4 relevant photos work best" value={s.gallery} onChange={set('gallery')} />
             <ImageField label="Brochure (PDF)" hint="Optional download on the service page" value={s.brochure} onChange={set('brochure')} type="all" />
             <Area label="Internal note (never shown on the website)" rows={2} value={s.adminNote} onChange={set('adminNote')} />
+          </div>
+        )}
+        {tab === 'Page headings' && (
+          <div className="fgrid">
+            <Callout>These headings and short texts appear on this service's page. Leave a field empty to use the website's built-in wording.</Callout>
+            {COPY_FIELDS.map(([k, label, type]) => (type === 'area'
+              ? <Area key={k} label={label} rows={2} value={s.copy?.[k] || ''} onChange={(v) => setS((x) => ({ ...x, copy: { ...(x.copy || {}), [k]: v } }))} />
+              : <Text key={k} full label={label} value={s.copy?.[k] || ''} onChange={(v) => setS((x) => ({ ...x, copy: { ...(x.copy || {}), [k]: v } }))} />))}
+            <StringList label="Homepage card – 3 points" value={s.copy?.cardPoints || []} onChange={(v) => setS((x) => ({ ...x, copy: { ...(x.copy || {}), cardPoints: v } }))} />
+            <StringList label="Fees – notes" value={s.copy?.feesNotes || []} onChange={(v) => setS((x) => ({ ...x, copy: { ...(x.copy || {}), feesNotes: v } }))} multiline />
           </div>
         )}
         {tab === 'Content' && (

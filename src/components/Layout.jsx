@@ -114,9 +114,9 @@ function Header() {
             <div className="nav__item">
               <button className="nav__trigger" aria-haspopup="true">Resources <ChevronDown size={15} /></button>
               <div className="mega mega--sm" role="menu">
-                <Link className="mega__link" to="/blog"><span className="ic"><BookOpen size={17} /></span><span><strong>Blog</strong><span>Guides on green audits, hygiene rating & safety</span></span></Link>
-                <Link className="mega__link" to="/resources"><span className="ic"><FileText size={17} /></span><span><strong>Insights &amp; guides</strong><span>Learning resources and technical guides</span></span></Link>
-                {hasCases && <Link className="mega__link" to="/case-studies"><span className="ic"><Briefcase size={17} /></span><span><strong>Case studies</strong><span>Verified projects completed by Aspira</span></span></Link>}
+                <Link className="mega__link" to="/blog"><span className="ic"><BookOpen size={17} /></span><span><strong>Blog</strong></span></Link>
+                <Link className="mega__link" to="/resources"><span className="ic"><FileText size={17} /></span><span><strong>Insights &amp; guides</strong></span></Link>
+                {hasCases && <Link className="mega__link" to="/case-studies"><span className="ic"><Briefcase size={17} /></span><span><strong>Case studies</strong></span></Link>}
               </div>
             </div>
             <NavLink to="/testimonials">Testimonials</NavLink>
