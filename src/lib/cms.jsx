@@ -9,6 +9,7 @@
 import { Fragment, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { api, getToken } from './api';
 import { CMS_PAGES } from './cmsRegistry';
+import { DOC_CONTENT } from './docContent';
 
 /* ---------- rich text ---------- */
 export function rich(text) {
@@ -63,7 +64,8 @@ export function pageDef(slug) {
 export function sectionDefaults(slug, key, ctx = {}) {
   const def = pageDef(slug)?.sections.find((s) => s.key === key);
   if (!def) return {};
-  return typeof def.defaults === 'function' ? def.defaults(ctx) || {} : def.defaults || {};
+  const base = typeof def.defaults === 'function' ? def.defaults(ctx) || {} : def.defaults || {};
+  return { ...base, ...(DOC_CONTENT[slug]?.[key] || {}) };
 }
 
 /** Applies saved overrides on top of defaults; a saved field (even empty) wins */
@@ -106,7 +108,8 @@ export function usePage(slug, ctx = {}) {
       preview,
       s: (key) => mergeSection(sectionDefaults(slug, key, ctx), byKey[key]),
       hidden: (key) => !!byKey[key]?.hidden,
-      saved: (key) => byKey[key] || null,
+      // admin changes on top of the Google Doc copy (used by components that keep their own defaults)
+      saved: (key) => (DOC_CONTENT[slug]?.[key] || byKey[key] ? { ...(DOC_CONTENT[slug]?.[key] || {}), ...(byKey[key] || {}) } : null),
       custom: (after) => (sections || []).filter((x) => x.kind === 'custom' && !x.hidden && (x.after || 'end') === after),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
