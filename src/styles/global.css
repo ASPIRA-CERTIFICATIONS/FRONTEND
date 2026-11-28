@@ -3183,3 +3183,36 @@ img[src*="/gallery/aspira-05"].mg-about__photo { object-position: 50% 85%; }
 .svc-head--center > p { max-width: 640px; margin: .6rem auto 0; color: var(--muted); }
 .acc2__q { font-family: var(--sans); font-size: 1.05rem; font-weight: 700; letter-spacing: 0; color: var(--ink); margin: 1rem 0 .5rem; }
 .cms-qh { font-family: var(--sans); font-size: 1.08rem; font-weight: 700; letter-spacing: 0; color: var(--ink); margin: 1.2rem 0 .45rem; }
+
+/* =====================================================================
+   v55 – Insights & guides: checklists download, guides view-only (watermarked)
+   ===================================================================== */
+.res__kind { display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); }
+.res__kind--dl { color: var(--green-2); }
+.res__soon { font-size: .85rem; color: var(--muted); white-space: nowrap; }
+
+.gv { background: #f3f5f9; padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(2.5rem, 6vw, 4.5rem); min-height: 70vh; }
+.gv__wrap { width: min(100% - 2rem, 920px); margin: 0 auto; }
+.gv__back { display: inline-flex; align-items: center; gap: .4rem; color: var(--muted); font-weight: 600; font-size: .9rem; text-decoration: none; margin-bottom: 1.1rem; }
+.gv__back:hover { color: var(--green-2); }
+.gv__head { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 1.75rem); margin-bottom: 1.25rem; }
+.gv__head h1 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.2rem); margin: .5rem 0 .4rem; }
+.gv__head p { color: var(--muted); margin: 0 0 .9rem; line-height: 1.65; }
+.gv__badge { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .35rem; font-size: .8rem; font-weight: 600; color: #1b5e37; background: var(--green-soft); border-radius: 999px; padding: .35rem .8rem; }
+.gv__loading { display: flex; align-items: center; justify-content: center; gap: .6rem; padding: 3rem 1rem; color: var(--muted); background: #fff; border-radius: var(--radius); border: 1px solid var(--line); }
+.gv__loading .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--green); animation: gvspin .8s linear infinite; }
+@keyframes gvspin { to { transform: rotate(360deg); } }
+.gv__pages { display: grid; gap: 1.25rem; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.gv__page { margin: 0; }
+.gv__page canvas { display: block; width: 100%; height: auto; background: #fff; border-radius: 6px; box-shadow: 0 1px 2px rgba(11, 27, 63, .08), 0 12px 32px -18px rgba(11, 27, 63, .35); }
+.gv__page figcaption { text-align: center; font-size: .78rem; color: var(--muted); margin-top: .45rem; font-family: var(--mono); }
+.gv__print-note { display: none; }
+@media (max-width: 640px) {
+  .gv__wrap { width: calc(100% - 1.25rem); }
+  .gv__pages { gap: .9rem; }
+}
+@media print {
+  .gv__pages, .gv__head p, .gv__badge { display: none !important; }
+  .gv__print-note { display: block; font-size: 14pt; text-align: center; margin-top: 2rem; }
+}
+@media (max-width: 640px) { .gv__badge { font-size: .74rem; border-radius: 12px; } }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, CalendarDays, Download, FileText, MapPin, User, Building, Check, ExternalLink, X } from 'lucide-react';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, CalendarDays, Download, FileText, MapPin, User, Building, Check, ExternalLink, X, Eye } from 'lucide-react';
 import { useFetch, useSite } from '../context/SiteContext';
 import { api, fileUrl, isApiDown } from '../lib/api';
 import { Markdown } from '../lib/markdown';
@@ -232,8 +232,18 @@ export function CaseStudy() {
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
 /** Asks for name + email, records the request, then starts the download */
+const CONTACT_KEY = 'aspira_resource_contact';
+const savedContact = () => {
+  try { return JSON.parse(localStorage.getItem(CONTACT_KEY) || 'null') || {}; } catch { return {}; }
+};
+/** checklist = downloadable; guide = view online only (matches the server's rule when the admin hasn't chosen) */
+export const resourceKind = (r) => r.kind || r.docType || (/checklist/i.test(`${r.title || ''} ${r.category || ''}`) ? 'checklist' : 'guide');
+
+/** Name + email before a checklist download or opening a guide; remembered for next time */
 function DownloadGate({ r, onClose }) {
-  const [v, setV] = useState({ name: '', email: '', organization: '', website: '' });
+  const navigate = useNavigate();
+  const guide = resourceKind(r) === 'guide';
+  const [v, setV] = useState(() => ({ name: '', email: '', organization: '', ...savedContact(), website: '' }));
   const [st, setSt] = useState({ s: 'idle' });
   const set = (k) => (e) => setV((x) => ({ ...x, [k]: e.target.value }));
   async function submit(e) {
@@ -242,20 +252,26 @@ function DownloadGate({ r, onClose }) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) return setSt({ s: 'err', msg: 'Please enter a valid email address.' });
     setSt({ s: 'sending' });
     try {
-      const { url } = await api(`/resources/${r._id}/request`, { method: 'POST', body: v });
-      window.location.assign(`${API_BASE}${url}`);
+      const res = await api(`/resources/${r._id}/request`, { method: 'POST', body: v });
+      try { localStorage.setItem(CONTACT_KEY, JSON.stringify({ name: v.name.trim(), email: v.email.trim(), organization: v.organization.trim() })); } catch { /* ignore */ }
+      if (res.view) {
+        onClose();
+        navigate(res.view);
+        return;
+      }
+      window.location.assign(`${API_BASE}${res.url}`);
       setSt({ s: 'done' });
     } catch (err) {
-      setSt({ s: 'err', msg: err.message || 'Could not start the download. Please try again.' });
+      setSt({ s: 'err', msg: err.message || (guide ? 'Could not open the guide. Please try again.' : 'Could not start the download. Please try again.') });
     }
   }
   return (
     <div className="dg" role="dialog" aria-modal="true" aria-labelledby="dg-title" onClick={onClose}>
       <form className="dg__card" onClick={(e) => e.stopPropagation()} onSubmit={submit} noValidate>
         <button type="button" className="dg__x" onClick={onClose} aria-label="Close"><X size={20} /></button>
-        <span className="dg__ic"><FileText size={22} /></span>
-        <h2 id="dg-title">Download “{r.title}”</h2>
-        <p>Please share your name and email to download this resource.</p>
+        <span className="dg__ic">{guide ? <Eye size={22} /> : <FileText size={22} />}</span>
+        <h2 id="dg-title">{guide ? 'View' : 'Download'} “{r.title}”</h2>
+        <p>{guide ? 'Please share your name and email to read this guide online.' : 'Please share your name and email to download this checklist.'}</p>
         {st.s === 'done' ? (
           <div className="alert alert--ok" role="status"><Check size={17} /> Thank you – your download has started.</div>
         ) : (
@@ -265,7 +281,9 @@ function DownloadGate({ r, onClose }) {
             <label><b>Organisation <small>(optional)</small></b><input value={v.organization} onChange={set('organization')} autoComplete="organization" maxLength={160} /></label>
             <input className="hp" tabIndex={-1} autoComplete="off" value={v.website} onChange={set('website')} aria-hidden="true" />
             {st.s === 'err' && <div className="alert alert--err" role="alert">{st.msg}</div>}
-            <button className="btn btn--green" disabled={st.s === 'sending'}><Download size={16} /> {st.s === 'sending' ? 'Preparing…' : 'Download'}</button>
+            <button className="btn btn--green" disabled={st.s === 'sending'}>
+              {guide ? <Eye size={16} /> : <Download size={16} />} {st.s === 'sending' ? (guide ? 'Opening…' : 'Preparing…') : (guide ? 'View guide' : 'Download checklist')}
+            </button>
             <small className="dg__note">We use these details only to share relevant updates from Aspira. See our <Link to="/policies" onClick={onClose}>policies</Link>.</small>
           </>
         )}
@@ -302,11 +320,15 @@ export function Resources() {
                     {r.category && <span className="post-card__cat">{r.category}</span>}
                     <h3>{r.title}</h3>
                     {r.description && <p>{r.description}</p>}
-                    <small>{[r.fileType, r.fileSize].filter(Boolean).join(' · ')}</small>
+                    <small>{resourceKind(r) === 'guide' ? <span className="res__kind"><Eye size={13} /> Guide · view online</span> : <span className="res__kind res__kind--dl"><Download size={13} /> Checklist · {[r.fileType || 'PDF', r.fileSize].filter(Boolean).join(' · ')}</span>}</small>
                   </div>
-                  {canGate(r)
-                    ? <button type="button" className="btn btn--green btn--sm" onClick={() => setGate(r)}><Download size={15} /> Download</button>
-                    : <a className="btn btn--green btn--sm" href={fileUrl(r.file)} target="_blank" rel="noopener noreferrer" download><Download size={15} /> Download</a>}
+                  {resourceKind(r) === 'guide'
+                    ? (canGate(r)
+                      ? <button type="button" className="btn btn--outline btn--sm" onClick={() => setGate(r)}><Eye size={15} /> View online</button>
+                      : <span className="res__soon">Available online soon</span>)
+                    : canGate(r)
+                      ? <button type="button" className="btn btn--green btn--sm" onClick={() => setGate(r)}><Download size={15} /> Download</button>
+                      : <a className="btn btn--green btn--sm" href={fileUrl(r.file)} target="_blank" rel="noopener noreferrer" download><Download size={15} /> Download</a>}
                 </Reveal>
               ))}
             </div>

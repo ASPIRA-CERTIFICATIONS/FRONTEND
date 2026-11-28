@@ -9,6 +9,7 @@ import { Loader } from './components/ui';
 
 const Services = lazy(() => import('./pages/Services'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const GuideViewer = lazy(() => import('./pages/GuideViewer'));
 const info = () => import('./pages/InfoPages');
 const About = lazy(() => info().then((m) => ({ default: m.About })));
 const Accreditations = lazy(() => info().then((m) => ({ default: m.Accreditations })));
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="case-studies" element={<CaseStudies />} />
             <Route path="case-studies/:slug" element={<CaseStudy />} />
             <Route path="resources" element={<CmsPage slug="resources"><Resources /></CmsPage>} />
+            <Route path="resources/view/:id" element={<GuideViewer />} />
             <Route path="downloads" element={<CmsPage slug="resources"><Resources /></CmsPage>} />
             <Route path="complaints-and-appeals" element={<CmsPage slug="complaints"><Complaints /></CmsPage>} />
             <Route path="careers" element={<CmsPage slug="careers"><Careers /></CmsPage>} />

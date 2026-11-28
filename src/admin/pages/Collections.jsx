@@ -321,21 +321,23 @@ export const ResourcesAdmin = () => (
     singular="Resource"
     intro="Learning resources shown on Insights & guides (/resources) – technical guides, checklists and guidelines for audits. Visitors give their name and email before downloading; each request appears under Enquiries as a “download” lead."
     note="Use only approved company documents. To replace a document, edit it and choose the new file."
-    blank={{ title: '', description: '', category: 'Technical guides', file: '', fileType: 'PDF', fileSize: '', serviceSlug: '', order: 100, published: false }}
+    blank={{ title: '', description: '', category: 'Technical guides', docType: '', file: '', fileType: 'PDF', fileSize: '', serviceSlug: '', order: 100, published: false }}
     fields={[
       { key: 'title', label: 'Title *', required: true, full: true },
       { key: 'category', label: 'Category', type: 'select', options: ['Technical guides', 'Checklists', 'Guidelines', 'Green Audit', 'Hygiene Rating', 'Safety Audits', 'Energy & Water', 'Brochures', 'Other'] },
+      { key: 'docType', label: 'Type', type: 'select', hint: 'Checklists can be downloaded. Guides are view-only online with an ASPIRA watermark (upload guides as PDF).', options: [{ value: '', label: 'Automatic – checklist if the title or category says “checklist”' }, { value: 'checklist', label: 'Checklist – downloadable' }, { value: 'guide', label: 'Guide – view online only (watermarked)' }] },
       { key: 'serviceSlug', label: 'Related service', type: 'select', options: SERVICE_OPTS },
       { key: 'description', label: 'Description', type: 'area', rows: 3, full: true },
       { key: 'file', label: 'Document file *', type: 'file' },
       { key: 'fileType', label: 'File type label', hint: 'e.g. PDF' },
       { key: 'fileSize', label: 'File size label', hint: 'e.g. 1.2 MB' },
       { key: 'order', label: 'Order', type: 'number' },
-      { key: 'published', label: 'Published (visible for download)', type: 'toggle' },
+      { key: 'published', label: 'Published (visible on Insights & guides)', type: 'toggle' },
     ]}
     columns={[
       { label: 'Document', render: (r) => <><b>{r.title}</b><div className="muted">{r.category}</div></> },
-      { label: 'Downloads', render: (r) => r.downloads || 0 },
+      { label: 'Type', render: (r) => ((r.docType || (/checklist/i.test(`${r.title} ${r.category}`) ? 'checklist' : 'guide')) === 'guide' ? <span className="badge">Guide · view only</span> : <span className="badge badge--published">Checklist · download</span>) },
+      { label: 'Downloads / views', render: (r) => `${r.downloads || 0} / ${r.views || 0}` },
       { label: 'Status', render: pub },
     ]}
   />
