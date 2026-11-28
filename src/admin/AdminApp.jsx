@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation, Link } from 'react-router-dom';
-import { LayoutDashboard, Inbox, Layers, MessageSquareQuote, Building, Award, FileBadge, Image, Settings, LogOut, Menu, ExternalLink, MessagesSquare, Newspaper, Briefcase, FileDown, UserRound, Images, ScrollText } from 'lucide-react';
+import { LayoutDashboard, Inbox, Layers, MessageSquareQuote, Building, Award, FileBadge, Image, Settings, LogOut, Menu, ExternalLink, MessagesSquare, Newspaper, Briefcase, FileDown, UserRound, Images, ScrollText, PanelsTopLeft } from 'lucide-react';
 import { api, getToken, setToken } from '../lib/api';
 import Seo from '../components/Seo';
 import { Loader, BrandLogo } from '../components/ui';
@@ -14,6 +14,7 @@ import CareersAdmin from './pages/Careers';
 import MediaLibrary from './pages/Media';
 import SettingsPage from './pages/Settings';
 import Account from './pages/Account';
+import { PagesList, PageEditor } from './pages/PagesCms';
 import Login from './pages/Login';
 import './admin.css';
 
@@ -22,12 +23,12 @@ export const useAuth = () => useContext(AuthCtx);
 
 const NAV = [
   ['Leads', [['', 'Dashboard', LayoutDashboard, true], ['enquiries', 'All enquiries', Inbox], ['enquiries?channel=chat', 'Chat enquiries', MessagesSquare], ['careers', 'Careers', UserRound]]],
-  ['Content', [['services', 'Services', Layers], ['posts', 'Blog', Newspaper], ['case-studies', 'Case studies', Briefcase], ['resources', 'Insights & guides', FileDown], ['testimonials', 'Testimonials', MessageSquareQuote], ['clients', 'Client logos', Building], ['gallery', 'Gallery', Images], ['policies', 'Policies', ScrollText]]],
+  ['Content', [['pages', 'Pages (website content)', PanelsTopLeft], ['services', 'Services', Layers], ['posts', 'Blog', Newspaper], ['case-studies', 'Case studies', Briefcase], ['resources', 'Insights & guides', FileDown], ['testimonials', 'Testimonials', MessageSquareQuote], ['clients', 'Client logos', Building], ['gallery', 'Gallery', Images], ['policies', 'Policies', ScrollText]]],
   ['Credentials', [['accreditations', 'Accreditation', Award], ['certificates', 'Issued certificates', FileBadge]]],
   ['Site', [['media', 'Media library', Image], ['settings', 'Site settings', Settings]]],
 ];
 
-const TITLES = { '': 'Dashboard', enquiries: 'Enquiries', posts: 'Blog', 'case-studies': 'Case studies', resources: 'Downloadable resources', services: 'Services', testimonials: 'Testimonials', clients: 'Client logos', accreditations: 'Accreditations', certificates: 'Certificates', media: 'Media library', careers: 'Careers', gallery: 'Gallery', policies: 'Policies', settings: 'Site settings', account: 'Account' };
+const TITLES = { '': 'Dashboard', pages: 'Pages – website content', enquiries: 'Enquiries', posts: 'Blog', 'case-studies': 'Case studies', resources: 'Downloadable resources', services: 'Services', testimonials: 'Testimonials', clients: 'Client logos', accreditations: 'Accreditations', certificates: 'Certificates', media: 'Media library', careers: 'Careers', gallery: 'Gallery', policies: 'Policies', settings: 'Site settings', account: 'Account' };
 
 /** Active-state aware of the query string, so "All enquiries" and "Chat enquiries" don't both light up. */
 function SideLink({ to, end, icon: Ic, label, badge }) {
@@ -141,6 +142,8 @@ export default function AdminApp() {
                   <Routes>
                     <Route index element={<Dashboard />} />
                     <Route path="enquiries" element={<Enquiries />} />
+                    <Route path="pages" element={<PagesList />} />
+                    <Route path="pages/:slug" element={<PageEditor />} />
                     <Route path="services" element={<ServicesList />} />
                     <Route path="services/new" element={<ServiceEditor />} />
                     <Route path="services/:id" element={<ServiceEditor />} />

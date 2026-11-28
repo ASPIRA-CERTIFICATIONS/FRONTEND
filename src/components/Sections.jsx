@@ -1,3 +1,4 @@
+import { usePageCtx, rich } from '../lib/cms';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, BadgeCheck, Check, Phone, FileCheck2, Scale, Lock, Download, ExternalLink, ShieldCheck, Award, Globe2, MessageCircle, GraduationCap, UtensilsCrossed, CalendarCheck, Headset, Play, Search, FileSearch, Users, RefreshCcw } from 'lucide-react';
@@ -366,19 +367,27 @@ export function ClientLogos() {
   );
 }
 
-export function CtaBand({ title = 'Ready to get audit-ready?', text = 'Speak to our team about scope, timelines and fees. We respond to every enquiry.', service }) {
+export function CtaBand({ title = 'Ready to get audit-ready?', text = 'Speak to our team about scope, timelines and fees. We respond to every enquiry.', service, buttons }) {
   const { settings } = useSite();
+  const pg = usePageCtx();
+  const saved = pg?.saved?.('cta');
+  if (pg?.hidden?.('cta')) return null;
+  const h = saved?.heading || title;
+  const t = saved?.intro ?? text;
+  const btns = (saved?.buttons || buttons || [{ label: 'Request a quote', href: '/contact?intent=quote#enquiry' }]).filter((b) => b?.label && b?.href);
   const phone = settings.contact?.phones?.[0];
   return (
     <section className="section section--tight">
       <div className="container">
         <Reveal className="cta">
           <div>
-            <h2>{title}</h2>
-            <p>{text}</p>
+            <h2>{rich(h)}</h2>
+            {t && <p>{rich(t)}</p>}
           </div>
           <div className="cta__actions">
-            <Link to="/contact?intent=quote#enquiry" className="btn btn--light">Request a quote</Link>
+            {btns.slice(0, 2).map((b, k) => (/^(https?:|tel:|mailto:|#)/.test(b.href)
+              ? <a key={k} href={b.href} className={k ? 'btn btn--outline-light' : 'btn btn--light'}>{b.label}</a>
+              : <Link key={k} to={b.href} className={k ? 'btn btn--outline-light' : 'btn btn--light'}>{b.label}</Link>))}
             {phone && <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} className="btn btn--outline-light"><Phone size={16} /> {phone}</a>}
           </div>
         </Reveal>
@@ -414,6 +423,7 @@ export function VerifyStrip({ compact = false }) {
 }
 
 /* Why Aspira – every point comes from Aspira's published policies and company profile */
+const WHY_DEFAULT = { eyebrow: 'Why Aspira', heading: 'Why organisations choose Aspira', intro: 'Our commitments are set out in our Quality, Impartiality and Confidentiality policies, signed by our top management.', buttons: [{ label: 'Read our policies', href: '/policies' }, { label: 'About Aspira', href: '/about' }] };
 const WHY_ASPIRA = [
   { I: ShieldCheck, t: 'Standards-based inspections', d: 'Every audit and inspection is aligned with national and international standards and regulations.' },
   { I: Scale, t: 'Independent & impartial', d: 'We do not provide consultancy, training or internal audits to the clients we inspect.' },
@@ -424,27 +434,33 @@ const WHY_ASPIRA = [
 ];
 
 /** "Why Aspira" – clean two-column layout, used on Home and About */
-export function WhyAspira() {
+export function WhyAspira({ data }) {
+  const pg = usePageCtx();
+  if (!data && pg?.hidden?.('why')) return null;
+  const d = data || (pg?.saved?.('why') ? { ...WHY_DEFAULT, ...pg.saved('why') } : WHY_DEFAULT);
+  const items = (d.items?.length ? d.items.map((x, k) => ({ I: WHY_ASPIRA[k % WHY_ASPIRA.length].I, t: x.title, d: x.text })) : WHY_ASPIRA).filter((x) => x.t);
+  const btns = (d.buttons || []).filter((b) => b?.label && b?.href);
   return (
       <section className="mg-sec wy">
         <div className="mg-wrap wy__grid">
           <div className="wy__aside">
-            <p className="mg-kicker">Why Aspira</p>
-            <h2>Why organisations choose Aspira</h2>
-            <p className="wy__intro">Our commitments are set out in our Quality, Impartiality and Confidentiality policies, signed by our top management.</p>
-            <div className="wy__actions">
-              <Link to="/policies" className="btn">Read our policies <ArrowRight size={16} /></Link>
-              <Link to="/about" className="mg-link">About Aspira <ArrowRight size={16} /></Link>
-            </div>
+            {d.eyebrow && <p className="mg-kicker">{d.eyebrow}</p>}
+            <h2>{rich(d.heading)}</h2>
+            {d.intro && <p className="wy__intro">{rich(d.intro)}</p>}
+            {btns.length > 0 && (
+              <div className="wy__actions">
+                {btns.slice(0, 2).map((b, k) => <Link key={k} to={b.href} className={k ? 'mg-link' : 'btn'}>{b.label} <ArrowRight size={16} /></Link>)}
+              </div>
+            )}
           </div>
           <ol className="wy__list">
-            {WHY_ASPIRA.map(({ I, t, d }, idx) => (
-              <li key={t}>
+            {items.map(({ I, t, d: desc }, idx) => (
+              <li key={idx}>
                 <div className="wy__ic"><I size={20} /></div>
                 <div>
                   <span className="wy__no">{String(idx + 1).padStart(2, '0')}</span>
                   <h3>{t}</h3>
-                  <p>{d}</p>
+                  <p>{desc}</p>
                 </div>
               </li>
             ))}

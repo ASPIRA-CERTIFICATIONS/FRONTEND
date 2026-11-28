@@ -1,3 +1,5 @@
+import { usePageCtx, rich } from '../lib/cms';
+import { CmsSlot } from '../components/Cms';
 /**
  * Careers, Gallery and Policies.
  * Deliberately quiet layout: one idea per section, generous whitespace, no competing visuals.
@@ -22,7 +24,18 @@ import { COMPANY_PHOTOS } from '../lib/companyPhotos';
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : '');
 
 /** Calm page header – no photo, no cards. */
-export function PageIntro({ eyebrow, title, lead, crumbs = [], wide = false }) {
+export function PageIntro(props) {
+  const pg = usePageCtx();
+  const o = pg?.saved?.('intro');
+  const m = o ? { ...props, eyebrow: o.eyebrow ?? props.eyebrow, title: o.heading ? rich(o.heading) : props.title, lead: o.intro ?? props.lead } : props;
+  return (
+    <>
+      <PageIntroInner {...m} />
+      <CmsSlot pg={pg} after="intro" />
+    </>
+  );
+}
+function PageIntroInner({ eyebrow, title, lead, crumbs = [], wide = false }) {
   return (
     <header className="qi">
       <div className={`q-wrap ${wide ? 'q-wrap--wide' : ''}`}>

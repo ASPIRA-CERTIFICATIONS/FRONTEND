@@ -120,7 +120,7 @@ function Header() {
               </div>
             </div>
             <NavLink to="/testimonials">Testimonials</NavLink>
-            <NavLink to="/certificate-status">Verify Certificate</NavLink>
+            <NavLink to="/certificate-status">Certificate Status</NavLink>
             <NavLink to="/contact">Contact</NavLink>
           </nav>
 
@@ -165,7 +165,7 @@ function Header() {
             {hasCases && <Link to="/case-studies">Case studies</Link>}
           </details>
           <Link to="/testimonials">Testimonials</Link>
-          <Link to="/certificate-status">Verify Certificate</Link>
+          <Link to="/certificate-status">Certificate Status</Link>
           <Link to="/complaints-and-appeals">Complaints & Appeals</Link>
           <Link to="/contact">Contact</Link>
           <div className="drawer__foot">
@@ -230,7 +230,7 @@ function Footer() {
               {hasCases && <li><Link to="/case-studies">Case studies</Link></li>}
               <li><Link to="/resources">Insights &amp; guides</Link></li>
               <li><Link to="/testimonials">Testimonials</Link></li>
-              <li><Link to="/certificate-status">Verify a certificate</Link></li>
+              <li><Link to="/certificate-status">Certificate status</Link></li>
               <li><Link to="/complaints-and-appeals">Complaints & appeals</Link></li>
             </ul>
           </div>

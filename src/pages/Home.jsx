@@ -18,6 +18,8 @@ import EnquiryForm from '../components/EnquiryForm';
 import { photo, customImage } from '../lib/companyPhotos';
 import { TESTIMONIAL_LETTERS } from '../lib/testimonialLetters';
 import LetterImg from '../components/LetterImg';
+import { usePageCtx, rich, Paras } from '../lib/cms';
+import { CmsSlot } from '../components/Cms';
 
 const ABOUT_PHOTO = photo('05');
 const HOME_PHOTOS = ['01', '02', '07', '06', '04'].map(photo);
@@ -110,28 +112,30 @@ function HeroSlides({ slides }) {
 }
 
 /** Hero card: Aspira's commitments (from its Quality, Impartiality and Confidentiality policies) */
+const COMMIT_ICONS = [Scale, ShieldCheck, Lock, FileSearch];
 const COMMITMENTS = [
   { I: Scale, t: 'Impartial', d: 'No consultancy, training or internal audits for the clients we inspect.' },
   { I: ShieldCheck, t: 'Independent', d: 'Type ‘A’ inspection body – free from commercial or financial influence.' },
   { I: Lock, t: 'Confidential', d: 'Client information protected in line with ISO/IEC 17020.' },
   { I: FileSearch, t: 'Evidence-based', d: 'Every finding rests on objective, verifiable evidence.' },
 ];
-function HeroPanel() {
+function HeroPanel({ data }) {
+  const list = (data?.items?.length ? data.items.map((x, k) => ({ I: COMMIT_ICONS[k % 4], t: x.title, d: x.text })) : COMMITMENTS);
   const [on, setOn] = useState(0);
   useEffect(() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const id = setInterval(() => setOn((n) => (n + 1) % COMMITMENTS.length), 2600);
+    const id = setInterval(() => setOn((n) => (n + 1) % list.length), 2600);
     return () => clearInterval(id);
-  }, []);
+  }, [list.length]);
   return (
     <div className="hpan hpan--c">
       <div className="hpan__glow" aria-hidden="true" />
       <div className="hpan__card">
         <div className="hpan__head">
-          <span className="hpan__live"><i aria-hidden="true" /> Our commitments</span>
+          <span className="hpan__live"><i aria-hidden="true" /> {data?.heading || 'Our commitments'}</span>
         </div>
         <ul className="hcm">
-          {COMMITMENTS.map(({ I, t, d }, k) => (
+          {list.map(({ I, t, d }, k) => (
             <li key={t} className={k === on ? 'is-on' : ''}>
               <span className="hcm__ic"><I size={18} /></span>
               <span><b>{t}</b><small>{d}</small></span>
@@ -147,8 +151,8 @@ function Head({ kicker, title, text, light = false, center = true }) {
   return (
     <div className={`mg-head ${center ? 'is-center' : ''} ${light ? 'is-light' : ''}`}>
       {kicker && <p className="mg-kicker">{kicker}</p>}
-      <h2>{title}</h2>
-      {text && <p className="mg-sub">{text}</p>}
+      <h2>{typeof title === 'string' ? rich(title) : title}</h2>
+      {text && <p className="mg-sub">{typeof text === 'string' ? rich(text) : text}</p>}
     </div>
   );
 }
@@ -159,12 +163,45 @@ export default function Home() {
   const parents = services.filter((s) => !s.parentSlug);
   const bySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
   const steps = (settings.process || []).slice(0, 6);
-  const heroTitle = settings.heroTitle || 'Audits & inspections you can rely on';
+  const pg = usePageCtx();
+  const H = (k) => !pg.hidden(k);
+  const hero = pg.s('hero');
+  const heroTitle = hero.heading || 'Audits & inspections you can rely on';
+  const starred = /\*[^*]+\*/.test(heroTitle);
   const words = heroTitle.split(' ');
   const accentFrom = Math.max(1, words.length - 2);
+  let inStar = false;
+  const heroWords = words.map((w, i) => {
+    let acc = i >= accentFrom;
+    if (starred) {
+      const opens = w.startsWith('*');
+      if (opens) inStar = true;
+      acc = inStar;
+      if (w.endsWith('*')) inStar = false;
+    }
+    return { w: starred ? w.replace(/\*/g, '') : w, acc };
+  });
+  const heroPlain = heroTitle.replace(/\*/g, '');
+  const banner = pg.s('banner');
+  const bannerSaved = pg.saved('banner')?.body;
+  const facts = pg.s('facts');
+  const about = pg.s('about');
+  const svc = pg.s('services');
+  const enq = pg.s('enquiry');
+  const sec = pg.s('sectors');
+  const gal = pg.s('gallery');
+  const proc = pg.s('process');
+  const tst = pg.s('testimonials');
+  const ins = pg.s('insights');
+  const fq = pg.s('faq');
+  const ctaS = pg.s('cta');
+  const procSteps = (proc.items || []).filter((x) => x.title);
+  const sectorList = (sec.items || []).filter((x) => x.title).map((x, k) => ({ I: (SECTORS.find((z) => z.t === x.title) || SECTORS[k % SECTORS.length]).I, t: x.title }));
+  const factIcons = [ClipboardCheck, Building2, Scale, ShieldCheck];
   const postsRes = useFetch('/posts?limit=3');
   const posts = postsRes.data || (isApiDown(postsRes.error) ? FALLBACK_POSTS.slice(0, 3) : []);
-  const faqs = [
+  const customFaqs = (fq.items || []).filter((x) => x.title && x.text).map((x) => ({ question: x.title, answer: x.text }));
+  const faqs = customFaqs.length ? customFaqs : [
     ...(bySlug['green-audits']?.faqs || []).slice(0, 2),
     ...(bySlug['hygiene-rating-audits']?.faqs || []).slice(0, 2),
     ...(bySlug['safety-audits']?.faqs || []).slice(0, 1),
@@ -175,15 +212,19 @@ export default function Home() {
       <Seo jsonLd={[orgSchema(settings, accreditations), faqSchema(faqs), { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.companyName || 'Aspira Certifications', url: (import.meta.env.VITE_SITE_URL || window.location.origin) + '/' }]} />
 
       {/* ---------- ACCREDITATION BANNER ---------- */}
-      <div className="accr-banner pbanner" role="note">
+      {H('banner') && <div className="accr-banner pbanner" role="note">
         <span className="pbanner__sheen" aria-hidden="true" />
         <div className="mg-wrap pbanner__in">
           <span className="pbanner__tag"><BadgeCheck size={14} aria-hidden="true" /> NABCB Accredited</span>
           <span className="pbanner__div" aria-hidden="true" />
-          <p>We are a <b>National Accreditation Board for Certification Bodies (NABCB)</b> accredited Inspection Body <b>(Reg No: {nabcb?.registrationNo || 'IB 159'})</b> for green audits for educational institutions (IAF Scope 28)</p>
-          <a href={NABCB_VERIFY_URL} target="_blank" rel="noopener noreferrer" className="pbanner__link">Verify <ArrowUpRight size={14} /></a>
+          {bannerSaved
+            ? <p>{rich(bannerSaved)}</p>
+            : <p>We are a <b>National Accreditation Board for Certification Bodies (NABCB)</b> accredited Inspection Body <b>(Reg No: {nabcb?.registrationNo || 'IB 159'})</b> for green audits for educational institutions (IAF Scope 28)</p>}
+          {(banner.buttons || []).filter((b) => b.label && b.href).slice(0, 1).map((b) => (
+            <a key={b.href} href={b.href} {...(/^https?:/.test(b.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="pbanner__link">{b.label} <ArrowUpRight size={14} /></a>
+          ))}
         </div>
-      </div>
+      </div>}
 
       {/* ---------- HERO: background video, animated headline, key facts ---------- */}
       <section className="vh" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`); }}>
@@ -192,80 +233,87 @@ export default function Home() {
         <HeroSlides slides={customImage(settings.heroImage) ? [{ _id: 'admin-hero', image: fileUrl(customImage(settings.heroImage)), width: 1600, height: 900, pos: '50% 40%' }, ...HERO_SLIDES] : HERO_SLIDES} />
         <div className="mg-wrap vh__inner">
           <div className="vh__text">
-            <span className="vh__eyebrow"><span className="vh__dot" />{settings.tagline || 'Audits · Inspections · Assessments'}</span>
-            <h1 aria-label={heroTitle}>
-              {words.map((w, i) => (
+            <span className="vh__eyebrow"><span className="vh__dot" />{hero.eyebrow}</span>
+            <h1 aria-label={heroPlain}>
+              {heroWords.map(({ w, acc }, i) => (
                 <Fragment key={i}>
                   <span className="w" aria-hidden="true">
-                    <span style={{ animationDelay: `${0.15 + 0.06 * i}s` }}>{i >= accentFrom ? <em className="accent">{w}</em> : w}</span>
+                    <span style={{ animationDelay: `${0.15 + 0.06 * i}s` }}>{acc ? <em className="accent">{w}</em> : w}</span>
                   </span>{' '}
                 </Fragment>
               ))}
             </h1>
-            {settings.heroSubtitle && <p className="vh__lead">{settings.heroSubtitle}</p>}
-            <div className="vh__actions">
-              <Link to="/contact?intent=booking#enquiry" className="btn btn--green btn--lg vh__cta"><CalendarCheck size={18} /> Book an audit <ArrowRight size={17} /></Link>
-            </div>
+            {hero.intro && <p className="vh__lead">{rich(hero.intro)}</p>}
+            {(hero.buttons || []).some((b) => b.label && b.href) && (
+              <div className="vh__actions">
+                {(hero.buttons || []).filter((b) => b.label && b.href).slice(0, 2).map((b, k) => (
+                  /^(https?:|tel:|mailto:|#)/.test(b.href)
+                    ? <a key={k} href={b.href} className={`btn ${k ? 'btn--outline-light' : 'btn--green'} btn--lg vh__cta`}>{k === 0 && <CalendarCheck size={18} />} {b.label} <ArrowRight size={17} /></a>
+                    : <Link key={k} to={b.href} className={`btn ${k ? 'btn--outline-light' : 'btn--green'} btn--lg vh__cta`}>{k === 0 && <CalendarCheck size={18} />} {b.label} <ArrowRight size={17} /></Link>
+                ))}
+              </div>
+            )}
           </div>
 
-          <HeroPanel />
+          {H('commitments') && <HeroPanel data={pg.s('commitments')} />}
         </div>
       </section>
 
       {/* ---------- KEY FACTS: floating card overlapping the hero ---------- */}
+      {H('facts') && (facts.items || []).length > 0 && (
       <div className="mg-wrap kf-wrap">
         <dl className="kf" aria-label="Aspira at a glance">
-          <div className="kf__item" style={{ '--i': 0 }}>
-            <span className="kf__ic"><ClipboardCheck size={22} strokeWidth={1.8} /></span>
-            <div><dd><CountUp to={services.length || parents.length} /></dd><dt>Audit &amp; inspection services</dt></div>
-          </div>
-          <div className="kf__item" style={{ '--i': 1 }}>
-            <span className="kf__ic"><Building2 size={22} strokeWidth={1.8} /></span>
-            <div><dd><CountUp to={SECTORS.length} /></dd><dt>Sectors served</dt></div>
-          </div>
-          <div className="kf__item" style={{ '--i': 2 }}>
-            <span className="kf__ic"><Scale size={22} strokeWidth={1.8} /></span>
-            <div><dd>Type ‘A’</dd><dt>Independent inspection body</dt></div>
-          </div>
-          <div className="kf__item" style={{ '--i': 3 }}>
-            <span className="kf__ic"><ShieldCheck size={22} strokeWidth={1.8} /></span>
-            <div><dd>ISO/IEC 17020</dd><dt>Inspection standard</dt></div>
-          </div>
+          {(facts.items || []).filter((x) => x.title).slice(0, 4).map((x, k) => {
+            const I = factIcons[k % 4];
+            return (
+              <div className="kf__item" style={{ '--i': k }} key={k}>
+                <span className="kf__ic"><I size={22} strokeWidth={1.8} /></span>
+                <div><dd>{/^\d+$/.test(x.title) ? <CountUp to={Number(x.title)} /> : x.title}</dd><dt>{x.text}</dt></div>
+              </div>
+            );
+          })}
         </dl>
       </div>
+      )}
+      <CmsSlot pg={pg} after="hero" />
+      <CmsSlot pg={pg} after="facts" />
 
       {/* Client logos appear here once genuine ones are uploaded */}
       <ClientLogos />
 
       {/* ---------- ABOUT ---------- */}
-      <section className="mg-sec" id="about">
+      {H('about') && <section className="mg-sec" id="about">
         <div className="mg-wrap mg-about">
           <Reveal className="mg-about__media">
-            {customImage(settings.aboutImage)
+            {about.image
+              ? <img src={imgSize(fileUrl(about.image), 1000)} alt={about.imageAlt || 'Aspira auditors at work'} loading="lazy" decoding="async" className="mg-about__photo" />
+              : customImage(settings.aboutImage)
               ? <img src={imgSize(fileUrl(customImage(settings.aboutImage)), 1000)} alt="Aspira auditors at work" loading="lazy" decoding="async" className="mg-about__photo" />
               : <img src={ABOUT_PHOTO.image} width={ABOUT_PHOTO.width} height={ABOUT_PHOTO.height} alt="Aspira audit team with faculty members of an institution" loading="lazy" decoding="async" className="mg-about__photo" />}
           </Reveal>
           <div className="mg-about__text">
-            <Head center={false} kicker="About Aspira" title="Independent audits you can rely on" />
-            <p className="mg-about__p">{(settings.aboutShort || '').split('\n\n')[0]}</p>
-            <p className="mg-about__p">We are a business-to-business (B2B) company – our clients are organisations, not individual consumers.</p>
-            <ul className="mg-checks">
-              {['green-audits', 'hygiene-rating-audits', 'safety-audits', 'energy-audits'].map((slug) => bySlug[slug] && (
-                <li key={slug}>
-                  <CheckCircle2 size={20} />
-                  <span><b>{bySlug[slug].title}</b>{(bySlug[slug].audience || '').replace(/^For /, 'For ')}</span>
-                </li>
-              ))}
-            </ul>
-            <Link to="/about" className="mg-link">More about us <ArrowRight size={16} /></Link>
+            <Head center={false} kicker={about.eyebrow} title={about.heading} text={about.intro} />
+            <Paras text={about.body} className="mg-about__p" />
+            {(about.items || []).length > 0 && (
+              <ul className="mg-checks">
+                {(about.items || []).filter((x) => x.title).map((x, k) => (
+                  <li key={k}>
+                    <CheckCircle2 size={20} />
+                    <span><b>{x.title}</b>{x.text}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {(about.buttons || []).filter((b) => b.label && b.href).map((b, k) => <Link key={k} to={b.href} className="mg-link">{b.label} <ArrowRight size={16} /></Link>)}
           </div>
         </div>
-      </section>
+      </section>}
+      <CmsSlot pg={pg} after="about" />
 
       {/* ---------- SERVICES: photo cards ---------- */}
-      <section className="mg-sec mg-sec--soft">
+      {H('services') && <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
-          <Head kicker="Our services" title="Audit & inspection services" text="Independent, standards-based audits for institutions, food businesses, workplaces and buildings." />
+          <Head kicker={svc.eyebrow} title={svc.heading} text={svc.intro} />
           <div className="sv-grid">
             {parents.map((s, i) => {
               const points = (s.scope || []).slice(0, 3).map(short);
@@ -289,28 +337,31 @@ export default function Home() {
               );
             })}
           </div>
-          <div className="mg-center"><Link to="/services" className="btn btn--outline">View all services <ArrowRight size={16} /></Link></div>
+          {(svc.buttons || []).filter((b) => b.label && b.href).slice(0, 1).map((b) => <div key={b.href} className="mg-center"><Link to={b.href} className="btn btn--outline">{b.label} <ArrowRight size={16} /></Link></div>)}
         </div>
-      </section>
+      </section>}
+      <CmsSlot pg={pg} after="services" />
 
-      <WhyAspira />
+      {H('why') && <WhyAspira data={pg.s('why')} />}
+      <CmsSlot pg={pg} after="why" />
 
       {/* ---------- ENQUIRY ---------- */}
-      <section className="mg-sec mg-enq" id="enquiry">
+      {H('enquiry') && <section className="mg-sec mg-enq" id="enquiry">
         <div className="mg-wrap">
-          <Head kicker="Get started" title="Tell us what you need" text="Share a few details about your organisation and the audit or inspection you need – we'll confirm the scope, standards and timeline." />
+          <Head kicker={enq.eyebrow} title={enq.heading} text={enq.intro} />
           <div className="mg-enq__card">
             <EnquiryForm variant="default" title="" submitLabel="Send enquiry" intent="booking" />
           </div>
         </div>
-      </section>
+      </section>}
+      <CmsSlot pg={pg} after="enquiry" />
 
       {/* ---------- WHO WE SERVE: sector → matching audits ---------- */}
-      <section className="mg-sec mg-sec--soft">
+      {H('sectors') && <section className="mg-sec mg-sec--soft">
         <div className="mg-wrap">
-          <Head kicker="Who we serve" title="Sectors we work with" text="Independent audits and inspections for organisations across these sectors." />
+          <Head kicker={sec.eyebrow} title={sec.heading} text={sec.intro} />
           <div className="ws-tiles">
-            {SECTORS.map(({ I, t }, i) => (
+            {sectorList.map(({ I, t }, i) => (
               <Reveal key={t} delay={i * 0.03} className="ws-tile">
                 <span className="ws-tile__ic"><I size={22} strokeWidth={1.7} /></span>
                 <h3>{t}</h3>
@@ -318,14 +369,15 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
+      <CmsSlot pg={pg} after="sectors" />
 
       {/* ---------- GALLERY PREVIEW: Aspira's own photos ---------- */}
-      <section className="mg-sec hg">
+      {H('gallery') && <section className="mg-sec hg">
         <div className="mg-wrap">
           <div className="hg__head">
-            <Head kicker="Gallery" title="From our audits" text="Real photos from our on-site inspection audits." />
-            <Link to="/gallery" className="btn btn--outline hg__all">View full gallery <ArrowRight size={16} /></Link>
+            <Head kicker={gal.eyebrow} title={gal.heading} text={gal.intro} />
+            {(gal.buttons || []).filter((b) => b.label && b.href).slice(0, 1).map((b) => <Link key={b.href} to={b.href} className="btn btn--outline hg__all">{b.label} <ArrowRight size={16} /></Link>)}
           </div>
           <div className="hg__grid">
             {HOME_PHOTOS.map((ph, i) => (
@@ -335,34 +387,36 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-          <div className="hg__more"><Link to="/gallery" className="btn btn--outline">View full gallery <ArrowRight size={16} /></Link></div>
+          {(gal.buttons || []).filter((b) => b.label && b.href).slice(0, 1).map((b) => <div key={b.href} className="hg__more"><Link to={b.href} className="btn btn--outline">{b.label} <ArrowRight size={16} /></Link></div>)}
         </div>
-      </section>
+      </section>}
+      <CmsSlot pg={pg} after="gallery" />
 
       {/* ---------- PROCESS ---------- */}
-      {steps.length > 0 && (
+      {H('process') && procSteps.length > 0 && (
         <section className="mg-sec">
           <div className="mg-wrap">
-            <Head kicker="How it works" title="From enquiry to report" text="A clear, documented process for every audit and inspection." />
-            <ol className="mg-steps" style={{ '--n': steps.length }}>
-              {steps.map((st, i) => (
-                <li key={st.title}>
+            <Head kicker={proc.eyebrow} title={proc.heading} text={proc.intro} />
+            <ol className="mg-steps" style={{ '--n': procSteps.length }}>
+              {procSteps.map((st, i) => (
+                <li key={i}>
                   <span className="mg-steps__n">{String(i + 1).padStart(2, '0')}</span>
                   <b>{st.title}</b>
-                  <p>{st.description}</p>
+                  <p>{st.text}</p>
                 </li>
               ))}
             </ol>
           </div>
         </section>
       )}
+      <CmsSlot pg={pg} after="process" />
 
       {/* ---------- CLIENT TESTIMONIALS ---------- */}
-      <section className="mg-sec ht">
+      {H('testimonials') && <section className="mg-sec ht">
         <div className="mg-wrap ht__in">
           <div className="ht__text">
-            <Head kicker="Client testimonials" title="What our clients say" text="Organisations we have audited share their experience of working with Aspira." />
-            <Link to="/testimonials" className="btn btn--outline">Read all testimonials <ArrowRight size={16} /></Link>
+            <Head kicker={tst.eyebrow} title={tst.heading} text={tst.intro} />
+            {(tst.buttons || []).filter((b) => b.label && b.href).slice(0, 1).map((b) => <Link key={b.href} to={b.href} className="btn btn--outline">{b.label} <ArrowRight size={16} /></Link>)}
           </div>
           <div className="ht__letters">
             {TESTIMONIAL_LETTERS.slice(0, 2).map((l, i) => (
@@ -372,14 +426,15 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
-      <Testimonials />
+      </section>}
+      {H('testimonials') && <Testimonials />}
+      <CmsSlot pg={pg} after="testimonials" />
 
       {/* ---------- INSIGHTS ---------- */}
-      {posts.length > 0 && (
+      {H('insights') && posts.length > 0 && (
         <section className="mg-sec mg-sec--soft">
           <div className="mg-wrap">
-            <Head kicker="Insights" title="Guides from our auditors" />
+            <Head kicker={ins.eyebrow} title={ins.heading} text={ins.intro} />
             <div className="mg-posts">
               {posts.map((p) => (
                 <Link key={p.slug} to={`/blog/${p.slug}`} className="mg-post">
@@ -398,17 +453,20 @@ export default function Home() {
       )}
 
       {/* ---------- FAQ ---------- */}
-      {faqs.length > 0 && (
+      <CmsSlot pg={pg} after="insights" />
+      {H('faq') && faqs.length > 0 && (
         <section className="mg-sec">
           <div className="mg-wrap mg-faq">
-            <Head kicker="FAQ" title="Frequently asked questions" />
+            <Head kicker={fq.eyebrow} title={fq.heading} text={fq.intro} />
             <Faq items={faqs} />
           </div>
         </section>
       )}
 
       {/* ---------- CTA (existing band) ---------- */}
-      <CtaBand title="Planning an audit or inspection?" text="Tell us about your organisation and we'll confirm the scope, standards and timeline." />
+      <CmsSlot pg={pg} after="faq" />
+      {H('cta') && <CtaBand title={ctaS.heading} text={ctaS.intro} buttons={ctaS.buttons} />}
+      <CmsSlot pg={pg} after="cta" />
     </div>
   );
 }

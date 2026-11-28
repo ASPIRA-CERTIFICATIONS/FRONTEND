@@ -11,6 +11,8 @@ import { Icon } from '../lib/icons';
 import { waLink } from '../lib/whatsapp';
 import Seo, { breadcrumbSchema, faqSchema, serviceSchema } from '../components/Seo';
 import { Faq, Loader, Reveal, BADGE_SRC, PageHero } from '../components/ui';
+import { usePageCtx } from '../lib/cms';
+import { CmsSlot } from '../components/Cms';
 import { Testimonials, CtaBand, ServiceAccreditation, imgSize } from '../components/Sections';
 import EnquiryForm from '../components/EnquiryForm';
 import GreenAuditFlow from '../components/GreenAuditFlow';
@@ -57,6 +59,7 @@ export default function ServiceDetail() {
   const wa = c.whatsapp;
   const nabcb = accreditations.find((a) => a.shortName === 'NABCB');
 
+  const isEnergy = s?.slug === 'energy-audits'; // own photo: auditors checking rooftop solar panels
   const isGreen = s?.slug === 'green-audits'; // Aspira's NABCB scope – official flowchart + own photos
   const has = {
     overview: true,
@@ -70,6 +73,8 @@ export default function ServiceDetail() {
     faq: !!s?.faqs?.length,
     enquire: true,
   };
+  const pg = usePageCtx();
+  if (pg) Object.keys(has).forEach((k) => { if (pg.hidden(k)) has[k] = false; });
   const visible = SECTIONS.filter(([id]) => has[id]);
   const active = useScrollSpy(visible.map(([id]) => id));
 
@@ -140,7 +145,7 @@ export default function ServiceDetail() {
       </nav>
 
       {/* ================= OVERVIEW ================= */}
-      <section className="section svc-sec" id="overview">
+      {has.overview && <section className="section svc-sec" id="overview">
         <div className="container svc-overview">
           <Reveal className="svc-overview__text">
             <span className="eyebrow">Overview</span>
@@ -160,7 +165,9 @@ export default function ServiceDetail() {
             )}
           </Reveal>
         </div>
-      </section>
+      </section>}
+
+      <CmsSlot pg={pg} after="overview" />
 
       {/* ================= SUB-SERVICES ================= */}
       {has.services && (
@@ -184,6 +191,8 @@ export default function ServiceDetail() {
           </div>
         </section>
       )}
+
+      <CmsSlot pg={pg} after="services" />
 
       {/* ================= BENEFITS ================= */}
       {has.benefits && (
@@ -210,6 +219,8 @@ export default function ServiceDetail() {
         </section>
       )}
 
+      <CmsSlot pg={pg} after="benefits" />
+
       {/* ================= SCOPE ================= */}
       {has.scope && (
         <section className="section section--white svc-sec" id="scope">
@@ -218,10 +229,12 @@ export default function ServiceDetail() {
               <span className="eyebrow">Scope of audit</span>
               <h2>What we assess</h2>
               <p className="muted-p">Every engagement is scoped to your site. A typical {s.title.toLowerCase().replace(/s$/, '')} covers:</p>
-              {(isGreen || s.image) && (
+              {(isGreen || isEnergy || s.image) && (
                 <figure className="svc-scope-photo">
                   {isGreen
                     ? <img src={photo('03').image} width={photo('03').width} height={photo('03').height} alt="Aspira auditor taking an on-site environmental measurement" loading="lazy" decoding="async" />
+                    : isEnergy
+                    ? <img src={photo('13').image} width={photo('13').width} height={photo('13').height} alt="Aspira auditors reviewing rooftop solar panels during an energy audit" loading="lazy" decoding="async" />
                     : <img src={imgSize(s.image, 900)} alt="" loading="lazy" width="900" height="675" />}
                   <figcaption><b>{s.scope.length}</b> areas assessed on site</figcaption>
                 </figure>
@@ -246,6 +259,8 @@ export default function ServiceDetail() {
         </section>
       )}
 
+      <CmsSlot pg={pg} after="scope" />
+
       {/* ================= STANDARDS ================= */}
       {has.standards && (
         <section className="section svc-sec" id="standards">
@@ -262,6 +277,8 @@ export default function ServiceDetail() {
           </div>
         </section>
       )}
+
+      <CmsSlot pg={pg} after="standards" />
 
       {/* ================= FEES (published fee table, e.g. hygiene rating audits) ================= */}
       {has.fees && (
@@ -293,6 +310,8 @@ export default function ServiceDetail() {
         </section>
       )}
 
+      <CmsSlot pg={pg} after="fees" />
+
       {/* ================= PROCESS ================= */}
       {has.process && (
         <section className="section svc-sec svc-process-sec" id="process">
@@ -320,6 +339,8 @@ export default function ServiceDetail() {
         </section>
       )}
 
+      <CmsSlot pg={pg} after="process" />
+
       {/* ================= OWN AUDIT PHOTOS (green audits) ================= */}
       {has.photos && (
         <section className="section section--white svc-sec" id="photos">
@@ -329,7 +350,7 @@ export default function ServiceDetail() {
               <Link to="/gallery" className="btn btn--outline">View full gallery <ArrowRight size={16} /></Link>
             </div>
             <div className="svc-photos">
-              {COMPANY_PHOTOS.slice(0, 9).map((ph, i) => (
+              {['01', '02', '11', '04', '05', '06', '07', '08', '09'].map(photo).map((ph, i) => (
                 <Reveal key={ph._id} delay={i * 0.04} as={Link} to="/gallery" className="svc-photos__item">
                   <img src={ph.thumb} srcSet={`${ph.thumb} 720w, ${ph.image} ${ph.width}w`} sizes="(max-width: 700px) 50vw, 25vw" width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
                 </Reveal>
@@ -339,8 +360,10 @@ export default function ServiceDetail() {
         </section>
       )}
 
+      <CmsSlot pg={pg} after="photos" />
+
       {/* ================= WHY + ENQUIRY ================= */}
-      <section className="section svc-sec" id="enquire">
+      {has.enquire && <section className="section svc-sec" id="enquire">
         <div className="container svc-enquire">
           <Reveal className="svc-why">
             <span className="eyebrow">Why choose Aspira</span>
@@ -370,7 +393,9 @@ export default function ServiceDetail() {
             />
           </Reveal>
         </div>
-      </section>
+      </section>}
+
+      <CmsSlot pg={pg} after="enquire" />
 
       {/* ================= FAQ ================= */}
       {has.faq && (
@@ -389,6 +414,8 @@ export default function ServiceDetail() {
           </div>
         </section>
       )}
+
+      <CmsSlot pg={pg} after="faq" />
 
       {/* ================= RELATED ================= */}
       {s.related?.length > 0 && (
@@ -409,6 +436,7 @@ export default function ServiceDetail() {
       )}
 
       <Testimonials serviceSlug={s.slug} />
+      <CmsSlot pg={pg} after="related" />
       <CtaBand service={s.title} title={cta} text={s.audience ? `${s.audience}. Talk to us about scope, timelines and fees.` : undefined} />
     </>
   );

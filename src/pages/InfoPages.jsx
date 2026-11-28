@@ -10,6 +10,8 @@ import { PageIntro } from './Company';
 import EnquiryFormDefault, { INTENTS } from '../components/EnquiryForm';
 import { waLink } from '../lib/whatsapp';
 import { photo, customImage } from '../lib/companyPhotos';
+import { usePageCtx, rich, Paras, plain } from '../lib/cms';
+import { CmsSlot } from '../components/Cms';
 
 const ABOUT_PHOTOS = ['03', '07', '06', '10'].map(photo);
 
@@ -19,69 +21,95 @@ const tel = (p) => `tel:${String(p).replace(/[^+\d]/g, '')}`;
 /* ============================ ABOUT ============================ */
 export function About() {
   const { settings } = useSite();
+  const pg = usePageCtx();
+  const H = (k) => !pg || !pg.hidden(k);
+  const S = (k) => (pg ? pg.s(k) : {});
+  const story = S('story');
+  const field = S('field');
+  const vis = (S('vision').items || []);
+  const vals = S('values');
+  const pil = S('pillars');
+  const visionText = vis[0]?.text ?? settings.vision;
+  const missionText = vis[1]?.text ?? settings.mission;
   return (
     <>
       <Seo title="About Us" description={settings.aboutShort} jsonLd={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])} />
       <PageHero crumbs={[{ label: 'About' }]} image={customImage(settings.aboutImage) || photo('01').image} eyebrow="About Aspira" title={<>Aspiring to improve the <em className="accent">quality of lives</em></>} intro={settings.aboutShort} />
-      <section className="section">
-        <div className="container split split--top">
-          <Reveal>
-            <span className="eyebrow">Our story</span>
-            <h2>Impartial. Transparent. <em className="accent">Technically sound.</em></h2>
-          </Reveal>
-          <Reveal delay={0.1} className="prose">
-            {String(settings.aboutLong || '').split(/\n{2,}/).map((p, i) => <p key={i} className={i === 0 ? 'lead' : ''}>{p}</p>)}
-          </Reveal>
-        </div>
-      </section>
+      {H('story') && (
+        <section className="section">
+          <div className="container split split--top">
+            <Reveal>
+              {story.eyebrow && <span className="eyebrow">{story.eyebrow}</span>}
+              <h2>{rich(story.heading)}</h2>
+            </Reveal>
+            <Reveal delay={0.1} className="prose">
+              <Paras text={story.body} first="lead" />
+            </Reveal>
+          </div>
+        </section>
+      )}
+      <CmsSlot pg={pg} after="story" />
       {/* Aspira's own photos */}
-      <section className="section section--white ab-ph">
-        <div className="container">
-          <SectionHead center eyebrow="In the field" title={<>Our on-site <em className="accent">inspection audits</em></>} />
-          <div className="ab-ph__grid">
-            {ABOUT_PHOTOS.map((ph, i) => (
-              <Reveal key={ph._id} delay={i * 0.06} as={Link} to="/gallery" className={`ab-ph__item ab-ph__item--${i + 1}`}>
-                <img src={ph.thumb} srcSet={`${ph.thumb} 720w, ${ph.image} ${ph.width}w`} sizes="(max-width: 700px) 100vw, 50vw" width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
-                
-              </Reveal>
-            ))}
-          </div>
-          <div style={{ textAlign: 'center', marginTop: '1.75rem' }}><Link to="/gallery" className="btn btn--outline">View our gallery <ArrowRight size={16} /></Link></div>
-        </div>
-      </section>
-      <section className="section">
-        <div className="container split split--top">
-          <div className="vm">
-            <Reveal className="vm__card"><span className="ic"><Eye size={22} /></span><h3>Our vision</h3><p>{settings.vision}</p></Reveal>
-            <Reveal className="vm__card" delay={0.08}><span className="ic"><Target size={22} /></span><h3>Our mission</h3><p>{settings.mission}</p></Reveal>
-          </div>
-          <div>
-            <Reveal><span className="eyebrow">Our values</span><h2>What guides every audit</h2></Reveal>
-            <div className="faq" style={{ marginTop: '1.5rem' }}>
-              {(settings.values || []).map((v, i) => (
-                <Reveal key={v.title} delay={i * 0.05} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: '1rem', padding: '1.1rem 0', borderBottom: '1px solid var(--line)' }}>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: '.8rem', color: 'var(--green-2)', paddingTop: '.25rem' }}>{String(i + 1).padStart(2, '0')}</span>
-                  <div><h4 style={{ margin: 0, fontFamily: 'var(--sans)', fontWeight: 600, fontSize: '1.1rem', letterSpacing: 0 }}>{v.title}</h4><p style={{ margin: 0, color: 'var(--muted)' }}>{v.description}</p></div>
+      {H('field') && (
+        <section className="section section--white ab-ph">
+          <div className="container">
+            <SectionHead center eyebrow={field.eyebrow} title={rich(field.heading)} intro={field.intro} />
+            <div className="ab-ph__grid">
+              {ABOUT_PHOTOS.map((ph, i) => (
+                <Reveal key={ph._id} delay={i * 0.06} as={Link} to="/gallery" className={`ab-ph__item ab-ph__item--${i + 1}`}>
+                  <img src={ph.thumb} srcSet={`${ph.thumb} 720w, ${ph.image} ${ph.width}w`} sizes="(max-width: 700px) 100vw, 50vw" width={ph.width} height={ph.height} alt={ph.title} loading="lazy" decoding="async" />
                 </Reveal>
               ))}
             </div>
+            {(field.buttons || []).filter((x) => x.label && x.href).slice(0, 1).map((x) => <div key={x.href} style={{ textAlign: 'center', marginTop: '1.75rem' }}><Link to={x.href} className="btn btn--outline">{x.label} <ArrowRight size={16} /></Link></div>)}
           </div>
-        </div>
-      </section>
-      {settings.pillars?.length > 0 && (
+        </section>
+      )}
+      <CmsSlot pg={pg} after="field" />
+      {(H('vision') || H('values')) && (
+        <section className="section">
+          <div className="container split split--top">
+            {H('vision') && (
+              <div className="vm">
+                <Reveal className="vm__card"><span className="ic"><Eye size={22} /></span><h3>{vis[0]?.title || 'Our vision'}</h3><Paras text={visionText} /></Reveal>
+                <Reveal className="vm__card" delay={0.08}><span className="ic"><Target size={22} /></span><h3>{vis[1]?.title || 'Our mission'}</h3><Paras text={missionText} /></Reveal>
+              </div>
+            )}
+            {H('values') && (
+              <div>
+                <Reveal>{vals.eyebrow && <span className="eyebrow">{vals.eyebrow}</span>}<h2>{rich(vals.heading)}</h2></Reveal>
+                <div className="faq" style={{ marginTop: '1.5rem' }}>
+                  {(vals.items || []).filter((v) => v.title).map((v, i) => (
+                    <Reveal key={i} delay={i * 0.05} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: '1rem', padding: '1.1rem 0', borderBottom: '1px solid var(--line)' }}>
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: '.8rem', color: 'var(--green-2)', paddingTop: '.25rem' }}>{String(i + 1).padStart(2, '0')}</span>
+                      <div><h4 style={{ margin: 0, fontFamily: 'var(--sans)', fontWeight: 600, fontSize: '1.1rem', letterSpacing: 0 }}>{v.title}</h4><p style={{ margin: 0, color: 'var(--muted)' }}>{v.text}</p></div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+      <CmsSlot pg={pg} after="vision" />
+      <CmsSlot pg={pg} after="values" />
+      {H('pillars') && (pil.items || []).length > 0 && (
         <section className="section">
           <div className="container">
-            <SectionHead center eyebrow="Our focus" title={<>People. Processes. <em className="accent">Planet.</em></>} />
+            <SectionHead center eyebrow={pil.eyebrow} title={rich(pil.heading)} intro={pil.intro} />
             <div className="pillars" style={{ marginTop: 0 }}>
-              {settings.pillars.map((p, i) => (
-                <Reveal className="pillar" key={p.title} delay={i * 0.08}><small>0{i + 1}</small><h4>{p.title}</h4><p>{p.description}</p></Reveal>
+              {(pil.items || []).filter((p) => p.title).map((p, i) => (
+                <Reveal className="pillar" key={i} delay={i * 0.08}><small>0{i + 1}</small><h4>{p.title}</h4><p>{p.text}</p></Reveal>
               ))}
             </div>
           </div>
         </section>
       )}
+      <CmsSlot pg={pg} after="pillars" />
       <WhyAspira />
+      <CmsSlot pg={pg} after="why" />
       <CtaBand />
+      <CmsSlot pg={pg} after="cta" />
     </>
   );
 }
@@ -310,80 +338,93 @@ export function Contact() {
 }
 
 /* ============================ CERTIFICATE STATUS ============================ */
+const CERT_EMPTY = { name: '', email: '', certificateNo: '', issueDate: '', website: '' };
 export function CertificateStatus() {
   const [params] = useSearchParams();
-  const [no, setNo] = useState(params.get('no') || '');
+  const pg = usePageCtx();
+  const hi = pg.s('intro');
+  const how = pg.s('howto');
+  const fm = pg.s('form');
+  const [f, setF] = useState(() => ({ ...CERT_EMPTY, certificateNo: params.get('no') || '' }));
+  const [errors, setErrors] = useState({});
   const [state, setState] = useState({ s: 'idle' });
-  useEffect(() => {
-    const q = params.get('no');
-    if (q) {
-      setNo(q);
-      check(q);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params]);
-  async function onSubmit(e) {
-    e.preventDefault();
-    check(no);
+  const set = (k) => (e) => { setF((x) => ({ ...x, [k]: e.target.value })); setErrors((x) => ({ ...x, [k]: undefined })); };
+  function validate() {
+    const e = {};
+    if (f.name.trim().length < 2) e.name = 'Please enter your name';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = 'Please enter a valid email address';
+    if (f.certificateNo.trim().length < 2) e.certificateNo = 'Please enter the certificate number';
+    return e;
   }
-  async function check(raw) {
-    const v = String(raw || '').trim();
-    if (v.length < 2) return setState({ s: 'error', msg: 'Please enter a certificate / report number' });
+  async function onSubmit(ev) {
+    ev.preventDefault();
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length) return;
     setState({ s: 'loading' });
     try {
-      const data = await api(`/certificates/verify/${encodeURIComponent(v)}`);
-      setState({ s: 'found', data });
+      const r = await api('/enquiries/certificate-status', { method: 'POST', body: { ...f, name: f.name.trim(), email: f.email.trim(), certificateNo: f.certificateNo.trim() } });
+      setState({ s: 'done', ref: r.reference });
+      setF(CERT_EMPTY);
     } catch (err) {
-      setState({ s: 'error', msg: err.message });
+      setState({ s: 'error', msg: err.message || 'Could not send your request. Please try again.' });
     }
   }
-  const d = state.data;
+  const field = (k, label, props = {}, req = true) => (
+    <div className="field">
+      <label htmlFor={`cs-${k}`}>{label}{req && <span className="req"> *</span>}</label>
+      <input id={`cs-${k}`} value={f[k]} onChange={set(k)} aria-invalid={!!errors[k]} aria-describedby={errors[k] ? `cs-${k}-err` : undefined} {...props} />
+      {errors[k] && <span className="field__err" id={`cs-${k}-err`}>{errors[k]}</span>}
+    </div>
+  );
   return (
     <>
-      <Seo title="Verify a Certificate" description="Check whether a certificate or inspection report was genuinely issued by Aspira Certifications, and see its current status." />
+      <Seo title="Certificate Status" description="Check the status of a certificate issued by Aspira Certifications. Submit the certificate number and our team will confirm its status by email." />
       <PageHero
-        crumbs={[{ label: 'Verify a certificate' }]}
-        media={
+        crumbs={[{ label: 'Certificate status' }]}
+        media={!pg.hidden('howto') && (
           <div className="vfy-steps">
             <span className="vfy-steps__badge"><ShieldCheck size={26} /></span>
-            <h2>How to verify</h2>
+            <h2>{rich(how.heading)}</h2>
             <ol>
-              <li><b>1</b><span><strong>Find the number</strong>Look for the certificate or report number printed on the Aspira document.</span></li>
-              <li><b>2</b><span><strong>Enter it below</strong>Type the number exactly as printed, including any slashes.</span></li>
-              <li><b>3</b><span><strong>See the result</strong>We confirm whether Aspira issued it, who it was issued to and its current status.</span></li>
+              {(how.items || []).map((it, i) => <li key={i}><b>{i + 1}</b><span><strong>{it.title}</strong>{it.text}</span></li>)}
             </ol>
           </div>
-        }
-        primary={{ href: '#cert-no', label: 'Verify a certificate' }} eyebrow="Verify a certificate" title={<>Was this certificate issued <em className="accent">by Aspira?</em></>} intro="If an organisation has shown you an Aspira certificate or inspection report, enter its number exactly as printed to confirm that it was genuinely issued by Aspira Certifications and check its current status." />
-      <section className="section">
-        <div className="container verify">
-          <form className="verify__form" onSubmit={onSubmit} role="search">
-            <label htmlFor="cert-no" className="sr-only">Certificate number</label>
-            <input id="cert-no" value={no} onChange={(e) => setNo(e.target.value)} placeholder="e.g. ASP/GA/2025/001" autoComplete="off" maxLength={80} />
-            <button className="btn btn--green" disabled={state.s === 'loading'}><Search size={17} /> {state.s === 'loading' ? 'Checking…' : 'Verify'}</button>
-          </form>
-          {state.s === 'error' && <div className="alert alert--err cert-result" role="alert"><AlertCircle size={18} /> {state.msg}</div>}
-          {state.s === 'found' && d && (
-            <div className="form-card cert-result" role="status">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                <div><span className="eyebrow" style={{ margin: 0 }}>Certificate no.</span><h3 style={{ fontFamily: 'var(--mono)', fontSize: '1.2rem', margin: 0 }}>{d.certificateNo}</h3></div>
-                <span className={`status-pill status-pill--${d.status}`}>{d.status === 'valid' && <CheckCircle2 size={14} />} {d.status}</span>
-              </div>
-              <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '.6rem 1.5rem', marginTop: '1.5rem' }}>
-                <dt className="accr-dt">Organisation</dt><dd style={{ margin: 0 }}>{d.organization}</dd>
-                {d.location && <><dt className="accr-dt">Location</dt><dd style={{ margin: 0 }}>{d.location}</dd></>}
-                {d.service && <><dt className="accr-dt">Service</dt><dd style={{ margin: 0 }}>{d.service}</dd></>}
-                {d.scope && <><dt className="accr-dt">Scope</dt><dd style={{ margin: 0 }}>{d.scope}</dd></>}
-                {d.rating && <><dt className="accr-dt">Rating / outcome</dt><dd style={{ margin: 0 }}>{d.rating}</dd></>}
-                <dt className="accr-dt">Issued</dt><dd style={{ margin: 0 }}>{fmtDate(d.issueDate)}</dd>
-                <dt className="accr-dt">Valid until</dt><dd style={{ margin: 0 }}>{fmtDate(d.expiryDate)}</dd>
-              </dl>
-              {d.file && <p style={{ marginTop: '1rem' }}><a className="link-arrow" href={fileUrl(d.file)} target="_blank" rel="noopener noreferrer">View certificate <FileText size={14} /></a></p>}
+        )}
+        primary={{ href: '#cert-status', label: 'Check certificate status' }} eyebrow={hi.eyebrow} title={rich(hi.heading)} intro={hi.intro} />
+      {!pg.hidden('form') && (
+        <section className="section" id="cert-status">
+          <div className="container cs-wrap">
+            <div className="form-card cs-card">
+              {fm.heading && <h2 className="cs-card__title">{rich(fm.heading)}</h2>}
+              {fm.intro && <p className="form__note" style={{ marginTop: 0 }}>{fm.intro}</p>}
+              {state.s === 'done' ? (
+                <div className="alert alert--ok cs-done" role="status">
+                  <CheckCircle2 size={20} />
+                  <div><b>Thank you – your request has been received.</b><p>Reference <code>{state.ref}</code>. Our team will verify the certificate and reply to you by email.</p>
+                    <button type="button" className="btn btn--outline btn--sm" onClick={() => setState({ s: 'idle' })}>Check another certificate</button></div>
+                </div>
+              ) : (
+                <form className="form" onSubmit={onSubmit} noValidate>
+                  <div className="form__row">
+                    {field('name', 'Your Name', { autoComplete: 'name', maxLength: 120 })}
+                    {field('email', 'Email Address', { type: 'email', autoComplete: 'email', maxLength: 160 })}
+                  </div>
+                  <div className="form__row">
+                    {field('certificateNo', 'Certificate Number', { maxLength: 80, placeholder: 'As printed on the certificate', autoComplete: 'off' })}
+                    {field('issueDate', 'Date of Issue of Certificate', { type: 'date', max: new Date().toISOString().slice(0, 10) }, false)}
+                  </div>
+                  <input type="text" name="website" value={f.website} onChange={set('website')} tabIndex={-1} autoComplete="off" className="hp" aria-hidden="true" />
+                  {state.s === 'error' && <div className="alert alert--err" role="alert"><AlertCircle size={18} /> {state.msg}</div>}
+                  <button className="btn btn--green" disabled={state.s === 'loading'}>{state.s === 'loading' ? 'Sending…' : 'Submit'} <ArrowRight size={16} /></button>
+                </form>
+              )}
             </div>
-          )}
-          <p className="form__note" style={{ marginTop: '1.5rem', textAlign: 'center' }}>Can't find a certificate? <Link to="/contact" style={{ textDecoration: 'underline' }}>Contact us</Link> and we'll confirm it for you.</p>
-        </div>
-      </section>
+            <p className="form__note" style={{ marginTop: '1.25rem', textAlign: 'center' }}>Need help? <Link to="/contact" style={{ textDecoration: 'underline' }}>Contact us</Link>.</p>
+          </div>
+        </section>
+      )}
+      <CmsSlot pg={pg} after="form" />
     </>
   );
 }
@@ -392,36 +433,50 @@ export function CertificateStatus() {
 export function Complaints() {
   const { settings } = useSite();
   const c = settings.contact || {};
+  const pg = usePageCtx();
+  const H = (k) => !pg || !pg.hidden(k);
+  const S = (k) => (pg ? pg.s(k) : {});
+  const pr = S('procedure');
+  const ap = S('appeals');
+  const fm = S('form');
   return (
     <>
       <Seo title="Complaints & Appeals" description="How to raise a complaint or appeal with Aspira Certifications, including the hygiene rating appeal process via QCI and FSSAI." />
       <PageIntro eyebrow="Impartiality" title={<>Complaints &amp; <em className="accent">appeals</em></>} lead="Every complaint and appeal is acknowledged, recorded and handled impartially under our documented procedure." crumbs={[{ label: 'Complaints & Appeals' }]} />
       <section className="section section--first">
         <div className="container split split--top">
-          <div>
-            <Reveal><span className="eyebrow">Complaints procedure</span><h2>How we handle your complaint</h2></Reveal>
-            <ol className="steps-ol">
-              <li><div><strong>Submit</strong><p>Email {c.complaintsEmail ? <a href={`mailto:${c.complaintsEmail}`}>{c.complaintsEmail}</a> : 'us'}{c.complaintsCcEmail && <> with a copy to <a href={`mailto:${c.complaintsCcEmail}`}>{c.complaintsCcEmail}</a></>}. Verbal complaints made in person or by phone are documented within 24 hours.</p></div></li>
-              <li><div><strong>Acknowledge & record</strong><p>Each submission is acknowledged and logged under our documented procedure.</p></div></li>
-              <li><div><strong>Review</strong><p>The Quality Manager checks relevance, gathers information and handles the matter impartially. Anyone involved in the original inspection or decision is excluded. Complaints about auditor conduct are reviewed independently.</p></div></li>
-              <li><div><strong>Resolve</strong><p>We aim to resolve cases within 15 working days of receipt. If more time is needed, you will be kept informed. The final decision is communicated formally.</p></div></li>
-              <li><div><strong>Escalate</strong><p>If you are still unsatisfied, you can escalate to the Managing Director, whose decision is final.</p></div></li>
-            </ol>
-          </div>
-          <div>
-            <Reveal><span className="eyebrow">Hygiene rating appeals</span><h2>Hygiene Rating Audit appeals</h2></Reveal>
-            <CheckList one items={[
-              'Appeals can be submitted in writing or online by the FBO or applicant, and each receives a unique reference number.',
-              'If we cannot resolve the appeal within 15 days, it is referred to the Quality Council of India (QCI).',
-              'If the matter remains unresolved or unsatisfactory, the appellant can escalate to FSSAI within 15 days of the QCI decision.',
-              'The process follows QCI–PADD guidelines.',
-            ]} />
-            <div style={{ marginTop: '2rem' }}>
-              <EnquiryFormDefault type="complaint" title="Submit a complaint or appeal" subtitle="This creates a recorded submission with a reference number." compact messageLabel="Details of your complaint or appeal" />
+          {H('procedure') && (
+            <div>
+              <Reveal>{pr.eyebrow && <span className="eyebrow">{pr.eyebrow}</span>}<h2>{rich(pr.heading)}</h2></Reveal>
+              <ol className="steps-ol">
+                {(pr.items || []).filter((x) => x.title).map((x, k) => (
+                  <li key={k}><div><strong>{x.title}</strong>
+                    {k === 0 && !pg?.saved?.('procedure')
+                      ? <p>Email {c.complaintsEmail ? <a href={`mailto:${c.complaintsEmail}`}>{c.complaintsEmail}</a> : 'us'}{c.complaintsCcEmail && <> with a copy to <a href={`mailto:${c.complaintsCcEmail}`}>{c.complaintsCcEmail}</a></>}. Verbal complaints made in person or by phone are documented within 24 hours.</p>
+                      : <Paras text={x.text} />}
+                  </div></li>
+                ))}
+              </ol>
             </div>
+          )}
+          <div>
+            {H('appeals') && (
+              <>
+                <Reveal>{ap.eyebrow && <span className="eyebrow">{ap.eyebrow}</span>}<h2>{rich(ap.heading)}</h2></Reveal>
+                <CheckList one items={(ap.items || []).map((x) => x.title).filter(Boolean)} />
+              </>
+            )}
+            {H('form') && (
+              <div style={{ marginTop: H('appeals') ? '2rem' : 0 }}>
+                <EnquiryFormDefault type="complaint" title={plain(fm.heading)} subtitle={fm.intro} compact messageLabel="Details of your complaint or appeal" />
+              </div>
+            )}
           </div>
         </div>
       </section>
+      <CmsSlot pg={pg} after="procedure" />
+      <CmsSlot pg={pg} after="appeals" />
+      <CmsSlot pg={pg} after="form" />
     </>
   );
 }

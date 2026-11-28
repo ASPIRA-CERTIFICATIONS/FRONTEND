@@ -1,3 +1,5 @@
+import { usePageCtx, rich } from '../lib/cms';
+import { CmsSlot } from './Cms';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, ArrowRight, Check, MessageCircle, Scale, FileCheck2, Lock } from 'lucide-react';
@@ -89,7 +91,18 @@ export function useCertificateImage() {
  * and a single image (or the accreditation certificate). `cards` is accepted for
  * compatibility but no longer rendered, to keep the header uncluttered.
  */
-export function PageHero({ eyebrow, title, intro, crumbs = [], image, doc, pageKey, actions = true, primary, children, accrText, media }) {
+export function PageHero(props) {
+  const pg = usePageCtx();
+  const o = pg?.saved?.('intro');
+  const merged = o ? { ...props, eyebrow: o.eyebrow ?? props.eyebrow, title: o.heading ? rich(o.heading) : props.title, intro: o.intro ?? props.intro, image: o.image || props.image } : props;
+  return (
+    <>
+      <PageHeroInner {...merged} />
+      <CmsSlot pg={pg} after="intro" />
+    </>
+  );
+}
+function PageHeroInner({ eyebrow, title, intro, crumbs = [], image, doc, pageKey, actions = true, primary, children, accrText, media }) {
   const { settings } = useSite();
   const wa = settings.contact?.whatsapp;
   const certImg = useCertificateImage();
